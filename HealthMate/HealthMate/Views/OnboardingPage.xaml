@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="HealthMate.Views.OnboardingPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:HealthMate.Models"
+             xmlns:vm="clr-namespace:HealthMate.ViewModels"
+             Title="OnboardingPage"
+             x:DataType="vm:OnboardingPageViewModel"
+             NavigationPage.HasNavigationBar="False">
+    <Grid RowDefinitions="*, 40">
+        <CarouselView IndicatorView="indView"
+                      IsBounceEnabled="True"
+                      IsScrollAnimated="True"
+                      ItemsSource="{Binding Onboarding}"
+                      Loop="False">
+            <CarouselView.ItemTemplate>
+                <DataTemplate x:DataType="models:Onboarding">
+                    <VerticalStackLayout Margin="16,0">
+                        <Image HeightRequest="350"
+                               HorizontalOptions="Center"
+                               Source="{Binding Image}"
+                               WidthRequest="350" />
+
+                        <VerticalStackLayout Spacing="-10">
+                            <Label FontFamily="{StaticResource Medium}"
+                                   FontSize="22"
+                                   Text="{Binding Title1}"
+                                   TextColor="{StaticResource Blue}" />
+
+                            <Label FontFamily="{StaticResource Medium}"
+                                   FontSize="22"
+                                   Text="{Binding Title2}"
+                                   TextColor="{StaticResource Pink}" />
+                        </VerticalStackLayout>
+
+                        <Label Margin="0,16,0,0"
+                               FontFamily="{StaticResource Regular}"
+                               FontSize="16"
+                               Text="{Binding Subtitle}"
+                               TextColor="{StaticResource RegBlack}" />
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+
+        <IndicatorView x:Name="indView"
+                       Grid.Row="1"
+                       HorizontalOptions="Center"
+                       IndicatorColor="#B8B8B8"
+                       IndicatorSize="5"
+                       SelectedIndicatorColor="{StaticResource Blue}" />
+    </Grid>
+</ContentPage>

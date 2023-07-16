@@ -1,26 +1,20 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using HealthMate.Views;
 
 namespace HealthMate.ViewModels;
 
-public partial class MainPageViewModel : ObservableObject
+public partial class MainPageViewModel : BaseViewModel
 {
-    private readonly INavigationService _navigationService;
-    private ISemanticScreenReader _screenReader { get; }
-
-    public MainPageViewModel(ISemanticScreenReader screenReader, INavigationService navigationService)
-    {
-        _navigationService = navigationService;
-        _screenReader = screenReader;
-    }
-
     [ObservableProperty]
     private int count;
     [ObservableProperty]
     private string text = "Click me";
     [ObservableProperty]
     private string title = "Main Page";
+
+    public MainPageViewModel(INavigationService navigationService) : base(navigationService)
+    {
+    }
 
     [RelayCommand]
     private void CountChanged()
@@ -32,9 +26,9 @@ public partial class MainPageViewModel : ObservableObject
         //    Text = $"Clicked {Count} times";
 
         //_screenReader.Announce(Text);
-        _navigationService.NavigateAsync(nameof(Test), new NavigationParameters
-        {
-            { "Test", 69 }
-        });
+        //NavigationService.NavigateAsync(nameof(Test), new NavigationParameters
+        //{
+        //    { "Test", 69 }
+        //});
     }
 }

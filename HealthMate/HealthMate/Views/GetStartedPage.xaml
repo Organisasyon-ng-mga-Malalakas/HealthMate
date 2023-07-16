@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="HealthMate.Views.GetStartedPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:HealthMate.ViewModels"
+             Title="GetStartedPage"
+             x:DataType="vm:GetStartedPageViewModel">
+    <FlexLayout Direction="Column"
+                JustifyContent="SpaceEvenly">
+        <Image FlexLayout.AlignSelf="Center"
+               HeightRequest="250"
+               Source="getstarted.png"
+               WidthRequest="250" />
+
+        <Label HorizontalOptions="Center"
+               HorizontalTextAlignment="Center">
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span FontFamily="{StaticResource Bold}"
+                          FontSize="22"
+                          Text="HEY! WELCOME TO" />
+                    <Span Text="&#10;" />
+                    <Span FontFamily="{StaticResource Bold}"
+                          FontSize="48"
+                          Text="HEALTH"
+                          TextColor="{StaticResource Pink}" />
+                    <Span FontFamily="{StaticResource Bold}"
+                          FontSize="48"
+                          Text="MATE"
+                          TextColor="{StaticResource Blue}" />
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+
+        <Label FontFamily="{StaticResource Regular}"
+               FontSize="Body"
+               HorizontalOptions="Center"
+               HorizontalTextAlignment="Center"
+               TextColor="{StaticResource RegBlack}">
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span Text="Take control of your medication schedule" />
+                    <Span Text="&#10;" />
+                    <Span Text="Get timely reminders and stay organized effortlessly" />
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+
+        <VerticalStackLayout>
+            <Button Margin="20,0"
+                    Padding="0,12"
+                    BackgroundColor="{StaticResource Pink}"
+                    FontFamily="{StaticResource Bold}"
+                    Command="{Binding GotoOnboardingCommand}"
+                    Text="GET STARTED" />
+
+            <Button BackgroundColor="Transparent"
+                    FontFamily="{StaticResource Regular}"
+                    FontSize="Subtitle"
+                    Text="I already have an account"
+                    TextColor="{StaticResource RegBlack}" />
+        </VerticalStackLayout>
+    </FlexLayout>
+</ContentPage>

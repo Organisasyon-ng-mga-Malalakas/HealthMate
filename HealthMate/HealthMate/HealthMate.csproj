@@ -24,7 +24,6 @@
 
   <ItemGroup>
     <!-- App Icon -->
-    <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#FFFFFF" />
 
     <!-- Splash Screen -->
     <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#FFFFFF" />
@@ -40,12 +39,31 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\AppIcon\healthmate.svg" />
+    <None Remove="Resources\Fonts\Avenir-Black.ttf" />
+    <None Remove="Resources\Fonts\Avenir-Heavy.ttf" />
+    <None Remove="Resources\Fonts\Avenir-Regular.ttf" />
+    <None Remove="Resources\Images\getstarted.png" />
+    <None Remove="Resources\Images\onboarding1.png" />
+    <None Remove="Resources\Images\onboarding2.png" />
+    <None Remove="Resources\Images\onboarding3.png" />
+    <None Remove="Resources\Images\onboarding4.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <MauiIcon Include="Resources\AppIcon\healthmate.svg" BaseSize="1520,1520" Color="#FFFFFF" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
     <PackageReference Include="Prism.DryIoc.Maui" Version="8.1.191-beta" />
   </ItemGroup>
 
   <ItemGroup>
-    <MauiXaml Update="Views\Test.xaml">
+    <MauiXaml Update="Views\GetStartedPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\OnboardingPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
   </ItemGroup>
