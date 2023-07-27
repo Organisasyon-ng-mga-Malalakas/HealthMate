@@ -2,17 +2,21 @@
 <ContentPage x:Class="HealthMate.Views.OnboardingPage"
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:constants="clr-namespace:HealthMate.Constants"
              xmlns:models="clr-namespace:HealthMate.Models"
              xmlns:vm="clr-namespace:HealthMate.ViewModels"
              Title="OnboardingPage"
              x:DataType="vm:OnboardingPageViewModel"
              NavigationPage.HasNavigationBar="False">
-    <Grid RowDefinitions="*, 40">
-        <CarouselView IndicatorView="indView"
+    <Grid ColumnDefinitions="*,*"
+          RowDefinitions="*, 40">
+        <CarouselView Grid.ColumnSpan="2"
+                      IndicatorView="indView"
                       IsBounceEnabled="True"
                       IsScrollAnimated="True"
                       ItemsSource="{Binding Onboarding}"
-                      Loop="False">
+                      Loop="False"
+                      Position="{Binding Position}">
             <CarouselView.ItemTemplate>
                 <DataTemplate x:DataType="models:Onboarding">
                     <VerticalStackLayout Margin="16,0">
@@ -43,11 +47,56 @@
             </CarouselView.ItemTemplate>
         </CarouselView>
 
-        <IndicatorView x:Name="indView"
-                       Grid.Row="1"
+        <Grid Grid.Row="1"
+              Grid.ColumnSpan="2"
+              Margin="16,0,16,20"
+              ColumnDefinitions="*,60,60">
+            <IndicatorView x:Name="indView"
+                           IndicatorColor="#B8B8B8"
+                           IndicatorSize="5"
+                           SelectedIndicatorColor="{StaticResource Blue}"
+                           VerticalOptions="Center" />
+
+            <Frame Grid.Column="1"
+                   Padding="0"
+                   BorderColor="#F0F0F0"
+                   CornerRadius="20"
+                   HasShadow="False"
+                   HeightRequest="40"
+                   HorizontalOptions="EndAndExpand"
+                   VerticalOptions="CenterAndExpand"
+                   WidthRequest="40">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding MoveBackwardCommand}" />
+                </Frame.GestureRecognizers>
+                <Label FontFamily="{x:StaticResource FARegular}"
+                       FontSize="18"
                        HorizontalOptions="Center"
-                       IndicatorColor="#B8B8B8"
-                       IndicatorSize="5"
-                       SelectedIndicatorColor="{StaticResource Blue}" />
+                       Text="{x:Static constants:FontAwesomeIcons.ChevronLeft}"
+                       TextColor="{x:StaticResource Blue}"
+                       VerticalOptions="Center" />
+            </Frame>
+
+            <Frame Grid.Column="2"
+                   Padding="0"
+                   BackgroundColor="{x:StaticResource Blue}"
+                   BorderColor="#F0F0F0"
+                   CornerRadius="20"
+                   HasShadow="False"
+                   HeightRequest="40"
+                   HorizontalOptions="EndAndExpand"
+                   VerticalOptions="CenterAndExpand"
+                   WidthRequest="40">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding MoveForwardCommand}" />
+                </Frame.GestureRecognizers>
+                <Label FontFamily="{x:StaticResource FARegular}"
+                       FontSize="18"
+                       HorizontalOptions="Center"
+                       Text="{Binding CheckBtnText}"
+                       TextColor="White"
+                       VerticalOptions="Center" />
+            </Frame>
+        </Grid>
     </Grid>
 </ContentPage>

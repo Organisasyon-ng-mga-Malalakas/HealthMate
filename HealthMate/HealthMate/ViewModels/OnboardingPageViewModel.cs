@@ -1,17 +1,44 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using HealthMate.Constants;
 using HealthMate.Models;
+using HealthMate.Services;
+using HealthMate.Views;
 using System.Collections.ObjectModel;
 
 namespace HealthMate.ViewModels;
 
 public partial class OnboardingPageViewModel : BaseViewModel
 {
-    public OnboardingPageViewModel(INavigationService navigationService) : base(navigationService)
+    private PopupService _popupService;
+
+    public OnboardingPageViewModel(INavigationService navigationService, PopupService popupService) : base(navigationService)
     {
+        _popupService = popupService;
     }
 
     [ObservableProperty]
+    private string checkBtnText = FontAwesomeIcons.ChevronRight;
+    [ObservableProperty]
     private ObservableCollection<Onboarding> onboarding;
+    [ObservableProperty]
+    private int position;
+
+    [RelayCommand]
+    private void MoveBackward()
+    {
+        if (Position > 0)
+            Position--;
+    }
+
+    [RelayCommand]
+    private async Task MoveForward()
+    {
+        if (Position != 3)
+            Position++;
+        else
+            await _popupService.ShowPopup<TermsAndConditionPopup>();
+    }
 
     public override void OnNavigatedTo(INavigationParameters parameters)
     {
@@ -34,5 +61,10 @@ public partial class OnboardingPageViewModel : BaseViewModel
                 Title1 = title1[index],
                 Title2 = title2[index]
             });
+    }
+
+    partial void OnPositionChanged(int oldValue, int newValue)
+    {
+        CheckBtnText = newValue == 3 ? FontAwesomeIcons.Check : FontAwesomeIcons.ChevronRight;
     }
 }

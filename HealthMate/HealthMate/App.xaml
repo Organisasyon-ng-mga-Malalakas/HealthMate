@@ -6,6 +6,10 @@
         <x:String x:Key="Bold">Bold</x:String>
         <x:String x:Key="Medium">Medium</x:String>
         <x:String x:Key="Regular">Regular</x:String>
+        <x:String x:Key="FALight">FALight</x:String>
+        <x:String x:Key="FARegular">FARegular</x:String>
+        <x:String x:Key="FAThin">FAThin</x:String>
+        <x:String x:Key="FASolid">FASolid</x:String>
         <Color x:Key="Pink">#F26CA7</Color>
         <Color x:Key="Blue">#89CFF0</Color>
         <Color x:Key="RegBlack">#777777</Color>
