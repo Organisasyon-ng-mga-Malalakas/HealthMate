@@ -1,9 +1,12 @@
+using HealthMate.Templates;
+using HealthMate.ViewModels;
+
 namespace HealthMate.Views;
 
-public partial class GetStartedPage : ContentPage
+public partial class GetStartedPage : BasePage<GetStartedPageViewModel>
 {
-	public GetStartedPage()
-	{
-		InitializeComponent();
-	}
+    public GetStartedPage(GetStartedPageViewModel viewModel) : base(viewModel)
+    {
+        InitializeComponent();
+    }
 }

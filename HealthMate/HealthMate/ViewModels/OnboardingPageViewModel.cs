@@ -37,7 +37,7 @@ public partial class OnboardingPageViewModel : BaseViewModel
         if (Position != 3)
             Position++;
         else
-            await _popupService.ShowPopup<TermsAndConditionPopup>();
+            await _popupService.ShowPopup<TermsAndConditionPopup, TermsAndConditionPopupViewModel>();
     }
 
     public override void OnNavigatedTo(INavigationParameters parameters)

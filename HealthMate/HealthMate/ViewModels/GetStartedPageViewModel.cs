@@ -9,6 +9,6 @@ public partial class GetStartedPageViewModel : BaseViewModel
     [RelayCommand]
     private async Task GotoOnboarding()
     {
-        await NavigationService.NavigateAsync($"{nameof(OnboardingPage)}");
+        await NavigationService.NavigateAsync($"../{nameof(OnboardingPage)}");
     }
 }

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage x:Class="HealthMate.Views.GetStartedPage"
-             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:vm="clr-namespace:HealthMate.ViewModels"
-             Title="GetStartedPage"
-             x:DataType="vm:GetStartedPageViewModel">
+<templates:BasePage x:Class="HealthMate.Views.GetStartedPage"
+                    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:templates="clr-namespace:HealthMate.Templates"
+                    xmlns:vm="clr-namespace:HealthMate.ViewModels"
+                    Title="GetStartedPage"
+                    x:DataType="vm:GetStartedPageViewModel"
+                    x:TypeArguments="vm:GetStartedPageViewModel">
     <FlexLayout Direction="Column"
                 JustifyContent="SpaceEvenly">
         <Image FlexLayout.AlignSelf="Center"
@@ -50,8 +52,8 @@
             <Button Margin="20,0"
                     Padding="0,12"
                     BackgroundColor="{StaticResource Pink}"
-                    FontFamily="{StaticResource Bold}"
                     Command="{Binding GotoOnboardingCommand}"
+                    FontFamily="{StaticResource Bold}"
                     Text="GET STARTED" />
 
             <Button BackgroundColor="Transparent"
@@ -61,4 +63,4 @@
                     TextColor="{StaticResource RegBlack}" />
         </VerticalStackLayout>
     </FlexLayout>
-</ContentPage>
+</templates:BasePage>

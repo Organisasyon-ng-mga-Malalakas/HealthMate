@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage x:Class="HealthMate.Views.OnboardingPage"
-             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:constants="clr-namespace:HealthMate.Constants"
-             xmlns:models="clr-namespace:HealthMate.Models"
-             xmlns:vm="clr-namespace:HealthMate.ViewModels"
-             Title="OnboardingPage"
-             x:DataType="vm:OnboardingPageViewModel"
-             NavigationPage.HasNavigationBar="False">
+<templates:BasePage x:Class="HealthMate.Views.OnboardingPage"
+                    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:constants="clr-namespace:HealthMate.Constants"
+                    xmlns:models="clr-namespace:HealthMate.Models"
+                    xmlns:templates="clr-namespace:HealthMate.Templates"
+                    xmlns:vm="clr-namespace:HealthMate.ViewModels"
+                    Title="OnboardingPage"
+                    x:DataType="vm:OnboardingPageViewModel"
+                    x:TypeArguments="vm:OnboardingPageViewModel"
+                    NavigationPage.HasNavigationBar="False">
     <Grid ColumnDefinitions="*,*"
           RowDefinitions="*, 40">
         <CarouselView Grid.ColumnSpan="2"
@@ -99,4 +101,4 @@
             </Frame>
         </Grid>
     </Grid>
-</ContentPage>
+</templates:BasePage>

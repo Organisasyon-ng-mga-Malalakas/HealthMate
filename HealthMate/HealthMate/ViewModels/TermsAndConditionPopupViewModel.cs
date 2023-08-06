@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using HealthMate.Services;
+using HealthMate.Views;
 
 namespace HealthMate.ViewModels;
 public partial class TermsAndConditionPopupViewModel : BaseViewModel
@@ -14,11 +15,17 @@ public partial class TermsAndConditionPopupViewModel : BaseViewModel
     [RelayCommand]
     private async Task Agreed()
     {
-        await _popupService.ClosePopup();
+        await ClosePopup();
+        await NavigationService.NavigateAsync($"../{nameof(HomePage)}");
     }
 
     [RelayCommand]
     private async Task Disagreed()
+    {
+        await ClosePopup();
+    }
+
+    private async Task ClosePopup()
     {
         await _popupService.ClosePopup();
     }

@@ -22,6 +22,10 @@
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">28.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android|AnyCPU'">
+    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+  </PropertyGroup>
+
   <ItemGroup>
     <!-- App Icon -->
 
@@ -63,10 +67,14 @@
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
     <PackageReference Include="Mopups" Version="1.1.1" />
     <PackageReference Include="Prism.DryIoc.Maui" Version="8.1.191-beta" />
+    <PackageReference Include="Syncfusion.Maui.TabView" Version="22.2.7" />
   </ItemGroup>
 
   <ItemGroup>
     <MauiXaml Update="Views\GetStartedPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\HomePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Update="Views\OnboardingPage.xaml">

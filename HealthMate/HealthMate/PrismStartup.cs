@@ -10,8 +10,12 @@ internal static class PrismStartup
 {
     public static void Configure(PrismAppBuilder builder)
     {
+        var navigationPath = VersionTracking.IsFirstLaunchEver
+            ? $"{nameof(NavigationPage)}/{nameof(GetStartedPage)}"
+            : $"{nameof(NavigationPage)}/{nameof(HomePage)}";
+
         builder.RegisterTypes(RegisterTypes)
-            .OnAppStart($"NavigationPage/{nameof(GetStartedPage)}");
+            .OnAppStart(navigationPath);
     }
 
     private static void RegisterTypes(IContainerRegistry containerRegistry)
@@ -20,12 +24,17 @@ internal static class PrismStartup
             // Services
             .RegisterSingleton<IPopupNavigation, PopupNavigation>()
             .RegisterSingleton<PopupService>()
+            .RegisterSingleton<IVersionTracking>(_ => VersionTracking.Default)
+            .RegisterSingleton<IPreferences>(_ => Preferences.Default)
 
             // Pages
-            .RegisterForNavigation<MainPage, MainPageViewModel>()
+            .RegisterForNavigation<NavigationPage>()
             .RegisterForNavigation<GetStartedPage, GetStartedPageViewModel>()
             .RegisterForNavigation<OnboardingPage, OnboardingPageViewModel>()
-            .RegisterForNavigation<TermsAndConditionPopup, TermsAndConditionPopupViewModel>()
-            .RegisterInstance(SemanticScreenReader.Default);
+            .RegisterForNavigation<HomePage, HomePageViewModel>()
+
+            // Popups
+            .Register<TermsAndConditionPopupViewModel>();
+
     }
 }

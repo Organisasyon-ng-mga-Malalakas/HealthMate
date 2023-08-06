@@ -1,14 +1,17 @@
-﻿using Mopups.Interfaces;
-using Mopups.Pages;
+﻿using HealthMate.Templates;
+using HealthMate.ViewModels;
+using Mopups.Interfaces;
 
 namespace HealthMate.Services;
 
 public class PopupService
 {
+    private readonly IContainerProvider _containerProvider;
     private readonly IPopupNavigation _popupNavigation;
 
-    public PopupService(IPopupNavigation popupNavigation)
+    public PopupService(IContainerProvider containerProvider, IPopupNavigation popupNavigation)
     {
+        _containerProvider = containerProvider;
         _popupNavigation = popupNavigation;
     }
 
@@ -17,9 +20,12 @@ public class PopupService
         await _popupNavigation.PopAsync();
     }
 
-    public async Task ShowPopup<TPopup>() where TPopup : PopupPage, new()
+    public async Task ShowPopup<TPopup, TPopupViewModel>()
+        where TPopup : BasePopup<TPopupViewModel>
+        where TPopupViewModel : BaseViewModel
     {
-        var popup = new TPopup();
+        var popupViewModel = _containerProvider.Resolve<TPopupViewModel>();
+        var popup = (TPopup)Activator.CreateInstance(typeof(TPopup), popupViewModel);
         await _popupNavigation.PushAsync(popup);
     }
 }

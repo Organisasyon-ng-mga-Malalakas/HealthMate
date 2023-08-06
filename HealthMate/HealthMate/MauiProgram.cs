@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Mopups.Hosting;
+using Syncfusion.Maui.Core.Hosting;
 
 namespace HealthMate;
 
@@ -11,6 +12,7 @@ public static class MauiProgram
         builder
             .UsePrismApp<App>(PrismStartup.Configure)
             .UseMauiCommunityToolkit()
+            .ConfigureSyncfusionCore()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
