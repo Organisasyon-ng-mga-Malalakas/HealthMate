@@ -3,16 +3,19 @@
                     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                     xmlns:constants="clr-namespace:HealthMate.Constants"
+                    xmlns:models="clr-namespace:HealthMate.Models"
                     xmlns:sf="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
                     xmlns:templates="clr-namespace:HealthMate.Templates"
                     xmlns:vm="clr-namespace:HealthMate.ViewModels"
                     x:DataType="vm:HomePageViewModel"
                     x:TypeArguments="vm:HomePageViewModel">
     <sf:SfTabView x:Name="Tab"
-                  IndicatorBackground="#FFEFF6"
-                  IndicatorPlacement="Fill"
+                  IndicatorBackground="{StaticResource Pink}"
+                  IndicatorPlacement="Top"
+                  ItemsSource="{Binding TabItems}"
                   SelectedIndex="{Binding SelectedIndex}"
-                  TabBarPlacement="Bottom">
+                  TabBarPlacement="Bottom"
+                  TabWidthMode="SizeToContent">
         <sf:SfTabView.Resources>
             <Style TargetType="sf:SfTabItem">
                 <Setter Property="VisualStateManager.VisualStateGroups">
@@ -21,12 +24,28 @@
                             <VisualState x:Name="Normal">
                                 <VisualState.Setters>
                                     <Setter Property="TextColor" Value="{StaticResource RegBlack}" />
+                                    <Setter Property="ImageSource">
+                                        <Setter.Value>
+                                            <FontImageSource FontFamily="{StaticResource FASolid}"
+                                                             Glyph="{Static constants:FontAwesomeIcons.CalendarClock}"
+                                                             Size="10"
+                                                             Color="{StaticResource RegBlack}" />
+                                        </Setter.Value>
+                                    </Setter>
                                 </VisualState.Setters>
                             </VisualState>
 
                             <VisualState x:Name="Selected">
                                 <VisualState.Setters>
                                     <Setter Property="TextColor" Value="{StaticResource Pink}" />
+                                    <Setter Property="ImageSource">
+                                        <Setter.Value>
+                                            <FontImageSource FontFamily="{StaticResource FASolid}"
+                                                             Glyph="{Static constants:FontAwesomeIcons.CalendarClock}"
+                                                             Size="10"
+                                                             Color="{StaticResource Pink}" />
+                                        </Setter.Value>
+                                    </Setter>
                                 </VisualState.Setters>
                             </VisualState>
                         </VisualStateGroup>
@@ -35,31 +54,45 @@
             </Style>
         </sf:SfTabView.Resources>
 
+        <sf:SfTabView.HeaderItemTemplate>
+            <DataTemplate x:DataType="models:TabItem">
+                <VerticalStackLayout VerticalOptions="End">
+                    <Image>
+                        <Image.Source>
+                            <FontImageSource FontFamily="{StaticResource FASolid}"
+                                             Glyph="{Binding Icon}"
+                                             Size="20"
+                                             Color="{Binding Color}" />
+                        </Image.Source>
+                    </Image>
+                    <Label FontFamily="{StaticResource Regular}"
+                           FontSize="13"
+                           HorizontalTextAlignment="Center"
+                           Text="{Binding Title}"
+                           TextColor="{Binding Color}"
+                           VerticalOptions="Center" />
+                </VerticalStackLayout>
+            </DataTemplate>
+        </sf:SfTabView.HeaderItemTemplate>
 
-        <sf:SfTabView.Items>
+        <sf:SfTabView.ContentItemTemplate>
+            <DataTemplate>
+                <Label Text="content" />
+            </DataTemplate>
+        </sf:SfTabView.ContentItemTemplate>
+
+        <!--<sf:SfTabView.Items>
             <sf:SfTabItem FontFamily="{StaticResource Regular}"
                           Header="Schedule"
                           ImagePosition="Left">
-                <sf:SfTabItem.ImageSource>
+        -->
+        <!--<sf:SfTabItem.ImageSource>
                     <FontImageSource FontFamily="{StaticResource FASolid}"
                                      Glyph="{Static constants:FontAwesomeIcons.CalendarClock}"
                                      Size="10"
                                      Color="{StaticResource RegBlack}" />
-                </sf:SfTabItem.ImageSource>
-                <sf:SfTabItem.Triggers>
-                    <DataTrigger Binding="{Binding Source={x:Reference Tab}, Path=SelectedIndex}"
-                                 TargetType="sf:SfTabItem"
-                                 Value="0">
-                        <Setter Property="ImageSource">
-                            <Setter.Value>
-                                <FontImageSource FontFamily="{StaticResource FASolid}"
-                                                 Glyph="{Static constants:FontAwesomeIcons.CalendarClock}"
-                                                 Size="10"
-                                                 Color="{StaticResource Pink}" />
-                            </Setter.Value>
-                        </Setter>
-                    </DataTrigger>
-                </sf:SfTabItem.Triggers>
+                </sf:SfTabItem.ImageSource>-->
+        <!--
                 <sf:SfTabItem.Content>
                     <Grid BackgroundColor="Red" />
                 </sf:SfTabItem.Content>
@@ -68,26 +101,14 @@
             <sf:SfTabItem FontFamily="{StaticResource Regular}"
                           Header="Inventory"
                           ImagePosition="Left">
-                <sf:SfTabItem.ImageSource>
+        -->
+        <!--<sf:SfTabItem.ImageSource>
                     <FontImageSource FontFamily="{StaticResource FASolid}"
                                      Glyph="{Static constants:FontAwesomeIcons.Pills}"
                                      Size="10"
                                      Color="{StaticResource RegBlack}" />
-                </sf:SfTabItem.ImageSource>
-                <sf:SfTabItem.Triggers>
-                    <DataTrigger Binding="{Binding Source={x:Reference Tab}, Path=SelectedIndex}"
-                                 TargetType="sf:SfTabItem"
-                                 Value="1">
-                        <Setter Property="ImageSource">
-                            <Setter.Value>
-                                <FontImageSource FontFamily="{StaticResource FASolid}"
-                                                 Glyph="{Static constants:FontAwesomeIcons.Pills}"
-                                                 Size="10"
-                                                 Color="{StaticResource Pink}" />
-                            </Setter.Value>
-                        </Setter>
-                    </DataTrigger>
-                </sf:SfTabItem.Triggers>
+                </sf:SfTabItem.ImageSource>-->
+        <!--
                 <sf:SfTabItem.Content>
                     <Grid BackgroundColor="Green" />
                 </sf:SfTabItem.Content>
@@ -96,30 +117,18 @@
             <sf:SfTabItem FontFamily="{StaticResource Regular}"
                           Header="Symptom Checker"
                           ImagePosition="Left">
-                <sf:SfTabItem.ImageSource>
+        -->
+        <!--<sf:SfTabItem.ImageSource>
                     <FontImageSource FontFamily="{StaticResource FASolid}"
                                      Glyph="{Static constants:FontAwesomeIcons.Person}"
                                      Size="10"
                                      Color="{StaticResource RegBlack}" />
-                </sf:SfTabItem.ImageSource>
-                <sf:SfTabItem.Triggers>
-                    <DataTrigger Binding="{Binding Source={x:Reference Tab}, Path=SelectedIndex}"
-                                 TargetType="sf:SfTabItem"
-                                 Value="2">
-                        <Setter Property="ImageSource">
-                            <Setter.Value>
-                                <FontImageSource FontFamily="{StaticResource FASolid}"
-                                                 Glyph="{Static constants:FontAwesomeIcons.Person}"
-                                                 Size="10"
-                                                 Color="{StaticResource Pink}" />
-                            </Setter.Value>
-                        </Setter>
-                    </DataTrigger>
-                </sf:SfTabItem.Triggers>
+                </sf:SfTabItem.ImageSource>-->
+        <!--
                 <sf:SfTabItem.Content>
                     <Grid BackgroundColor="Blue" />
                 </sf:SfTabItem.Content>
             </sf:SfTabItem>
-        </sf:SfTabView.Items>
+        </sf:SfTabView.Items>-->
     </sf:SfTabView>
 </templates:BasePage>

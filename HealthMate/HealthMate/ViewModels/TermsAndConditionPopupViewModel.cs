@@ -1,13 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using HealthMate.Services;
-using HealthMate.Views;
 
 namespace HealthMate.ViewModels;
 public partial class TermsAndConditionPopupViewModel : BaseViewModel
 {
     private readonly PopupService _popupService;
 
-    public TermsAndConditionPopupViewModel(INavigationService navigationService, PopupService popupService) : base(navigationService)
+    public TermsAndConditionPopupViewModel(PopupService popupService)
     {
         _popupService = popupService;
     }
@@ -16,7 +15,7 @@ public partial class TermsAndConditionPopupViewModel : BaseViewModel
     private async Task Agreed()
     {
         await ClosePopup();
-        await NavigationService.NavigateAsync($"../{nameof(HomePage)}");
+        await Shell.Current.GoToAsync("//Tabs", true);
     }
 
     [RelayCommand]

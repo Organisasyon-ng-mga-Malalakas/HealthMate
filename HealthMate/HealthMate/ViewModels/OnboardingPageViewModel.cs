@@ -12,7 +12,7 @@ public partial class OnboardingPageViewModel : BaseViewModel
 {
     private PopupService _popupService;
 
-    public OnboardingPageViewModel(INavigationService navigationService, PopupService popupService) : base(navigationService)
+    public OnboardingPageViewModel(PopupService popupService)
     {
         _popupService = popupService;
     }
@@ -22,7 +22,7 @@ public partial class OnboardingPageViewModel : BaseViewModel
     [ObservableProperty]
     private ObservableCollection<Onboarding> onboarding;
     [ObservableProperty]
-    private int position;
+    private int position = 0;
 
     [RelayCommand]
     private void MoveBackward()
@@ -40,7 +40,7 @@ public partial class OnboardingPageViewModel : BaseViewModel
             await _popupService.ShowPopup<TermsAndConditionPopup, TermsAndConditionPopupViewModel>();
     }
 
-    public override void OnNavigatedTo(INavigationParameters parameters)
+    public override void OnNavigatedTo()
     {
         var title1 = new string[4] { "YOUR PERSONAL", "TRACK AND MANAGE", "DISCOVER AND EXPLORE", "HEALTHMATE" };
         var title2 = new string[4] { "MEDICATION COMPANION", "YOUR MEDICATION INVENTORY", "MEDICATIONS", "SYMPTOM CHECKER" };

@@ -1,5 +1,11 @@
 ﻿using CommunityToolkit.Maui;
+using HealthMate.Services;
+using HealthMate.Templates;
+using HealthMate.ViewModels;
+using HealthMate.Views;
 using Mopups.Hosting;
+using Mopups.Interfaces;
+using Mopups.Services;
 using Syncfusion.Maui.Core.Hosting;
 
 namespace HealthMate;
@@ -10,7 +16,7 @@ public static class MauiProgram
     {
         var builder = MauiApp.CreateBuilder();
         builder
-            .UsePrismApp<App>(PrismStartup.Configure)
+            .UseMauiApp<App>()
             .UseMauiCommunityToolkit()
             .ConfigureSyncfusionCore()
             .ConfigureFonts(fonts =>
@@ -25,8 +31,44 @@ public static class MauiProgram
                 fonts.AddFont("FontAwesome-Pro-Solid-900.otf", "FASolid");
                 fonts.AddFont("FontAwesome-Pro-Thin-100.otf", "FAThin");
             })
-            .ConfigureMopups();
+            .ConfigureMopups()
+            .RegisterServices()
+            .RegisterViewsAndViewModel();
 
         return builder.Build();
+    }
+
+    private static IServiceCollection AddViewsAndViewModel<TView, TViewModel>(this IServiceCollection serviceDescriptors)
+        where TView : BasePage<TViewModel>
+        where TViewModel : BaseViewModel
+    {
+        serviceDescriptors.AddTransient<TView>()
+            .AddTransient<TViewModel>();
+
+        return serviceDescriptors;
+    }
+
+    private static MauiAppBuilder RegisterServices(this MauiAppBuilder builder)
+    {
+        builder.Services
+            .AddSingleton<IPopupNavigation, PopupNavigation>()
+            .AddSingleton<PopupService>()
+            .AddSingleton<PopupService>()
+            .AddSingleton(_ => VersionTracking.Default)
+            .AddSingleton(_ => Preferences.Default);
+
+        return builder;
+    }
+
+    private static MauiAppBuilder RegisterViewsAndViewModel(this MauiAppBuilder builder)
+    {
+        builder.Services
+            .AddViewsAndViewModel<GetStartedPage, GetStartedPageViewModel>()
+            .AddViewsAndViewModel<OnboardingPage, OnboardingPageViewModel>()
+            //.AddTransient<HomePageViewModel>()
+            .AddTransient<TermsAndConditionPopupViewModel>()
+            ;
+
+        return builder;
     }
 }

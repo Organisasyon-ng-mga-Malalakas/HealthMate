@@ -6,10 +6,10 @@
                     xmlns:models="clr-namespace:HealthMate.Models"
                     xmlns:templates="clr-namespace:HealthMate.Templates"
                     xmlns:vm="clr-namespace:HealthMate.ViewModels"
-                    Title="OnboardingPage"
                     x:DataType="vm:OnboardingPageViewModel"
                     x:TypeArguments="vm:OnboardingPageViewModel"
-                    NavigationPage.HasNavigationBar="False">
+                    NavigationPage.HasNavigationBar="False"
+                    Shell.NavBarIsVisible="False">
     <Grid ColumnDefinitions="*,*"
           RowDefinitions="*, 40">
         <CarouselView Grid.ColumnSpan="2"
@@ -17,7 +17,7 @@
                       IsBounceEnabled="True"
                       IsScrollAnimated="True"
                       ItemsSource="{Binding Onboarding}"
-                      Loop="False"
+                      Loop="True"
                       Position="{Binding Position}">
             <CarouselView.ItemTemplate>
                 <DataTemplate x:DataType="models:Onboarding">

@@ -1,20 +1,19 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace HealthMate.ViewModels;
-public abstract class BaseViewModel : ObservableObject, INavigationAware
+public abstract class BaseViewModel : ObservableObject
 {
-    protected INavigationService NavigationService;
-
-    public BaseViewModel(INavigationService navigationService)
+    public BaseViewModel()
     {
-        NavigationService = navigationService;
+        //NavigationService = navigationService;
+        OnNavigatedTo();
     }
 
-    public virtual void OnNavigatedFrom(INavigationParameters parameters)
-    {
-    }
+    //public virtual void OnNavigatedFrom(INavigationParameters parameters)
+    //{
+    //}
 
-    public virtual void OnNavigatedTo(INavigationParameters parameters)
+    public virtual void OnNavigatedTo()
     {
     }
 }

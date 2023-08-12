@@ -6,13 +6,13 @@ namespace HealthMate.Services;
 
 public class PopupService
 {
-    private readonly IContainerProvider _containerProvider;
     private readonly IPopupNavigation _popupNavigation;
+    private readonly IServiceProvider _serviceProvider;
 
-    public PopupService(IContainerProvider containerProvider, IPopupNavigation popupNavigation)
+    public PopupService(IPopupNavigation popupNavigation, IServiceProvider serviceProvider)
     {
-        _containerProvider = containerProvider;
         _popupNavigation = popupNavigation;
+        _serviceProvider = serviceProvider;
     }
 
     public async Task ClosePopup()
@@ -24,7 +24,7 @@ public class PopupService
         where TPopup : BasePopup<TPopupViewModel>
         where TPopupViewModel : BaseViewModel
     {
-        var popupViewModel = _containerProvider.Resolve<TPopupViewModel>();
+        var popupViewModel = _serviceProvider.GetRequiredService<TPopupViewModel>();
         var popup = (TPopup)Activator.CreateInstance(typeof(TPopup), popupViewModel);
         await _popupNavigation.PushAsync(popup);
     }

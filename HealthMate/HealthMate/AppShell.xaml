@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell x:Class="HealthMate.AppShell"
+       xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:constants="clr-namespace:HealthMate.Constants"
+       xmlns:views="clr-namespace:HealthMate.Views"
+       Shell.FlyoutBehavior="Disabled"
+       Shell.TabBarTitleColor="{StaticResource Pink}"
+       Shell.TabBarUnselectedColor="{StaticResource RegBlack}">
+
+    <ShellItem Route="GetStartedPage">
+        <ShellContent ContentTemplate="{DataTemplate views:GetStartedPage}" />
+    </ShellItem>
+
+    <ShellItem Route="OnboardingPage">
+        <ShellContent ContentTemplate="{DataTemplate views:OnboardingPage}" />
+    </ShellItem>
+
+    <TabBar Route="Tabs">
+        <Tab Title="Schedule">
+            <Tab.Icon>
+                <FontImageSource FontFamily="{StaticResource FASolid}"
+                                 Glyph="{x:Static constants:FontAwesomeIcons.CalendarClock}"
+                                 Size="20" />
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate views:NewPage1}" />
+        </Tab>
+
+        <Tab Title="Inventory">
+            <Tab.Icon>
+                <FontImageSource FontFamily="{StaticResource FASolid}"
+                                 Glyph="{x:Static constants:FontAwesomeIcons.Pills}"
+                                 Size="20" />
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate views:NewPage1}" />
+        </Tab>
+
+        <Tab Title="Symptom Checker">
+            <Tab.Icon>
+                <FontImageSource FontFamily="{StaticResource FASolid}"
+                                 Glyph="{x:Static constants:FontAwesomeIcons.Person}"
+                                 Size="20" />
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate views:NewPage1}" />
+        </Tab>
+    </TabBar>
+</Shell>
