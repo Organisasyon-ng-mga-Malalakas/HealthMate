@@ -16,7 +16,6 @@ public partial class TermsAndConditionPopupViewModel : BaseViewModel
     {
         await ClosePopup();
         await Shell.Current.GoToAsync("//Tabs", true);
-
     }
 
     [RelayCommand]

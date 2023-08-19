@@ -8,22 +8,22 @@
        Shell.TabBarTitleColor="{StaticResource Pink}"
        Shell.TabBarUnselectedColor="{StaticResource RegBlack}">
 
-    <ShellItem Route="GetStartedPage">
+    <ShellItem x:Name="GetStartedPage">
         <ShellContent ContentTemplate="{DataTemplate views:GetStartedPage}" />
     </ShellItem>
 
-    <ShellItem Route="OnboardingPage">
+    <ShellItem>
         <ShellContent ContentTemplate="{DataTemplate views:OnboardingPage}" />
     </ShellItem>
 
-    <TabBar Route="Tabs">
+    <TabBar Route="Tabs" x:Name="Tabs">
         <Tab Title="Schedule">
             <Tab.Icon>
                 <FontImageSource FontFamily="{StaticResource FASolid}"
                                  Glyph="{x:Static constants:FontAwesomeIcons.CalendarClock}"
                                  Size="20" />
             </Tab.Icon>
-            <ShellContent ContentTemplate="{DataTemplate views:NewPage1}" />
+            <ShellContent ContentTemplate="{DataTemplate views:SchedulePage}" />
         </Tab>
 
         <Tab Title="Inventory">

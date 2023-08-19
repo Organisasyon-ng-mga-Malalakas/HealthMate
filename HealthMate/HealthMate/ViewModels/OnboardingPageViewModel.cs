@@ -10,7 +10,7 @@ namespace HealthMate.ViewModels;
 
 public partial class OnboardingPageViewModel : BaseViewModel
 {
-    private PopupService _popupService;
+    private readonly PopupService _popupService;
 
     public OnboardingPageViewModel(PopupService popupService)
     {
@@ -40,7 +40,7 @@ public partial class OnboardingPageViewModel : BaseViewModel
             await _popupService.ShowPopup<TermsAndConditionPopup, TermsAndConditionPopupViewModel>();
     }
 
-    public override void OnNavigatedTo()
+    protected override void OnNavigatedTo()
     {
         var title1 = new string[4] { "YOUR PERSONAL", "TRACK AND MANAGE", "DISCOVER AND EXPLORE", "HEALTHMATE" };
         var title2 = new string[4] { "MEDICATION COMPANION", "YOUR MEDICATION INVENTORY", "MEDICATIONS", "SYMPTOM CHECKER" };

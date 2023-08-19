@@ -12,7 +12,6 @@ public partial class GetStartedPageViewModel : BaseViewModel
     [RelayCommand]
     private async Task GotoOnboarding()
     {
-        await Shell.Current.GoToAsync($"//{nameof(OnboardingPage)}", true);
-
+        await Shell.Current.GoToAsync($"{nameof(OnboardingPage)}", true);
     }
 }

@@ -5,15 +5,10 @@ public abstract class BaseViewModel : ObservableObject
 {
     public BaseViewModel()
     {
-        //NavigationService = navigationService;
         OnNavigatedTo();
     }
 
-    //public virtual void OnNavigatedFrom(INavigationParameters parameters)
-    //{
-    //}
+    protected virtual void OnNavigatedTo() { }
 
-    public virtual void OnNavigatedTo()
-    {
-    }
+    public virtual void OnViewInitialized() { }
 }

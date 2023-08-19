@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui;
+using HealthMate.Platforms.Android.Renderers;
 using HealthMate.Services;
 using HealthMate.Templates;
 using HealthMate.ViewModels;
@@ -31,6 +32,10 @@ public static class MauiProgram
                 fonts.AddFont("FontAwesome-Pro-Solid-900.otf", "FASolid");
                 fonts.AddFont("FontAwesome-Pro-Thin-100.otf", "FAThin");
             })
+            .ConfigureMauiHandlers(handler =>
+            {
+                handler.AddHandler(typeof(CustomFrame), typeof(CustomFrameAndroid));
+            })
             .ConfigureMopups()
             .RegisterServices()
             .RegisterViewsAndViewModel();
@@ -53,7 +58,6 @@ public static class MauiProgram
         builder.Services
             .AddSingleton<IPopupNavigation, PopupNavigation>()
             .AddSingleton<PopupService>()
-            .AddSingleton<PopupService>()
             .AddSingleton(_ => VersionTracking.Default)
             .AddSingleton(_ => Preferences.Default);
 
@@ -63,11 +67,10 @@ public static class MauiProgram
     private static MauiAppBuilder RegisterViewsAndViewModel(this MauiAppBuilder builder)
     {
         builder.Services
-            .AddViewsAndViewModel<GetStartedPage, GetStartedPageViewModel>()
-            .AddViewsAndViewModel<OnboardingPage, OnboardingPageViewModel>()
-            //.AddTransient<HomePageViewModel>()
+            .AddTransientWithShellRoute<GetStartedPage, GetStartedPageViewModel>(nameof(GetStartedPage))
+            .AddTransientWithShellRoute<OnboardingPage, OnboardingPageViewModel>(nameof(OnboardingPage))
             .AddTransient<TermsAndConditionPopupViewModel>()
-            ;
+            .AddTransientWithShellRoute<SchedulePage, SchedulePageViewModel>(nameof(SchedulePage));
 
         return builder;
     }

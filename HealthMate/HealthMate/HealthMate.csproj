@@ -51,6 +51,7 @@
     <None Remove="Resources\Fonts\FontAwesome-Pro-Regular-400.otf" />
     <None Remove="Resources\Fonts\FontAwesome-Pro-Solid-900.otf" />
     <None Remove="Resources\Fonts\FontAwesome-Pro-Thin-100.otf" />
+    <None Remove="Resources\Images\empty_schedule.svg" />
     <None Remove="Resources\Images\getstarted.png" />
     <None Remove="Resources\Images\onboarding1.png" />
     <None Remove="Resources\Images\onboarding2.png" />
@@ -70,19 +71,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <MauiXaml Update="AppShell.xaml">
+    <MauiXaml Update="App\AppShell.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Update="Views\GetStartedPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </MauiXaml>
-    <MauiXaml Update="Views\HomePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Update="Views\NewPage1.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Update="Views\OnboardingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\SchedulePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Update="Views\TermsAndConditionPopup.xaml">
