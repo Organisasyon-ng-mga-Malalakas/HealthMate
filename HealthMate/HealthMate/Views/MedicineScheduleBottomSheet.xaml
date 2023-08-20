@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<the49:BottomSheet x:Class="HealthMate.Views.MedicineScheduleBottomSheet"
+                   xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                   xmlns:the49="https://schemas.the49.com/dotnet/2023/maui"
+                   HasBackdrop="True"
+                   HasHandle="True">
+    <the49:BottomSheet.Detents>
+        <the49:RatioDetent Ratio="0.35" />
+    </the49:BottomSheet.Detents>
+    <Border BackgroundColor="White"
+            StrokeShape="RoundRectangle 20,20,0,0">
+        <VerticalStackLayout Padding="16">
+            <Label FontFamily="{StaticResource Bold}"
+                   FontSize="18"
+                   HorizontalOptions="Center"
+                   Text="Create Medicine Schedule"
+                   TextColor="{StaticResource Pink}" />
+
+            <Grid ColumnDefinitions="3*,7*"
+                  RowDefinitions="*,*,*,*,*,*">
+                <Grid.Resources>
+                    <Style x:Key="Header"
+                           TargetType="Label">
+                        <Setter Property="FontFamily" Value="{StaticResource Regular}" />
+                        <Setter Property="TextColor" Value="{StaticResource RegBlack}" />
+                        <Setter Property="HorizontalOptions" Value="End" />
+                        <Setter Property="VerticalOptions" Value="Center" />
+                    </Style>
+                </Grid.Resources>
+                <Label Style="{StaticResource Header}"
+                       Text="Medicine Name" />
+                <Border Grid.Column="1"
+                        Stroke="{StaticResource RegBlack}">
+                    <Picker Title="Medicine name"
+                            FontFamily="{StaticResource Regular}">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Baboon</x:String>
+                                <x:String>Capuchin Monkey</x:String>
+                                <x:String>Blue Monkey</x:String>
+                                <x:String>Squirrel Monkey</x:String>
+                                <x:String>Golden Lion Tamarin</x:String>
+                                <x:String>Howler Monkey</x:String>
+                                <x:String>Japanese Macaque</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+
+                </Border>
+                <Label Grid.Row="1"
+                       Style="{StaticResource Header}"
+                       Text="Dosage" />
+
+                <Label Grid.Row="2"
+                       Style="{StaticResource Header}"
+                       Text="Quantity" />
+
+                <Label Grid.Row="3"
+                       Style="{StaticResource Header}"
+                       Text="Date" />
+
+                <Label Grid.Row="4"
+                       Style="{StaticResource Header}"
+                       Text="Time" />
+
+                <Label Grid.Row="5"
+                       Style="{StaticResource Header}"
+                       Text="Notes" />
+            </Grid>
+
+            <Grid ColumnDefinitions="*,*"
+                  VerticalOptions="EndAndExpand">
+                <Button Margin="20,0"
+                        BackgroundColor="White"
+                        BorderColor="{StaticResource Pink}"
+                        BorderWidth="1"
+                        FontFamily="{StaticResource Bold}"
+                        Text="Cancel"
+                        TextColor="{StaticResource Pink}" />
+
+                <Button Grid.Column="1"
+                        Margin="20,0"
+                        BackgroundColor="{StaticResource Pink}"
+                        FontFamily="{StaticResource Bold}"
+                        Text="Create"
+                        TextColor="White" />
+            </Grid>
+        </VerticalStackLayout>
+    </Border>
+</the49:BottomSheet>

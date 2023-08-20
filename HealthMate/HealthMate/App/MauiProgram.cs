@@ -7,7 +7,9 @@ using HealthMate.Views;
 using Mopups.Hosting;
 using Mopups.Interfaces;
 using Mopups.Services;
+using Sharpnado.CollectionView;
 using Syncfusion.Maui.Core.Hosting;
+using The49.Maui.BottomSheet;
 
 namespace HealthMate;
 
@@ -19,6 +21,8 @@ public static class MauiProgram
         builder
             .UseMauiApp<App>()
             .UseMauiCommunityToolkit()
+            .UseSharpnadoCollectionView(false)
+            .UseBottomSheet()
             .ConfigureSyncfusionCore()
             .ConfigureFonts(fonts =>
             {
