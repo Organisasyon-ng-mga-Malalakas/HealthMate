@@ -53,12 +53,14 @@
     <None Remove="Resources\Fonts\FontAwesome-Pro-Regular-400.otf" />
     <None Remove="Resources\Fonts\FontAwesome-Pro-Solid-900.otf" />
     <None Remove="Resources\Fonts\FontAwesome-Pro-Thin-100.otf" />
+    <None Remove="Resources\Images\empty_inventory.svg" />
     <None Remove="Resources\Images\empty_schedule.svg" />
     <None Remove="Resources\Images\getstarted.png" />
     <None Remove="Resources\Images\onboarding1.png" />
     <None Remove="Resources\Images\onboarding2.png" />
     <None Remove="Resources\Images\onboarding3.png" />
     <None Remove="Resources\Images\onboarding4.png" />
+    <None Remove="Resources\Images\symptoms_checker.svg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -85,10 +87,10 @@
     <MauiXaml Update="Views\GetStartedPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
-    <MauiXaml Update="Views\MedicineScheduleBottomSheet.xaml">
+    <MauiXaml Update="Views\InventoryPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
-    <MauiXaml Update="Views\NewPage1.xaml">
+    <MauiXaml Update="Views\MedicineScheduleBottomSheet.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Update="Views\OnboardingPage.xaml">
@@ -97,9 +99,16 @@
     <MauiXaml Update="Views\SchedulePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
+    <MauiXaml Update="Views\SymptomsCheckerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="Views\TermsAndConditionPopup.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
   </ItemGroup>
 
 </Project>

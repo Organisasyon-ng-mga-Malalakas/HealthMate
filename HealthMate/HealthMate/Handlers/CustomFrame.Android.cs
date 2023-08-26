@@ -1,6 +1,6 @@
 ﻿using Android.Content;
 using Android.Graphics.Drawables;
-using HealthMate.Templates;
+using HealthMate.Controls;
 using Microsoft.Maui.Controls.Handlers.Compatibility;
 using Microsoft.Maui.Controls.Platform;
 using Microsoft.Maui.Platform;

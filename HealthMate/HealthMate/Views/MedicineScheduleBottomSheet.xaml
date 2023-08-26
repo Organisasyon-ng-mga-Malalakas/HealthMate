@@ -2,23 +2,35 @@
 <the49:BottomSheet x:Class="HealthMate.Views.MedicineScheduleBottomSheet"
                    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                   xmlns:constants="clr-namespace:HealthMate.Constants"
+                   xmlns:controls="clr-namespace:HealthMate.Controls"
                    xmlns:the49="https://schemas.the49.com/dotnet/2023/maui"
+                   xmlns:vm="clr-namespace:HealthMate.ViewModels"
+                   x:Name="bottomSheet"
+                   x:DataType="vm:MedicineScheduleBottomSheetViewModel"
                    HasBackdrop="True"
                    HasHandle="True">
     <the49:BottomSheet.Detents>
-        <the49:RatioDetent Ratio="0.35" />
+        <the49:ContentDetent />
     </the49:BottomSheet.Detents>
-    <Border BackgroundColor="White"
+    <Border Padding="16,5"
+            BackgroundColor="White"
             StrokeShape="RoundRectangle 20,20,0,0">
-        <VerticalStackLayout Padding="16">
-            <Label FontFamily="{StaticResource Bold}"
+        <FlexLayout Direction="Column"
+                    JustifyContent="Start">
+            <Label Margin="0,10,0,0"
+                   FontFamily="{StaticResource Bold}"
                    FontSize="18"
                    HorizontalOptions="Center"
                    Text="Create Medicine Schedule"
                    TextColor="{StaticResource Pink}" />
 
-            <Grid ColumnDefinitions="3*,7*"
-                  RowDefinitions="*,*,*,*,*,*">
+            <Grid Margin="0,10"
+                  ColumnDefinitions="3*,7*"
+                  ColumnSpacing="10"
+                  RowDefinitions="*,*,*,*,60"
+                  RowSpacing="10"
+                  VerticalOptions="StartAndExpand">
                 <Grid.Resources>
                     <Style x:Key="Header"
                            TargetType="Label">
@@ -27,54 +39,154 @@
                         <Setter Property="HorizontalOptions" Value="End" />
                         <Setter Property="VerticalOptions" Value="Center" />
                     </Style>
+
+                    <Style TargetType="controls:BorderlessEntry">
+                        <Setter Property="FontFamily" Value="{StaticResource Regular}" />
+                        <Setter Property="FontSize" Value="12" />
+                        <Setter Property="HeightRequest" Value="30" />
+                        <Setter Property="VerticalOptions" Value="CenterAndExpand" />
+                    </Style>
+
+                    <Style TargetType="controls:BorderlessPicker">
+                        <Setter Property="FontFamily" Value="{StaticResource Regular}" />
+                        <Setter Property="FontSize" Value="12" />
+                        <Setter Property="HeightRequest" Value="30" />
+                        <Setter Property="VerticalOptions" Value="CenterAndExpand" />
+                    </Style>
+
+                    <Style TargetType="Border">
+                        <Setter Property="BackgroundColor" Value="White" />
+                        <Setter Property="Stroke" Value="{StaticResource BorderStroke}" />
+                        <Setter Property="Padding" Value="5,0" />
+                    </Style>
+
+                    <Style x:Key="FontIcon"
+                           TargetType="Label">
+                        <Setter Property="FontFamily" Value="{StaticResource FASolid}" />
+                        <Setter Property="FontSize" Value="12" />
+                        <Setter Property="HorizontalOptions" Value="EndAndExpand" />
+                        <Setter Property="VerticalOptions" Value="CenterAndExpand" />
+                    </Style>
                 </Grid.Resources>
+
                 <Label Style="{StaticResource Header}"
                        Text="Medicine Name" />
-                <Border Grid.Column="1"
-                        Stroke="{StaticResource RegBlack}">
-                    <Picker Title="Medicine name"
-                            FontFamily="{StaticResource Regular}">
-                        <Picker.ItemsSource>
-                            <x:Array Type="{x:Type x:String}">
-                                <x:String>Baboon</x:String>
-                                <x:String>Capuchin Monkey</x:String>
-                                <x:String>Blue Monkey</x:String>
-                                <x:String>Squirrel Monkey</x:String>
-                                <x:String>Golden Lion Tamarin</x:String>
-                                <x:String>Howler Monkey</x:String>
-                                <x:String>Japanese Macaque</x:String>
-                            </x:Array>
-                        </Picker.ItemsSource>
-                    </Picker>
+                <Border Grid.Column="1">
+                    <Grid ColumnDefinitions="*, 30">
+                        <controls:BorderlessPicker Title="Medicine name"
+                                                   SelectedItem="{Binding MedicineName}">
+                            <controls:BorderlessPicker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>milligram</x:String>
+                                    <x:String>gram</x:String>
+                                </x:Array>
+                            </controls:BorderlessPicker.ItemsSource>
+                        </controls:BorderlessPicker>
 
+                        <Label Grid.Column="1"
+                               Style="{StaticResource FontIcon}"
+                               Text="{Static constants:FontAwesomeIcons.ChevronDown}" />
+                    </Grid>
                 </Border>
+
                 <Label Grid.Row="1"
                        Style="{StaticResource Header}"
                        Text="Dosage" />
+                <Grid Grid.Row="1"
+                      Grid.Column="1"
+                      ColumnDefinitions="3*,7*"
+                      ColumnSpacing="5">
+                    <Border Padding="5,5,5,0">
+                        <controls:BorderlessEntry Keyboard="Numeric"
+                                                  Text="{Binding DosageQty}" />
+                    </Border>
+
+                    <Border Grid.Column="1">
+                        <Grid ColumnDefinitions="*, 30">
+                            <controls:BorderlessPicker Title="Dosage"
+                                                       SelectedItem="{Binding Dosage}">
+                                <controls:BorderlessPicker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>milligram</x:String>
+                                        <x:String>gram</x:String>
+                                    </x:Array>
+                                </controls:BorderlessPicker.ItemsSource>
+                            </controls:BorderlessPicker>
+
+                            <Label Grid.Column="1"
+                                   Style="{StaticResource FontIcon}"
+                                   Text="{Static constants:FontAwesomeIcons.ChevronDown}" />
+                        </Grid>
+                    </Border>
+                </Grid>
 
                 <Label Grid.Row="2"
                        Style="{StaticResource Header}"
                        Text="Quantity" />
+                <Border Grid.Row="2"
+                        Grid.Column="1">
+                    <controls:BorderlessEntry Keyboard="Numeric" />
+                </Border>
 
                 <Label Grid.Row="3"
                        Style="{StaticResource Header}"
-                       Text="Date" />
+                       Text="Date and time" />
+                <Grid Grid.Row="3"
+                      Grid.Column="1"
+                      ColumnDefinitions="*,*"
+                      ColumnSpacing="5">
+                    <Border>
+                        <Grid ColumnDefinitions="*, 25">
+                            <DatePicker Date="{Binding NotificationDate}"
+                                        FontFamily="{StaticResource Regular}"
+                                        FontSize="12"
+                                        Format="MMM d, yyyy" />
+
+                            <Label Grid.Column="1"
+                                   FontFamily="{StaticResource FARegular}"
+                                   Style="{StaticResource FontIcon}"
+                                   Text="{Static constants:FontAwesomeIcons.Calendar}" />
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Column="1">
+                        <Grid ColumnDefinitions="*, 25">
+                            <TimePicker FontFamily="{StaticResource Regular}"
+                                        FontSize="12"
+                                        Format="hh:mm tt"
+                                        Time="{Binding NotificationTime}" />
+
+                            <Label Grid.Column="1"
+                                   FontFamily="{StaticResource FARegular}"
+                                   Style="{StaticResource FontIcon}"
+                                   Text="{Static constants:FontAwesomeIcons.Clock}" />
+                        </Grid>
+                    </Border>
+                </Grid>
 
                 <Label Grid.Row="4"
                        Style="{StaticResource Header}"
-                       Text="Time" />
-
-                <Label Grid.Row="5"
-                       Style="{StaticResource Header}"
-                       Text="Notes" />
+                       Text="Notes"
+                       VerticalOptions="StartAndExpand" />
+                <Border Grid.Row="4"
+                        Grid.Column="1"
+                        Padding="5,0">
+                    <controls:BorderlessEditor FontFamily="{StaticResource Regular}"
+                                               FontSize="12"
+                                               Text="{Binding Notes}"
+                                               TextColor="{StaticResource RegBlack}"
+                                               VerticalTextAlignment="Start" />
+                </Border>
             </Grid>
 
-            <Grid ColumnDefinitions="*,*"
-                  VerticalOptions="EndAndExpand">
+            <Grid Margin="0,0,0,10"
+                  ColumnDefinitions="*,*">
                 <Button Margin="20,0"
                         BackgroundColor="White"
                         BorderColor="{StaticResource Pink}"
                         BorderWidth="1"
+                        Command="{Binding CloseBottomSheetCommand}"
+                        CommandParameter="{Reference bottomSheet}"
                         FontFamily="{StaticResource Bold}"
                         Text="Cancel"
                         TextColor="{StaticResource Pink}" />
@@ -82,10 +194,12 @@
                 <Button Grid.Column="1"
                         Margin="20,0"
                         BackgroundColor="{StaticResource Pink}"
+                        Command="{Binding CreateScheduleCommand}"
+                        CommandParameter="{Reference bottomSheet}"
                         FontFamily="{StaticResource Bold}"
                         Text="Create"
                         TextColor="White" />
             </Grid>
-        </VerticalStackLayout>
+        </FlexLayout>
     </Border>
 </the49:BottomSheet>

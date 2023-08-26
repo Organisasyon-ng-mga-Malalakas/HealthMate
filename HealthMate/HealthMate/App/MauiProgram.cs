@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Maui;
+using HealthMate.Controls;
+using HealthMate.Handlers;
 using HealthMate.Platforms.Android.Renderers;
 using HealthMate.Services;
 using HealthMate.Templates;
@@ -26,19 +28,24 @@ public static class MauiProgram
             .ConfigureSyncfusionCore()
             .ConfigureFonts(fonts =>
             {
-                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                fonts.AddFont("Avenir-Black.ttf", "Bold");
-                fonts.AddFont("Avenir-Heavy.ttf", "Medium");
-                fonts.AddFont("Avenir-Regular.ttf", "Regular");
-                fonts.AddFont("FontAwesome-Pro-Light-300.otf", "FALight");
-                fonts.AddFont("FontAwesome-Pro-Regular-400.otf", "FARegular");
-                fonts.AddFont("FontAwesome-Pro-Solid-900.otf", "FASolid");
-                fonts.AddFont("FontAwesome-Pro-Thin-100.otf", "FAThin");
+                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular")
+                .AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold")
+                .AddFont("Avenir-Black.ttf", "Bold")
+                .AddFont("Avenir-Heavy.ttf", "Medium")
+                .AddFont("Avenir-Regular.ttf", "Regular")
+                .AddFont("FontAwesome-Pro-Light-300.otf", "FALight")
+                .AddFont("FontAwesome-Pro-Regular-400.otf", "FARegular")
+                .AddFont("FontAwesome-Pro-Solid-900.otf", "FASolid")
+                .AddFont("FontAwesome-Pro-Thin-100.otf", "FAThin");
             })
             .ConfigureMauiHandlers(handler =>
             {
-                handler.AddHandler(typeof(CustomFrame), typeof(CustomFrameAndroid));
+                handler.AddHandler<CustomFrame, CustomFrameAndroid>()
+                .AddHandler<BorderlessPicker, BorderlessPickerHandler>()
+                .AddHandler<BorderlessEntry, BorderlessEntryHandler>()
+                .AddHandler<BorderlessDatePicker, BorderlessDatePickerHandler>()
+                .AddHandler<BorderlessEditor, BorderlessEditorHandler>()
+                .AddHandler<CustomSearchBar, CustomSearchBarHandler>();
             })
             .ConfigureMopups()
             .RegisterServices()
@@ -74,7 +81,10 @@ public static class MauiProgram
             .AddTransientWithShellRoute<GetStartedPage, GetStartedPageViewModel>(nameof(GetStartedPage))
             .AddTransientWithShellRoute<OnboardingPage, OnboardingPageViewModel>(nameof(OnboardingPage))
             .AddTransient<TermsAndConditionPopupViewModel>()
-            .AddTransientWithShellRoute<SchedulePage, SchedulePageViewModel>(nameof(SchedulePage));
+            .AddTransientWithShellRoute<SchedulePage, SchedulePageViewModel>(nameof(SchedulePage))
+            .AddTransient<MedicineScheduleBottomSheetViewModel>()
+            .AddTransientWithShellRoute<InventoryPage, InventoryPageViewModel>(nameof(InventoryPage))
+            .AddTransientWithShellRoute<SymptomsCheckerPage, SymptomsCheckerPageViewModel>(nameof(SymptomsCheckerPage));
 
         return builder;
     }

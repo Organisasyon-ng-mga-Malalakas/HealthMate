@@ -10,6 +10,8 @@ using System.Globalization;
 namespace HealthMate.ViewModels;
 public partial class SchedulePageViewModel : BaseViewModel
 {
+    private readonly MedicineScheduleBottomSheetViewModel _medicineScheduleBottomSheetViewModel;
+
     [ObservableProperty]
     private ObservableCollection<CalendarDays> calendarDays;
 
@@ -22,12 +24,15 @@ public partial class SchedulePageViewModel : BaseViewModel
     [ObservableProperty]
     private int selectedMonthIndex;
 
-    public SchedulePageViewModel() { }
+    public SchedulePageViewModel(MedicineScheduleBottomSheetViewModel medicineScheduleBottomSheetViewModel)
+    {
+        _medicineScheduleBottomSheetViewModel = medicineScheduleBottomSheetViewModel;
+    }
 
     [RelayCommand]
     private void CreateSchedule()
     {
-        var medicineSchedule = new MedicineScheduleBottomSheet();
+        var medicineSchedule = new MedicineScheduleBottomSheet(_medicineScheduleBottomSheetViewModel);
         medicineSchedule.Showing += (_, _) => medicineSchedule.Controller.Behavior.DisableShapeAnimations();
         medicineSchedule.ShowAsync(true);
     }

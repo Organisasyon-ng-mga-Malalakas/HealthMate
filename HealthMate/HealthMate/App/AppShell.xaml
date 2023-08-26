@@ -16,7 +16,8 @@
         <ShellContent ContentTemplate="{DataTemplate views:OnboardingPage}" />
     </ShellItem>
 
-    <TabBar Route="Tabs" x:Name="Tabs">
+    <TabBar x:Name="Tabs"
+            Route="Tabs">
         <Tab Title="Schedule">
             <Tab.Icon>
                 <FontImageSource FontFamily="{StaticResource FASolid}"
@@ -32,7 +33,7 @@
                                  Glyph="{x:Static constants:FontAwesomeIcons.Pills}"
                                  Size="20" />
             </Tab.Icon>
-            <ShellContent ContentTemplate="{DataTemplate views:NewPage1}" />
+            <ShellContent ContentTemplate="{DataTemplate views:InventoryPage}" />
         </Tab>
 
         <Tab Title="Symptom Checker">
@@ -41,7 +42,7 @@
                                  Glyph="{x:Static constants:FontAwesomeIcons.Person}"
                                  Size="20" />
             </Tab.Icon>
-            <ShellContent ContentTemplate="{DataTemplate views:NewPage1}" />
+            <ShellContent ContentTemplate="{DataTemplate views:SymptomsCheckerPage}" />
         </Tab>
     </TabBar>
 </Shell>

@@ -1,4 +1,4 @@
-﻿namespace HealthMate.Templates;
+﻿namespace HealthMate.Controls;
 public class CustomFrame : Frame
 {
     public static new readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(nameof(CustomFrame),

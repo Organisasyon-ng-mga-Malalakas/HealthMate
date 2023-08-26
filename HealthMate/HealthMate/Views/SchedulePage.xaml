@@ -224,6 +224,7 @@
         <Label FontFamily="{StaticResource Regular}"
                FontSize="14"
                HorizontalOptions="Center"
+               HorizontalTextAlignment="Center"
                Text="View your daily schedule and&#10;mark your meds when taken"
                TextColor="{StaticResource RegBlack}" />
 
