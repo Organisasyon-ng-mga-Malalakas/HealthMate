@@ -1,14 +1,16 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace HealthMate.ViewModels;
-public abstract class BaseViewModel : ObservableObject
+public abstract class BaseViewModel : ObservableObject, IQueryAttributable
 {
-    public BaseViewModel()
+    public BaseViewModel() { }
+
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        OnNavigatedTo();
+        ReceiveParameters(query);
     }
 
-    protected virtual void OnNavigatedTo() { }
+    public virtual void OnNavigatedTo() { }
 
-    public virtual void OnViewInitialized() { }
+    protected virtual void ReceiveParameters(IDictionary<string, object> query) { }
 }

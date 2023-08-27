@@ -3,9 +3,14 @@ using HealthMate.Controls;
 using HealthMate.Handlers;
 using HealthMate.Platforms.Android.Renderers;
 using HealthMate.Services;
-using HealthMate.Templates;
-using HealthMate.ViewModels;
-using HealthMate.Views;
+using HealthMate.ViewModels.Inventory;
+using HealthMate.ViewModels.Onboarding;
+using HealthMate.ViewModels.Schedule;
+using HealthMate.ViewModels.SymptomChecker;
+using HealthMate.Views.Inventory;
+using HealthMate.Views.Onboarding;
+using HealthMate.Views.Schedule;
+using HealthMate.Views.SymptomChecker;
 using Mopups.Hosting;
 using Mopups.Interfaces;
 using Mopups.Services;
@@ -54,23 +59,14 @@ public static class MauiProgram
         return builder.Build();
     }
 
-    private static IServiceCollection AddViewsAndViewModel<TView, TViewModel>(this IServiceCollection serviceDescriptors)
-        where TView : BasePage<TViewModel>
-        where TViewModel : BaseViewModel
-    {
-        serviceDescriptors.AddTransient<TView>()
-            .AddTransient<TViewModel>();
-
-        return serviceDescriptors;
-    }
-
     private static MauiAppBuilder RegisterServices(this MauiAppBuilder builder)
     {
         builder.Services
             .AddSingleton<IPopupNavigation, PopupNavigation>()
             .AddSingleton<PopupService>()
             .AddSingleton(_ => VersionTracking.Default)
-            .AddSingleton(_ => Preferences.Default);
+            .AddSingleton(_ => Preferences.Default)
+            .AddSingleton<DatabaseService>();
 
         return builder;
     }
@@ -82,9 +78,10 @@ public static class MauiProgram
             .AddTransientWithShellRoute<OnboardingPage, OnboardingPageViewModel>(nameof(OnboardingPage))
             .AddTransient<TermsAndConditionPopupViewModel>()
             .AddTransientWithShellRoute<SchedulePage, SchedulePageViewModel>(nameof(SchedulePage))
-            .AddTransient<MedicineScheduleBottomSheetViewModel>()
+            .AddTransient<AddScheduleBottomSheetViewModel>()
             .AddTransientWithShellRoute<InventoryPage, InventoryPageViewModel>(nameof(InventoryPage))
-            .AddTransientWithShellRoute<SymptomsCheckerPage, SymptomsCheckerPageViewModel>(nameof(SymptomsCheckerPage));
+            .AddTransientWithShellRoute<SymptomCheckerPage, SymptomCheckerPageViewModel>(nameof(SymptomCheckerPage))
+            .AddTransient<AddInventoryBottomSheetViewModel>();
 
         return builder;
     }

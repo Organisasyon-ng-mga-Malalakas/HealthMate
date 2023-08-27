@@ -3,17 +3,20 @@
        xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:constants="clr-namespace:HealthMate.Constants"
-       xmlns:views="clr-namespace:HealthMate.Views"
+       xmlns:inventory="clr-namespace:HealthMate.Views.Inventory"
+       xmlns:onboarding="clr-namespace:HealthMate.Views.Onboarding"
+       xmlns:schedule="clr-namespace:HealthMate.Views.Schedule"
+       xmlns:symptomChecker="clr-namespace:HealthMate.Views.SymptomChecker"
        Shell.FlyoutBehavior="Disabled"
        Shell.TabBarTitleColor="{StaticResource Pink}"
        Shell.TabBarUnselectedColor="{StaticResource RegBlack}">
 
     <ShellItem x:Name="GetStartedPage">
-        <ShellContent ContentTemplate="{DataTemplate views:GetStartedPage}" />
+        <ShellContent ContentTemplate="{DataTemplate onboarding:GetStartedPage}" />
     </ShellItem>
 
     <ShellItem>
-        <ShellContent ContentTemplate="{DataTemplate views:OnboardingPage}" />
+        <ShellContent ContentTemplate="{DataTemplate onboarding:OnboardingPage}" />
     </ShellItem>
 
     <TabBar x:Name="Tabs"
@@ -24,7 +27,7 @@
                                  Glyph="{x:Static constants:FontAwesomeIcons.CalendarClock}"
                                  Size="20" />
             </Tab.Icon>
-            <ShellContent ContentTemplate="{DataTemplate views:SchedulePage}" />
+            <ShellContent ContentTemplate="{DataTemplate schedule:SchedulePage}" />
         </Tab>
 
         <Tab Title="Inventory">
@@ -33,7 +36,7 @@
                                  Glyph="{x:Static constants:FontAwesomeIcons.Pills}"
                                  Size="20" />
             </Tab.Icon>
-            <ShellContent ContentTemplate="{DataTemplate views:InventoryPage}" />
+            <ShellContent ContentTemplate="{DataTemplate inventory:InventoryPage}" />
         </Tab>
 
         <Tab Title="Symptom Checker">
@@ -42,7 +45,7 @@
                                  Glyph="{x:Static constants:FontAwesomeIcons.Person}"
                                  Size="20" />
             </Tab.Icon>
-            <ShellContent ContentTemplate="{DataTemplate views:SymptomsCheckerPage}" />
+            <ShellContent ContentTemplate="{DataTemplate symptomChecker:SymptomCheckerPage}" />
         </Tab>
     </TabBar>
 </Shell>

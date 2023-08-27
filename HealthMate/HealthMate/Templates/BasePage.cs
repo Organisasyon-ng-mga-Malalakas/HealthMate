@@ -4,11 +4,11 @@ using HealthMate.ViewModels;
 namespace HealthMate.Templates;
 public abstract class BasePage<TViewModel> : ContentPage where TViewModel : BaseViewModel
 {
+    private readonly TViewModel _viewModel;
+
     protected BasePage(in TViewModel viewModel)
     {
-        BindingContext = viewModel;
-        //OnViewInitialized();
-        //viewModel.OnViewInitialized();
+        BindingContext = _viewModel = viewModel;
         Behaviors.Add(new StatusBarBehavior
         {
             StatusBarColor = Colors.White,
@@ -16,5 +16,9 @@ public abstract class BasePage<TViewModel> : ContentPage where TViewModel : Base
         });
     }
 
-    protected virtual void OnViewInitialized() { }
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        _viewModel.OnNavigatedTo();
+    }
 }

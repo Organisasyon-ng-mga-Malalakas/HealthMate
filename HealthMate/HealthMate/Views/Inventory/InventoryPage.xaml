@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<templates:BasePage x:Class="HealthMate.Views.Inventory.InventoryPage"
+                    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:controls="clr-namespace:HealthMate.Controls"
+                    xmlns:converters="clr-namespace:HealthMate.Converters"
+                    xmlns:models="clr-namespace:HealthMate.Models"
+                    xmlns:tables="clr-namespace:HealthMate.Models.Tables"
+                    xmlns:templates="clr-namespace:HealthMate.Templates"
+                    xmlns:vm="clr-namespace:HealthMate.ViewModels.Inventory"
+                    x:DataType="vm:InventoryPageViewModel"
+                    x:TypeArguments="vm:InventoryPageViewModel">
+    <Grid Padding="16,0"
+          BackgroundColor="{StaticResource PageBackground}"
+          RowDefinitions="Auto,*">
+        <Border BackgroundColor="White"
+                Stroke="{StaticResource BorderStroke}"
+                StrokeShape="RoundRectangle 10">
+            <SearchBar CancelButtonColor="Transparent"
+                       FontFamily="{StaticResource Regular}"
+                       IsTextPredictionEnabled="False"
+                       Placeholder="Search medicines"
+                       TextColor="{StaticResource RegBlack}" />
+        </Border>
+
+        <CollectionView Grid.Row="1"
+                        Margin="0,10,0,0"
+                        IsGrouped="True"
+                        ItemsSource="{Binding Inventory}">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout ItemSpacing="10"
+                                   Orientation="Vertical" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.EmptyView>
+                <VerticalStackLayout Grid.Row="1"
+                                     VerticalOptions="Center">
+                    <Image HeightRequest="320"
+                           Source="empty_inventory.svg" />
+
+                    <Label HorizontalOptions="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontFamily="{StaticResource Medium}"
+                                      FontSize="18"
+                                      Text="Monitor your " />
+                                <Span FontFamily="{StaticResource Medium}"
+                                      FontSize="18"
+                                      Text="Med Supplies"
+                                      TextColor="{StaticResource Pink}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                    <Label FontFamily="{StaticResource Regular}"
+                           FontSize="14"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           Text="Keep track of your medication&#10;inventory and stay prepared"
+                           TextColor="{StaticResource RegBlack}" />
+
+                    <Button Margin="80,20"
+                            BackgroundColor="{StaticResource Pink}"
+                            Command="{Binding AddInventoryCommand}"
+                            FontFamily="{StaticResource Bold}"
+                            Text="Add Med Supplies" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+            <CollectionView.GroupHeaderTemplate>
+                <DataTemplate x:DataType="models:InventoryGroup">
+                    <Label FontFamily="{StaticResource Bold}"
+                           FontSize="18"
+                           Text="{Binding GroupName}"
+                           TextColor="{StaticResource RegBlack}" />
+                </DataTemplate>
+            </CollectionView.GroupHeaderTemplate>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="tables:Inventory">
+                    <Border Margin="10,0"
+                            HeightRequest="70"
+                            Stroke="{Binding InventoryColor}"
+                            StrokeShape="RoundRectangle 10">
+                        <Grid ColumnDefinitions="60,*,*"
+                              RowDefinitions="*,*">
+                            <Grid Grid.RowSpan="2">
+                                <BoxView BackgroundColor="{Binding InventoryColor}" />
+                                <Image HeightRequest="60"
+                                       Source="{Binding ImagePath}" />
+                            </Grid>
+
+                            <Label Grid.Column="1"
+                                   Margin="16,0"
+                                   FontFamily="{StaticResource Bold}"
+                                   FontSize="16"
+                                   Text="{Binding BrandName}"
+                                   TextColor="{Binding InventoryColor}"
+                                   VerticalOptions="End" />
+
+                            <Label Grid.Row="1"
+                                   Grid.Column="1"
+                                   Margin="16,0"
+                                   FontFamily="{StaticResource Regular}"
+                                   FontSize="12"
+                                   Text="{Binding MedicineName}"
+                                   TextColor="{Binding InventoryColor}"
+                                   VerticalOptions="Start" />
+
+                            <Label Grid.Row="0"
+                                   Grid.Column="2"
+                                   Margin="16,0"
+                                   HorizontalOptions="End"
+                                   TextColor="{Binding InventoryColor}"
+                                   VerticalOptions="End">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span FontFamily="{StaticResource Regular}"
+                                              FontSize="12"
+                                              Text="{Binding Dosage}" />
+                                        <Span Text=" "/>
+                                        <Span FontFamily="{StaticResource Regular}"
+                                              FontSize="12"
+                                              Text="{Binding DosageUnit, Converter={converters:DosageAcronymConverter}}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <Label Grid.Row="1"
+                                   Grid.Column="2"
+                                   Margin="16,0"
+                                   FontFamily="{StaticResource Regular}"
+                                   FontSize="12"
+                                   HorizontalOptions="End"
+                                   TextColor="{Binding InventoryColor}"
+                                   VerticalOptions="Start">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span FontFamily="{StaticResource Bold}"
+                                              FontSize="12"
+                                              Text="{Binding Stock}" />
+                                        <Span Text=" "/>
+                                        <Span FontFamily="{StaticResource Bold}"
+                                              FontSize="12"
+                                              Text="{Binding MedicationType, Converter={converters:MedicationTypeToStringConverter}}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</templates:BasePage>

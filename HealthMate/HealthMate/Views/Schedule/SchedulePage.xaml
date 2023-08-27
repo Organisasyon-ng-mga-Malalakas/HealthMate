@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<templates:BasePage x:Class="HealthMate.Views.Schedule.SchedulePage"
+                    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:behaviors="clr-namespace:HealthMate.Behaviors"
+                    xmlns:constants="clr-namespace:HealthMate.Constants"
+                    xmlns:models="clr-namespace:HealthMate.Models"
+                    xmlns:sharpnado="http://sharpnado.com"
+                    xmlns:templates="clr-namespace:HealthMate.Templates"
+                    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+                    xmlns:vm="clr-namespace:HealthMate.ViewModels.Schedule"
+                    x:DataType="vm:SchedulePageViewModel"
+                    x:TypeArguments="vm:SchedulePageViewModel">
+    <VerticalStackLayout BackgroundColor="{StaticResource PageBackground}">
+        <Border Padding="0"
+                BackgroundColor="White"
+                HeightRequest="200"
+                HorizontalOptions="FillAndExpand"
+                StrokeShape="RoundRectangle 0,0,20,20">
+            <Border.Shadow>
+                <Shadow Brush="Gray"
+                        Opacity="0.15"
+                        Radius="5"
+                        Offset="0,5" />
+            </Border.Shadow>
+            <Grid Margin="16,16,16,5"
+                  ColumnDefinitions="*,*"
+                  RowDefinitions="60,40,*">
+                <!--#region Username and date selected-->
+                <Label LineHeight="0.6"
+                       VerticalOptions="Start">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontFamily="{StaticResource Regular}"
+                                  FontSize="13"
+                                  Text="Hi! " />
+                            <Span FontFamily="{StaticResource Regular}"
+                                  FontSize="13"
+                                  Text="Mark Lester &#10;"
+                                  TextColor="{StaticResource Pink}" />
+                            <Span FontFamily="{StaticResource Medium}"
+                                  FontSize="20"
+                                  Text="10 " />
+                            <Span FontFamily="{StaticResource Medium}"
+                                  FontSize="20"
+                                  Text="JUL "
+                                  TextColor="{StaticResource Pink}" />
+                            <Span FontFamily="{StaticResource Medium}"
+                                  FontSize="20"
+                                  Text="2023" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <!--#endregion-->
+
+                <!--#region Upper-right (add notif, settings etc.)-->
+                <HorizontalStackLayout Grid.Column="1"
+                                       HorizontalOptions="End"
+                                       Spacing="10"
+                                       VerticalOptions="Start">
+                    <Label FontFamily="{StaticResource FARegular}"
+                           FontSize="20"
+                           Text="{Static constants:FontAwesomeIcons.CirclePlus}"
+                           VerticalOptions="Center" />
+
+                    <Label FontFamily="{StaticResource FARegular}"
+                           FontSize="20"
+                           Text="{Static constants:FontAwesomeIcons.CalendarRange}"
+                           VerticalOptions="Center" />
+
+                    <Label FontFamily="{StaticResource FASolid}"
+                           FontSize="20"
+                           Text="{Static constants:FontAwesomeIcons.Bell}"
+                           VerticalOptions="Center" />
+
+                    <Label FontFamily="{StaticResource FASolid}"
+                           FontSize="36"
+                           Text="{Static constants:FontAwesomeIcons.CircleUser}" />
+                </HorizontalStackLayout>
+                <!--#endregion-->
+
+                <!--#region Month collection view-->
+                <sharpnado:HorizontalListView x:Name="test"
+                                              Grid.Row="1"
+                                              Grid.ColumnSpan="2"
+                                              ColumnCount="7"
+                                              CurrentIndex="{Binding SelectedMonthIndex}"
+                                              ItemHeight="30"
+                                              ItemSpacing="15"
+                                              ItemWidth="50"
+                                              ItemsSource="{Binding Months}"
+                                              SnapStyle="Center"
+                                              TapCommand="{Binding SelectMonthCommand}"
+                                              VerticalOptions="Center">
+                    <sharpnado:HorizontalListView.ItemTemplate>
+                        <DataTemplate x:DataType="x:String">
+                            <ViewCell>
+                                <Border x:Name="MonthBorder"
+                                        Padding="0"
+                                        BackgroundColor="White"
+                                        HeightRequest="30"
+                                        StrokeShape="RoundRectangle 5"
+                                        WidthRequest="50">
+                                    <Border.Behaviors>
+                                        <behaviors:StateChangeBehavior x:TypeArguments="x:String" />
+                                    </Border.Behaviors>
+                                    <Label x:Name="MonthLabel"
+                                           FontFamily="{StaticResource Medium}"
+                                           FontSize="16"
+                                           HorizontalOptions="Center"
+                                           Text="{Binding .}"
+                                           TextColor="{StaticResource Unselected}"
+                                           VerticalOptions="Center" />
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroupList>
+                                            <VisualStateGroup x:Name="SelectedStates">
+                                                <VisualState x:Name="Unselected">
+                                                    <VisualState.Setters>
+                                                        <Setter TargetName="MonthBorder" Property="Border.BackgroundColor" Value="White" />
+                                                        <Setter TargetName="MonthLabel" Property="Label.TextColor" Value="{StaticResource Unselected}" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                                <VisualState x:Name="Selected">
+                                                    <VisualState.Setters>
+                                                        <Setter TargetName="MonthBorder" Property="Border.BackgroundColor" Value="#FFEFF6" />
+                                                        <Setter TargetName="MonthLabel" Property="Label.TextColor" Value="{StaticResource Pink}" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateGroupList>
+                                    </VisualStateManager.VisualStateGroups>
+                                </Border>
+                            </ViewCell>
+                        </DataTemplate>
+                    </sharpnado:HorizontalListView.ItemTemplate>
+                </sharpnado:HorizontalListView>
+                <!--#endregion-->
+
+                <!--#region Days collection view-->
+                <sharpnado:HorizontalListView Grid.Row="2"
+                                              Grid.ColumnSpan="2"
+                                              ColumnCount="7"
+                                              CurrentIndex="{Binding SelectedCalendarDayIndex}"
+                                              ItemHeight="60"
+                                              ItemSpacing="15"
+                                              ItemWidth="45"
+                                              ItemsSource="{Binding CalendarDays}"
+                                              SnapStyle="Center"
+                                              TapCommand="{Binding SelectCalendarDayCommand}"
+                                              VerticalOptions="Center">
+                    <sharpnado:HorizontalListView.ItemTemplate>
+                        <DataTemplate x:DataType="models:CalendarDays">
+                            <ViewCell>
+                                <Border x:Name="DayBorder"
+                                        Padding="0,5"
+                                        BackgroundColor="White"
+                                        HeightRequest="60"
+                                        StrokeShape="RoundRectangle 8"
+                                        WidthRequest="45">
+                                    <Border.Behaviors>
+                                        <behaviors:StateChangeBehavior x:TypeArguments="models:CalendarDays" />
+                                    </Border.Behaviors>
+                                    <VerticalStackLayout>
+                                        <Label x:Name="DayLabel"
+                                               FontFamily="{StaticResource Medium}"
+                                               HorizontalOptions="Center"
+                                               Text="{Binding Date}"
+                                               TextColor="{StaticResource Unselected}"
+                                               VerticalOptions="Center" />
+                                        <Label x:Name="DayLabels"
+                                               FontFamily="{StaticResource Medium}"
+                                               FontSize="12"
+                                               HorizontalOptions="Center"
+                                               Text="{Binding Day}"
+                                               TextColor="{StaticResource Unselected}"
+                                               VerticalOptions="Center" />
+                                    </VerticalStackLayout>
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroupList>
+                                            <VisualStateGroup x:Name="SelectedStates">
+                                                <VisualState x:Name="Unselected">
+                                                    <VisualState.Setters>
+                                                        <Setter TargetName="DayBorder" Property="Border.BackgroundColor" Value="White" />
+                                                        <Setter TargetName="DayLabel" Property="Label.TextColor" Value="{StaticResource Unselected}" />
+                                                        <Setter TargetName="DayLabels" Property="Label.TextColor" Value="{StaticResource Unselected}" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                                <VisualState x:Name="Selected">
+                                                    <VisualState.Setters>
+                                                        <Setter TargetName="DayBorder" Property="Border.BackgroundColor" Value="{StaticResource Pink}" />
+                                                        <Setter TargetName="DayLabel" Property="Label.TextColor" Value="White" />
+                                                        <Setter TargetName="DayLabels" Property="Label.TextColor" Value="White" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateGroupList>
+                                    </VisualStateManager.VisualStateGroups>
+                                </Border>
+                            </ViewCell>
+                        </DataTemplate>
+                    </sharpnado:HorizontalListView.ItemTemplate>
+                </sharpnado:HorizontalListView>
+                <!--#endregion-->
+            </Grid>
+        </Border>
+
+        <Image HeightRequest="320"
+               Source="empty_schedule.svg" />
+
+        <Label HorizontalOptions="Center">
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span FontFamily="{StaticResource Medium}"
+                          FontSize="18"
+                          Text="Monitor your " />
+                    <Span FontFamily="{StaticResource Medium}"
+                          FontSize="18"
+                          Text="Med Schedule"
+                          TextColor="{StaticResource Pink}" />
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+
+        <Label FontFamily="{StaticResource Regular}"
+               FontSize="14"
+               HorizontalOptions="Center"
+               HorizontalTextAlignment="Center"
+               Text="View your daily schedule and&#10;mark your meds when taken"
+               TextColor="{StaticResource RegBlack}" />
+
+        <Button Margin="80,20"
+                BackgroundColor="{StaticResource Pink}"
+                Command="{Binding CreateScheduleCommand}"
+                FontFamily="{StaticResource Bold}"
+                Text="Create Schedule" />
+    </VerticalStackLayout>
+</templates:BasePage>
