@@ -4,9 +4,9 @@
                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                    xmlns:constants="clr-namespace:HealthMate.Constants"
                    xmlns:controls="clr-namespace:HealthMate.Controls"
+                   xmlns:tables="clr-namespace:HealthMate.Models.Tables"
                    xmlns:the49="https://schemas.the49.com/dotnet/2023/maui"
                    xmlns:vm="clr-namespace:HealthMate.ViewModels.Schedule"
-                   x:Name="bottomSheet"
                    x:DataType="vm:AddScheduleBottomSheetViewModel"
                    HasBackdrop="True"
                    HasHandle="True">
@@ -28,7 +28,7 @@
             <Grid Margin="0,10"
                   ColumnDefinitions="3*,7*"
                   ColumnSpacing="10"
-                  RowDefinitions="*,*,*,*,60"
+                  RowDefinitions="*,30,*,*,60"
                   RowSpacing="10"
                   VerticalOptions="StartAndExpand">
                 <Grid.Resources>
@@ -74,13 +74,15 @@
                 <Border Grid.Column="1">
                     <Grid ColumnDefinitions="*, 30">
                         <controls:BorderlessPicker Title="Medicine name"
-                                                   SelectedItem="{Binding MedicineName}">
-                            <controls:BorderlessPicker.ItemsSource>
-                                <x:Array Type="{x:Type x:String}">
-                                    <x:String>milligram</x:String>
-                                    <x:String>gram</x:String>
-                                </x:Array>
-                            </controls:BorderlessPicker.ItemsSource>
+                                                   ItemDisplayBinding="{Binding BrandName}"
+                                                   ItemsSource="{Binding Medicines}"
+                                                   SelectedItem="{Binding SelectedMedicine}">
+                            <!--<controls:BorderlessPicker.ItemDisplayBinding>
+                                <MultiBinding StringFormat="{}{0} ({1})">
+                                    <Binding Path="BrandName" />
+                                    <Binding Path="MedicineName" />
+                                </MultiBinding>
+                            </controls:BorderlessPicker.ItemDisplayBinding>-->
                         </controls:BorderlessPicker>
 
                         <Label Grid.Column="1"
@@ -96,27 +98,18 @@
                       Grid.Column="1"
                       ColumnDefinitions="3*,7*"
                       ColumnSpacing="5">
-                    <Border Padding="5,5,5,0">
-                        <controls:BorderlessEntry Keyboard="Numeric"
-                                                  Text="{Binding DosageQty}" />
+                    <Border>
+                        <Label FontFamily="{StaticResource Regular}"
+                               FontSize="12"
+                               Text="{Binding DosageQty}"
+                               VerticalOptions="Center" />
                     </Border>
 
                     <Border Grid.Column="1">
-                        <Grid ColumnDefinitions="*, 30">
-                            <controls:BorderlessPicker Title="Dosage"
-                                                       SelectedItem="{Binding Dosage}">
-                                <controls:BorderlessPicker.ItemsSource>
-                                    <x:Array Type="{x:Type x:String}">
-                                        <x:String>milligram</x:String>
-                                        <x:String>gram</x:String>
-                                    </x:Array>
-                                </controls:BorderlessPicker.ItemsSource>
-                            </controls:BorderlessPicker>
-
-                            <Label Grid.Column="1"
-                                   Style="{StaticResource FontIcon}"
-                                   Text="{Static constants:FontAwesomeIcons.ChevronDown}" />
-                        </Grid>
+                        <Label FontFamily="{StaticResource Regular}"
+                               FontSize="12"
+                               Text="{Binding Dosage}"
+                               VerticalOptions="Center" />
                     </Border>
                 </Grid>
 
@@ -186,7 +179,6 @@
                         BorderColor="{StaticResource Pink}"
                         BorderWidth="1"
                         Command="{Binding CloseBottomSheetCommand}"
-                        CommandParameter="{Reference bottomSheet}"
                         FontFamily="{StaticResource Bold}"
                         Text="Cancel"
                         TextColor="{StaticResource Pink}" />
@@ -195,7 +187,6 @@
                         Margin="20,0"
                         BackgroundColor="{StaticResource Pink}"
                         Command="{Binding CreateScheduleCommand}"
-                        CommandParameter="{Reference bottomSheet}"
                         FontFamily="{StaticResource Bold}"
                         Text="Create"
                         TextColor="White" />

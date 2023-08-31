@@ -1,13 +1,12 @@
+using HealthMate.Templates;
 using HealthMate.ViewModels.Inventory;
-using The49.Maui.BottomSheet;
 
 namespace HealthMate.Views.Inventory;
 
-public partial class AddInventoryBottomSheet : BottomSheet
+public partial class AddInventoryBottomSheet : BaseBottomSheet<AddInventoryBottomSheetViewModel>
 {
-    public AddInventoryBottomSheet(AddInventoryBottomSheetViewModel vm)
+    public AddInventoryBottomSheet(AddInventoryBottomSheetViewModel viewModel) : base(viewModel)
     {
         InitializeComponent();
-        BindingContext = vm;
     }
 }

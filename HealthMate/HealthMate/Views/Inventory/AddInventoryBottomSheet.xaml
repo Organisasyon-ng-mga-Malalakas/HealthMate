@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<the49:BottomSheet x:Class="HealthMate.Views.Inventory.AddInventoryBottomSheet"
-                   xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                   xmlns:constants="clr-namespace:HealthMate.Constants"
-                   xmlns:controls="clr-namespace:HealthMate.Controls"
-                   xmlns:the49="https://schemas.the49.com/dotnet/2023/maui"
-                   xmlns:vm="clr-namespace:HealthMate.ViewModels.Inventory"
-                   x:DataType="vm:AddInventoryBottomSheetViewModel"
-                   HasBackdrop="True"
-                   HasHandle="True">
-    <the49:BottomSheet.Detents>
-        <the49:ContentDetent />
-    </the49:BottomSheet.Detents>
+<templates:BaseBottomSheet x:Class="HealthMate.Views.Inventory.AddInventoryBottomSheet"
+                           xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                           xmlns:constants="clr-namespace:HealthMate.Constants"
+                           xmlns:controls="clr-namespace:HealthMate.Controls"
+                           xmlns:converters="clr-namespace:HealthMate.Converters"
+                           xmlns:templates="clr-namespace:HealthMate.Templates"
+                           xmlns:vm="clr-namespace:HealthMate.ViewModels.Inventory"
+                           x:DataType="vm:AddInventoryBottomSheetViewModel"
+                           x:TypeArguments="vm:AddInventoryBottomSheetViewModel">
     <Border Padding="16,5"
             BackgroundColor="White"
             StrokeShape="RoundRectangle 20,20,0,0">
@@ -73,6 +70,7 @@
                 <Border Grid.Column="1">
                     <controls:BorderlessEntry FontFamily="{StaticResource Regular}"
                                               FontSize="12"
+                                              Text="{Binding BrandName}"
                                               TextColor="{StaticResource RegBlack}" />
                 </Border>
 
@@ -83,6 +81,7 @@
                         Grid.Column="1">
                     <controls:BorderlessEntry FontFamily="{StaticResource Regular}"
                                               FontSize="12"
+                                              Text="{Binding MedicineName}"
                                               TextColor="{StaticResource RegBlack}" />
                 </Border>
 
@@ -97,6 +96,7 @@
                         <controls:BorderlessEntry FontFamily="{StaticResource Regular}"
                                                   FontSize="12"
                                                   Keyboard="Numeric"
+                                                  Text="{Binding Dosage}"
                                                   TextColor="{StaticResource RegBlack}" />
                     </Border>
 
@@ -125,6 +125,7 @@
                     <controls:BorderlessEntry FontFamily="{StaticResource Regular}"
                                               FontSize="12"
                                               Keyboard="Numeric"
+                                              Text="{Binding Stock}"
                                               TextColor="{StaticResource RegBlack}" />
                 </Border>
 
@@ -150,13 +151,14 @@
 
                 <Label Grid.Row="5"
                        Style="{StaticResource Header}"
-                       Text="Notes"
+                       Text="Description"
                        VerticalOptions="StartAndExpand" />
                 <Border Grid.Row="5"
                         Grid.Column="1"
                         Padding="5,0">
                     <controls:BorderlessEditor FontFamily="{StaticResource Regular}"
                                                FontSize="12"
+                                               Text="{Binding Description}"
                                                TextColor="{StaticResource RegBlack}"
                                                VerticalTextAlignment="Start" />
                 </Border>
@@ -168,6 +170,7 @@
                         BackgroundColor="White"
                         BorderColor="{StaticResource Pink}"
                         BorderWidth="1"
+                        Command="{Binding CloseBottomSheetCommand}"
                         FontFamily="{StaticResource Bold}"
                         Text="Cancel"
                         TextColor="{StaticResource Pink}" />
@@ -175,10 +178,12 @@
                 <Button Grid.Column="1"
                         Margin="20,0"
                         BackgroundColor="{StaticResource Pink}"
+                        Command="{Binding AddInventoryCommand}"
                         FontFamily="{StaticResource Bold}"
+                        Opacity="{Binding HasErrors, Converter={converters:BoolToOpacityConverter}}"
                         Text="Create"
                         TextColor="White" />
             </Grid>
         </FlexLayout>
     </Border>
-</the49:BottomSheet>
+</templates:BaseBottomSheet>

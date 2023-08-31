@@ -66,7 +66,9 @@ public static class MauiProgram
             .AddSingleton<PopupService>()
             .AddSingleton(_ => VersionTracking.Default)
             .AddSingleton(_ => Preferences.Default)
-            .AddSingleton<DatabaseService>();
+            .AddSingleton<DatabaseService>()
+            .AddSingleton<BottomSheetService>()
+            .AddSingleton<RealmService>();
 
         return builder;
     }

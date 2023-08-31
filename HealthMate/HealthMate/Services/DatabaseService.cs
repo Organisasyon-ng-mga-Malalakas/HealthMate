@@ -7,43 +7,36 @@ namespace HealthMate.Services;
 public class DatabaseService
 {
     private SQLiteAsyncConnection _dummyDatabase;
-    private readonly SemaphoreSlim _semaphoreSlim = new(1, 1);
 
     #region Create
-    public async Task<CreateTableResult> CreateTable<T>() where T : new()
+    public async Task<CreateTablesResult> InitializeTables(params Type[] tables)
     {
-        return await WithSemaphore(async () =>
+        try
         {
-            try
-            {
-                var database = await InternalAsyncDatabase();
-                var table = await database.CreateTableAsync<T>(CreateFlags.None);
-                return table;
-            }
-            catch (Exception ex)
-            {
-                return default;
-            }
-        });
+            var database = await InternalAsyncDatabase();
+            var tableCreationResult = await database.CreateTablesAsync(CreateFlags.None, tables);
+            return tableCreationResult;
+        }
+        catch (Exception ex)
+        {
+            return default;
+        }
     }
 
     public async Task<int> Upsert<T>(T entity) where T : new()
     {
-        return await WithSemaphore(async () =>
+        try
         {
-            try
-            {
-                var database = await InternalAsyncDatabase();
-                var rows = await database.UpdateAsync(entity);
-                if (rows == 0)
-                    rows = await database.InsertAsync(entity);
-                return rows;
-            }
-            catch (Exception ex)
-            {
-                return default;
-            }
-        });
+            var database = await InternalAsyncDatabase();
+            var rows = await database.UpdateAsync(entity);
+            if (rows == 0)
+                rows = await database.InsertAsync(entity);
+            return rows;
+        }
+        catch (Exception ex)
+        {
+            return default;
+        }
     }
     #endregion
 
@@ -162,27 +155,11 @@ public class DatabaseService
         if (_dummyDatabase != null)
             return _dummyDatabase;
 
-        return await WithSemaphore(async () =>
-        {
-            var database = new SQLiteAsyncConnection(SQLiteConstants.DatabasePath, SQLiteConstants.Flags);
-            await database.EnableWriteAheadLoggingAsync();
-            _dummyDatabase = database;
+        var database = new SQLiteAsyncConnection(SQLiteConstants.DatabasePath, SQLiteConstants.Flags);
+        await database.EnableWriteAheadLoggingAsync();
+        _dummyDatabase = database;
 
-            return _dummyDatabase;
-        });
-    }
-
-    private async Task<T> WithSemaphore<T>(Func<Task<T>> action)
-    {
-        await _semaphoreSlim.WaitAsync();
-        try
-        {
-            return await action().ConfigureAwait(false);
-        }
-        finally
-        {
-            _semaphoreSlim.Release();
-        }
+        return _dummyDatabase;
     }
     #endregion
 }

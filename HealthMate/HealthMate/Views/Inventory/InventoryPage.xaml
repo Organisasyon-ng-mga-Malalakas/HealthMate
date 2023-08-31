@@ -2,8 +2,10 @@
 <templates:BasePage x:Class="HealthMate.Views.Inventory.InventoryPage"
                     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:constants="clr-namespace:HealthMate.Constants"
                     xmlns:controls="clr-namespace:HealthMate.Controls"
                     xmlns:converters="clr-namespace:HealthMate.Converters"
+                    xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                     xmlns:models="clr-namespace:HealthMate.Models"
                     xmlns:tables="clr-namespace:HealthMate.Models.Tables"
                     xmlns:templates="clr-namespace:HealthMate.Templates"
@@ -34,8 +36,8 @@
             <CollectionView.EmptyView>
                 <VerticalStackLayout Grid.Row="1"
                                      VerticalOptions="Center">
-                    <Image HeightRequest="320"
-                           Source="empty_inventory.svg" />
+                    <!--<Image HeightRequest="320"
+                           Source="empty_inventory.svg" />-->
 
                     <Label HorizontalOptions="Center">
                         <Label.FormattedText>
@@ -83,7 +85,7 @@
                               RowDefinitions="*,*">
                             <Grid Grid.RowSpan="2">
                                 <BoxView BackgroundColor="{Binding InventoryColor}" />
-                                <Image HeightRequest="60"
+                                <Image HeightRequest="32"
                                        Source="{Binding ImagePath}" />
                             </Grid>
 
@@ -115,7 +117,7 @@
                                         <Span FontFamily="{StaticResource Regular}"
                                               FontSize="12"
                                               Text="{Binding Dosage}" />
-                                        <Span Text=" "/>
+                                        <Span Text=" " />
                                         <Span FontFamily="{StaticResource Regular}"
                                               FontSize="12"
                                               Text="{Binding DosageUnit, Converter={converters:DosageAcronymConverter}}" />
@@ -136,7 +138,7 @@
                                         <Span FontFamily="{StaticResource Bold}"
                                               FontSize="12"
                                               Text="{Binding Stock}" />
-                                        <Span Text=" "/>
+                                        <Span Text=" " />
                                         <Span FontFamily="{StaticResource Bold}"
                                               FontSize="12"
                                               Text="{Binding MedicationType, Converter={converters:MedicationTypeToStringConverter}}" />
@@ -148,5 +150,18 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+
+        <Button Grid.Row="1"
+                Margin="16"
+                Padding="0"
+                Command="{Binding AddInventoryCommand}"
+                CornerRadius="25"
+                FontFamily="{StaticResource FASolid}"
+                FontSize="25"
+                HeightRequest="50"
+                HorizontalOptions="End"
+                Text="{Static constants:FontAwesomeIcons.Plus}"
+                VerticalOptions="End"
+                WidthRequest="50" />
     </Grid>
 </templates:BasePage>

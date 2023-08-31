@@ -5,8 +5,9 @@ public partial class AppShell : Shell
     public AppShell(IVersionTracking versionTracking)
     {
         InitializeComponent();
-        CurrentItem = versionTracking.IsFirstLaunchEver
-            ? GetStartedPage
-            : Tabs;
+        //CurrentItem = versionTracking.IsFirstLaunchEver
+        //    ? GetStartedPage
+        //    : Tabs;
+        CurrentItem = Tabs;
     }
 }

@@ -11,7 +11,8 @@
                     xmlns:vm="clr-namespace:HealthMate.ViewModels.Schedule"
                     x:DataType="vm:SchedulePageViewModel"
                     x:TypeArguments="vm:SchedulePageViewModel">
-    <VerticalStackLayout BackgroundColor="{StaticResource PageBackground}">
+    <Grid BackgroundColor="{StaticResource PageBackground}"
+          RowDefinitions="200,*">
         <Border Padding="0"
                 BackgroundColor="White"
                 HeightRequest="200"
@@ -204,34 +205,114 @@
             </Grid>
         </Border>
 
-        <Image HeightRequest="320"
-               Source="empty_schedule.svg" />
+        <CollectionView Grid.Row="1"
+                        Margin="16"
+                        ItemsSource="{Binding Schedules}">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout ItemSpacing="5"
+                                   Orientation="Vertical" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.EmptyView>
+                <VerticalStackLayout>
+                    <Image HeightRequest="320"
+                           Source="empty_schedule.svg" />
 
-        <Label HorizontalOptions="Center">
-            <Label.FormattedText>
-                <FormattedString>
-                    <Span FontFamily="{StaticResource Medium}"
-                          FontSize="18"
-                          Text="Monitor your " />
-                    <Span FontFamily="{StaticResource Medium}"
-                          FontSize="18"
-                          Text="Med Schedule"
-                          TextColor="{StaticResource Pink}" />
-                </FormattedString>
-            </Label.FormattedText>
-        </Label>
+                    <Label HorizontalOptions="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontFamily="{StaticResource Medium}"
+                                      FontSize="18"
+                                      Text="Monitor your " />
+                                <Span FontFamily="{StaticResource Medium}"
+                                      FontSize="18"
+                                      Text="Med Schedule"
+                                      TextColor="{StaticResource Pink}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
 
-        <Label FontFamily="{StaticResource Regular}"
-               FontSize="14"
-               HorizontalOptions="Center"
-               HorizontalTextAlignment="Center"
-               Text="View your daily schedule and&#10;mark your meds when taken"
-               TextColor="{StaticResource RegBlack}" />
+                    <Label FontFamily="{StaticResource Regular}"
+                           FontSize="14"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           Text="View your daily schedule and&#10;mark your meds when taken"
+                           TextColor="{StaticResource RegBlack}" />
 
-        <Button Margin="80,20"
-                BackgroundColor="{StaticResource Pink}"
-                Command="{Binding CreateScheduleCommand}"
-                FontFamily="{StaticResource Bold}"
-                Text="Create Schedule" />
-    </VerticalStackLayout>
+                    <Button Margin="80,20"
+                            BackgroundColor="{StaticResource Pink}"
+                            Command="{Binding CreateScheduleCommand}"
+                            FontFamily="{StaticResource Bold}"
+                            Text="Create Schedule" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Schedule">
+                    <Border HeightRequest="120"
+                            StrokeShape="RoundRectangle 20">
+                        <Border.Shadow>
+                            <Shadow Brush="Gray"
+                                    Opacity="0.15"
+                                    Radius="5"
+                                    Offset="0,5" />
+                        </Border.Shadow>
+                        <Grid ColumnDefinitions="80,*"
+                              RowDefinitions="*,*,*">
+                            <Label Grid.RowSpan="3"
+                                   FontFamily="{Binding IconFontFamily}"
+                                   FontSize="40"
+                                   HorizontalOptions="Center"
+                                   Text="{Binding Icon}"
+                                   TextColor="{Binding OverallColor}"
+                                   VerticalOptions="Center" />
+
+                            <BoxView Grid.RowSpan="3"
+                                     Grid.Column="1"
+                                     BackgroundColor="{Binding OverallColor}" />
+
+                            <Label Grid.RowSpan="2"
+                                   Grid.Column="1"
+                                   Margin="25,0"
+                                   FontFamily="{StaticResource Bold}"
+                                   FontSize="20"
+                                   Text="{Binding Inventory.BrandName}"
+                                   TextColor="White"
+                                   VerticalOptions="Center" />
+
+                            <Label Grid.RowSpan="2"
+                                   Grid.Column="1"
+                                   Margin="25,0,25,8"
+                                   FontFamily="{StaticResource Medium}"
+                                   FontSize="12"
+                                   TextColor="White"
+                                   VerticalOptions="End">
+                                <Label.Text>
+                                    <MultiBinding StringFormat="{}{0}mg, 1 take">
+                                        <Binding Path="Inventory.Dosage" />
+                                        <!--<Binding Path="Inventory.DosageUnit" />-->
+                                    </MultiBinding>
+                                </Label.Text>
+                            </Label>
+
+                            <Label Grid.Row="2"
+                                   Grid.Column="1"
+                                   Margin="25,0"
+                                   FontFamily="{StaticResource Regular}"
+                                   FontSize="16"
+                                   Text="{Binding Inventory.MedicineName}"
+                                   TextColor="White"
+                                   VerticalOptions="Start" />
+
+                            <Image Grid.RowSpan="3"
+                                   Grid.Column="1"
+                                   Margin="20,0"
+                                   HeightRequest="50"
+                                   HorizontalOptions="End"
+                                   Source="{Binding MedicineIcon}"
+                                   VerticalOptions="Center" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
 </templates:BasePage>

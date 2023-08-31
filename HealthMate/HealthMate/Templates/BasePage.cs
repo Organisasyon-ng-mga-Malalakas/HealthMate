@@ -21,4 +21,10 @@ public abstract class BasePage<TViewModel> : ContentPage where TViewModel : Base
         base.OnAppearing();
         _viewModel.OnNavigatedTo();
     }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        _viewModel.OnNavigatedFrom();
+    }
 }

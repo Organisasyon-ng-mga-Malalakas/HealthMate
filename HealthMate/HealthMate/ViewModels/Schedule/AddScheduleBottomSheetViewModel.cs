@@ -1,18 +1,24 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using HealthMate.Views.Schedule;
+using HealthMate.Enums;
+using HealthMate.Services;
+using System.Collections.ObjectModel;
+using InventoryTable = HealthMate.Models.Tables.Inventory;
 
 namespace HealthMate.ViewModels.Schedule;
 public partial class AddScheduleBottomSheetViewModel : BaseViewModel
 {
+    private readonly BottomSheetService _bottomSheetService;
+    private readonly RealmService _realmService;
+
     [ObservableProperty]
     private string dosage;
 
     [ObservableProperty]
-    private string dosageQty;
+    private double dosageQty;
 
     [ObservableProperty]
-    private string medicineName;
+    private ObservableCollection<InventoryTable> medicines;
 
     [ObservableProperty]
     private string notes;
@@ -23,17 +29,36 @@ public partial class AddScheduleBottomSheetViewModel : BaseViewModel
     [ObservableProperty]
     private TimeSpan notificationTime;
 
-    public AddScheduleBottomSheetViewModel() { }
+    [ObservableProperty]
+    private InventoryTable selectedMedicine;
 
-    [RelayCommand]
-    private async Task CloseBottomSheet(AddScheduleBottomSheet medicineScheduleBottomSheet)
+    public AddScheduleBottomSheetViewModel(BottomSheetService bottomSheetService, RealmService realmService)
     {
-        await medicineScheduleBottomSheet.DismissAsync();
+        _bottomSheetService = bottomSheetService;
+        _realmService = realmService;
     }
 
     [RelayCommand]
-    private async Task CreateSchedule(AddScheduleBottomSheet medicineScheduleBottomSheet)
+    private async Task CloseBottomSheet()
     {
-        await CloseBottomSheet(medicineScheduleBottomSheet);
+        await _bottomSheetService.CloseBottomSheet();
+    }
+
+    [RelayCommand]
+    private async Task CreateSchedule()
+    {
+        await CloseBottomSheet();
+    }
+
+    public override async void OnNavigatedTo()
+    {
+        var medicines = await _realmService.FindAll<InventoryTable>();
+        Medicines = new ObservableCollection<InventoryTable>(medicines);
+    }
+
+    partial void OnSelectedMedicineChanged(InventoryTable value)
+    {
+        DosageQty = value.DosageUnit;
+        Dosage = ((Dosage)value.DosageUnit).ToString();
     }
 }

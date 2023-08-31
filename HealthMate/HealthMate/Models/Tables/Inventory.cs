@@ -1,22 +1,22 @@
 ﻿using HealthMate.Enums;
-using SQLite;
+using MongoDB.Bson;
+using Realms;
 
 namespace HealthMate.Models.Tables;
 
-public class Inventory
+public partial class Inventory : IRealmObject
 {
-    [PrimaryKey, NotNull, Indexed]
-    public string InventoryId { get; set; }
-    [Unique, Indexed]
+    [PrimaryKey]
+    public ObjectId InventoryId { get; set; }
     public string BrandName { get; set; }
     public string MedicineName { get; set; }
-    public int Dosage { get; set; }
+    public double Dosage { get; set; }
     public int DosageUnit { get; set; }
-    public int Stock { get; set; }
+    public double Stock { get; set; }
     public int MedicationType { get; set; }
     public string Description { get; set; }
-    [Ignore]
-    public string ImagePath => ((Enums.MedicationType)MedicationType).ImagePath();
-    [Ignore]
+    [Ignored]
+    public string ImagePath => ((MedicationType)MedicationType).ImagePath();
+    [Ignored]
     public Color InventoryColor => Color.FromArgb(MedicationType == 0 || MedicationType % 2 == 0 ? "F26CA7" : "89CFF0");
 }

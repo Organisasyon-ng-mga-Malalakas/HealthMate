@@ -1,10 +1,12 @@
-﻿namespace HealthMate.Models;
+﻿using System.Collections.ObjectModel;
 
-public class InventoryGroup : List<Tables.Inventory>
+namespace HealthMate.Models;
+
+public class InventoryGroup : ObservableCollection<Tables.Inventory>
 {
     public string GroupName { get; private set; }
 
-    public InventoryGroup(string groupName, List<Tables.Inventory> inventories) : base(inventories)
+    public InventoryGroup(string groupName, ObservableCollection<Tables.Inventory> inventories) : base(inventories)
     {
         GroupName = groupName;
     }

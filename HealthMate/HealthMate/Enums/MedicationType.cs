@@ -18,7 +18,21 @@ public static partial class Extensions
 {
     public static string ImagePath(this MedicationType medicationType)
     {
-        return "drops.svg";
+        //return medicationType switch
+        //{
+        //    MedicationType.Capsule => throw new NotImplementedException(),
+        //    MedicationType.Drops => throw new NotImplementedException(),
+        //    MedicationType.Inhaler => throw new NotImplementedException(),
+        //    MedicationType.Injection => throw new NotImplementedException(),
+        //    MedicationType.Liquid => throw new NotImplementedException(),
+        //    MedicationType.Ointment => throw new NotImplementedException(),
+        //    MedicationType.Other => throw new NotImplementedException(),
+        //    MedicationType.Patch => throw new NotImplementedException(),
+        //    MedicationType.Spray => throw new NotImplementedException(),
+        //    MedicationType.Tablet => throw new NotImplementedException(),
+        //    _ => throw new NotImplementedException(),
+        //};
+        return $"{medicationType.ToString().ToLower()}.svg";
     }
 
     public static string GetDisplayUnit(this MedicationType medicationType)

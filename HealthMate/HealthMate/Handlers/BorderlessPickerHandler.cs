@@ -10,7 +10,8 @@ public partial class BorderlessPickerHandler : PickerHandler
         [nameof(BorderlessPicker.FontFamily)] = MapFont,
         [nameof(BorderlessPicker.FontSize)] = MapFont,
         [nameof(BorderlessPicker.TextColor)] = MapTextColor,
-        [nameof(BorderlessPicker.Title)] = MapTitle
+        [nameof(BorderlessPicker.Title)] = MapTitle,
+        [nameof(BorderlessPicker.IsEnabled)] = MapIsEnabled
     };
     public BorderlessPickerHandler() : base(PropertyMapper) { }
 
