@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using HealthMate.Enums;
 using HealthMate.Services;
+using MongoDB.Bson;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using InventoryTable = HealthMate.Models.Tables.Inventory;
+using ScheduleTable = HealthMate.Models.Tables.Schedule;
 
 namespace HealthMate.ViewModels.Schedule;
 public partial class AddScheduleBottomSheetViewModel : BaseViewModel
@@ -12,24 +14,27 @@ public partial class AddScheduleBottomSheetViewModel : BaseViewModel
     private readonly RealmService _realmService;
 
     [ObservableProperty]
-    private string dosage;
-
-    [ObservableProperty]
-    private double dosageQty;
-
-    [ObservableProperty]
     private ObservableCollection<InventoryTable> medicines;
+
+    [ObservableProperty]
+    private DateTime minimumDate = DateTime.Now;
 
     [ObservableProperty]
     private string notes;
 
     [ObservableProperty]
-    private DateTime notificationDate;
+    private DateTime notificationDate = DateTime.Now;
 
     [ObservableProperty]
-    private TimeSpan notificationTime;
+    private TimeSpan notificationTime = DateTime.Now.TimeOfDay.Add(TimeSpan.FromMinutes(1));
 
     [ObservableProperty]
+    [Required]
+    [Range(0.1, double.MaxValue)]
+    private double quantity;
+
+    [ObservableProperty]
+    [Required]
     private InventoryTable selectedMedicine;
 
     public AddScheduleBottomSheetViewModel(BottomSheetService bottomSheetService, RealmService realmService)
@@ -47,6 +52,25 @@ public partial class AddScheduleBottomSheetViewModel : BaseViewModel
     [RelayCommand]
     private async Task CreateSchedule()
     {
+        ValidateAllProperties();
+        if (HasErrors)
+            return;
+
+        var cleanDateAndTime = new DateTime(NotificationDate.Year,
+            NotificationDate.Month,
+            NotificationDate.Day,
+            NotificationTime.Hours,
+            NotificationTime.Minutes,
+            NotificationTime.Seconds);
+        var test = new DateTimeOffset(cleanDateAndTime);
+        await _realmService.Upsert(new ScheduleTable
+        {
+            ScheduleId = ObjectId.GenerateNewId(),
+            ScheduleState = new Random().Next(0, 2),
+            Inventory = SelectedMedicine,
+            TimeToTake = new DateTimeOffset(cleanDateAndTime)
+        });
+
         await CloseBottomSheet();
     }
 
@@ -54,11 +78,5 @@ public partial class AddScheduleBottomSheetViewModel : BaseViewModel
     {
         var medicines = await _realmService.FindAll<InventoryTable>();
         Medicines = new ObservableCollection<InventoryTable>(medicines);
-    }
-
-    partial void OnSelectedMedicineChanged(InventoryTable value)
-    {
-        DosageQty = value.DosageUnit;
-        Dosage = ((Dosage)value.DosageUnit).ToString();
     }
 }

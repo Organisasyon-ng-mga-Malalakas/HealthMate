@@ -15,6 +15,8 @@ public partial class Inventory : IRealmObject
     public double Stock { get; set; }
     public int MedicationType { get; set; }
     public string Description { get; set; }
+    public IList<Schedule> Schedules { get; }
+
     [Ignored]
     public string ImagePath => ((MedicationType)MedicationType).ImagePath();
     [Ignored]

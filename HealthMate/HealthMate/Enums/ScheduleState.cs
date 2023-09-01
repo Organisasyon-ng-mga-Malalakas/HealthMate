@@ -30,14 +30,4 @@ public static partial class Extensions
             _ => throw new NotImplementedException(),
         };
     }
-
-    public static string GetIconFontFamily(this ScheduleState scheduleState)
-    {
-        return scheduleState switch
-        {
-            ScheduleState.Taken or ScheduleState.Missed => (string)Application.Current.Resources["FASolid"],
-            ScheduleState.Pending => (string)Application.Current.Resources["FALight"],
-            _ => throw new NotImplementedException(),
-        };
-    }
 }

@@ -4,6 +4,7 @@
                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                    xmlns:constants="clr-namespace:HealthMate.Constants"
                    xmlns:controls="clr-namespace:HealthMate.Controls"
+                   xmlns:converters="clr-namespace:HealthMate.Converters"
                    xmlns:tables="clr-namespace:HealthMate.Models.Tables"
                    xmlns:the49="https://schemas.the49.com/dotnet/2023/maui"
                    xmlns:vm="clr-namespace:HealthMate.ViewModels.Schedule"
@@ -74,15 +75,14 @@
                 <Border Grid.Column="1">
                     <Grid ColumnDefinitions="*, 30">
                         <controls:BorderlessPicker Title="Medicine name"
-                                                   ItemDisplayBinding="{Binding BrandName}"
                                                    ItemsSource="{Binding Medicines}"
                                                    SelectedItem="{Binding SelectedMedicine}">
-                            <!--<controls:BorderlessPicker.ItemDisplayBinding>
+                            <controls:BorderlessPicker.ItemDisplayBinding>
                                 <MultiBinding StringFormat="{}{0} ({1})">
                                     <Binding Path="BrandName" />
                                     <Binding Path="MedicineName" />
                                 </MultiBinding>
-                            </controls:BorderlessPicker.ItemDisplayBinding>-->
+                            </controls:BorderlessPicker.ItemDisplayBinding>
                         </controls:BorderlessPicker>
 
                         <Label Grid.Column="1"
@@ -101,14 +101,14 @@
                     <Border>
                         <Label FontFamily="{StaticResource Regular}"
                                FontSize="12"
-                               Text="{Binding DosageQty}"
+                               Text="{Binding SelectedMedicine.Dosage}"
                                VerticalOptions="Center" />
                     </Border>
 
                     <Border Grid.Column="1">
                         <Label FontFamily="{StaticResource Regular}"
                                FontSize="12"
-                               Text="{Binding Dosage}"
+                               Text="{Binding SelectedMedicine.DosageUnit, Converter={converters:DosageUnitToStringConverter}}"
                                VerticalOptions="Center" />
                     </Border>
                 </Grid>
@@ -118,7 +118,8 @@
                        Text="Quantity" />
                 <Border Grid.Row="2"
                         Grid.Column="1">
-                    <controls:BorderlessEntry Keyboard="Numeric" />
+                    <controls:BorderlessEntry Keyboard="Numeric"
+                                              Text="{Binding Quantity}" />
                 </Border>
 
                 <Label Grid.Row="3"
@@ -133,7 +134,8 @@
                             <DatePicker Date="{Binding NotificationDate}"
                                         FontFamily="{StaticResource Regular}"
                                         FontSize="12"
-                                        Format="MMM d, yyyy" />
+                                        Format="MMM d, yyyy"
+                                        MinimumDate="{Binding MinimumDate}" />
 
                             <Label Grid.Column="1"
                                    FontFamily="{StaticResource FARegular}"
@@ -188,6 +190,7 @@
                         BackgroundColor="{StaticResource Pink}"
                         Command="{Binding CreateScheduleCommand}"
                         FontFamily="{StaticResource Bold}"
+                        Opacity="{Binding HasErrors, Converter={converters:BoolToOpacityConverter}}"
                         Text="Create"
                         TextColor="White" />
             </Grid>

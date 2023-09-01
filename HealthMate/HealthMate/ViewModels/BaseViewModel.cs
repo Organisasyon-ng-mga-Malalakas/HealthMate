@@ -1,10 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.ComponentModel;
 
 namespace HealthMate.ViewModels;
 public abstract class BaseViewModel : ObservableValidator, IQueryAttributable
 {
     protected IDisposable RealmChangesNotification { get; set; }
-    public BaseViewModel() { }
+    public BaseViewModel()
+    {
+        ValidateAllProperties();
+    }
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
@@ -16,6 +20,12 @@ public abstract class BaseViewModel : ObservableValidator, IQueryAttributable
     public virtual void OnNavigatedFrom()
     {
         RealmChangesNotification?.Dispose();
+    }
+
+    protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+    {
+        base.OnPropertyChanged(e);
+        ValidateAllProperties();
     }
 
     protected virtual void ReceiveParameters(IDictionary<string, object> query) { }

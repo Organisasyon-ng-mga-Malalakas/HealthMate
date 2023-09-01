@@ -4,7 +4,6 @@ using HealthMate.Enums;
 using HealthMate.Services;
 using MongoDB.Bson;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using InventoryTable = HealthMate.Models.Tables.Inventory;
@@ -57,7 +56,6 @@ public partial class AddInventoryBottomSheetViewModel : BaseViewModel
         _bottomSheetService = bottomSheetService;
         _databaseService = databaseService;
         _realmService = realmService;
-        ValidateAllProperties();
     }
 
     [RelayCommand]
@@ -91,11 +89,5 @@ public partial class AddInventoryBottomSheetViewModel : BaseViewModel
     {
         Dosages = new ObservableCollection<Dosage>(Enum.GetValues<Dosage>());
         MedicationTypes = new ObservableCollection<MedicationType>(Enum.GetValues<MedicationType>());
-    }
-
-    protected override void OnPropertyChanged(PropertyChangedEventArgs e)
-    {
-        base.OnPropertyChanged(e);
-        ValidateAllProperties();
     }
 }
