@@ -25,43 +25,9 @@
                        TextColor="{StaticResource RegBlack}" />
         </Border>
 
-        <templates:EmptiableCollectionView Grid.Row="1"
-                                           IsEmpty="{Binding IsActionBtnVisible, Converter={mct:InvertedBoolConverter}}">
-            <templates:EmptiableCollectionView.EmptyView>
-                <VerticalStackLayout Grid.Row="1"
-                                     VerticalOptions="Center">
-                    <!--<Image HeightRequest="320"
-                           Source="empty_inventory.svg" />-->
-
-                    <Label HorizontalOptions="Center">
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span FontFamily="{StaticResource Medium}"
-                                      FontSize="18"
-                                      Text="Monitor your " />
-                                <Span FontFamily="{StaticResource Medium}"
-                                      FontSize="18"
-                                      Text="Med Supplies"
-                                      TextColor="{StaticResource Pink}" />
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
-
-                    <Label FontFamily="{StaticResource Regular}"
-                           FontSize="14"
-                           HorizontalOptions="Center"
-                           HorizontalTextAlignment="Center"
-                           Text="Keep track of your medication&#10;inventory and stay prepared"
-                           TextColor="{StaticResource RegBlack}" />
-
-                    <Button Margin="80,20"
-                            BackgroundColor="{StaticResource Pink}"
-                            Command="{Binding AddInventoryCommand}"
-                            FontFamily="{StaticResource Bold}"
-                            Text="Add Med Supplies" />
-                </VerticalStackLayout>
-            </templates:EmptiableCollectionView.EmptyView>
-            <templates:EmptiableCollectionView.CollectionView>
+        <templates:ConditionalView Grid.Row="1"
+                                   IsTrue="{Binding IsActionBtnVisible}">
+            <templates:ConditionalView.TrueView>
                 <CollectionView Margin="0,10,0,0"
                                 IsGrouped="True"
                                 ItemsSource="{Binding Inventory}">
@@ -152,11 +118,48 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-            </templates:EmptiableCollectionView.CollectionView>
-        </templates:EmptiableCollectionView>
+            </templates:ConditionalView.TrueView>
+            <templates:ConditionalView.FalseView>
+                <VerticalStackLayout Grid.Row="1"
+                                     VerticalOptions="Center">
+
+                    <Image HeightRequest="320"
+                           Source="empty_inventory.svg" />
+
+
+                    <Label HorizontalOptions="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontFamily="{StaticResource Medium}"
+                                      FontSize="18"
+                                      Text="Monitor your " />
+                                <Span FontFamily="{StaticResource Medium}"
+                                      FontSize="18"
+                                      Text="Med Supplies"
+                                      TextColor="{StaticResource Pink}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                    <Label FontFamily="{StaticResource Regular}"
+                           FontSize="14"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           Text="Keep track of your medication&#10;inventory and stay prepared"
+                           TextColor="{StaticResource RegBlack}" />
+
+                    <Button Margin="80,20"
+                            BackgroundColor="{StaticResource Pink}"
+                            Command="{Binding AddInventoryCommand}"
+                            FontFamily="{StaticResource Bold}"
+                            Text="Add Med Supplies" />
+                </VerticalStackLayout>
+            </templates:ConditionalView.FalseView>
+
+        </templates:ConditionalView>
 
         <Button Grid.Row="1"
-                Margin="16"
+                Margin="0,16"
                 Padding="0"
                 Command="{Binding AddInventoryCommand}"
                 CornerRadius="25"

@@ -19,6 +19,9 @@ public partial class SchedulePageViewModel : BaseViewModel
     private bool isActionBtnVisible;
 
     [ObservableProperty]
+    private bool isLoading;
+
+    [ObservableProperty]
     private ObservableCollection<ScheduleGroup> schedules;
 
     [ObservableProperty]
@@ -65,6 +68,7 @@ public partial class SchedulePageViewModel : BaseViewModel
 
     public override async void OnNavigatedTo()
     {
+        IsLoading = true;
         Schedules = new ObservableCollection<ScheduleGroup>();
         Schedules.CollectionChanged += OnSchedulesCollectionChanged;
         #region Faker
@@ -104,6 +108,7 @@ public partial class SchedulePageViewModel : BaseViewModel
         }
 
         IsActionBtnVisible = Schedules.Any();
+        IsLoading = false;
     }
 
     private void OnSchedulesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -114,6 +119,7 @@ public partial class SchedulePageViewModel : BaseViewModel
     [RelayCommand]
     private async Task SelectedDateChanged(DateTime newDate)
     {
+        IsLoading = true;
         Schedules.Clear();
         var allSchedules = await _realmService.FindAll<ScheduleTable>();
         var schedules = allSchedules.ToList()
@@ -126,5 +132,6 @@ public partial class SchedulePageViewModel : BaseViewModel
         }
 
         IsActionBtnVisible = Schedules.Any();
+        IsLoading = false;
     }
 }

@@ -13,6 +13,7 @@ namespace HealthMate.ViewModels.Inventory;
 public partial class InventoryPageViewModel : BaseViewModel
 {
     private readonly BottomSheetService _bottomSheetService;
+    private readonly PopupService _popupService;
     private readonly RealmService _realmService;
 
     [ObservableProperty]
@@ -21,16 +22,20 @@ public partial class InventoryPageViewModel : BaseViewModel
     [ObservableProperty]
     private bool isActionBtnVisible;
 
-    public InventoryPageViewModel(BottomSheetService bottomSheetService, RealmService realmService)
+    public InventoryPageViewModel(BottomSheetService bottomSheetService,
+        PopupService popupService,
+        RealmService realmService)
     {
         _bottomSheetService = bottomSheetService;
+        _popupService = popupService;
         _realmService = realmService;
     }
 
     [RelayCommand]
     private async Task AddInventory()
     {
-        await _bottomSheetService.OpenBottomSheet<AddInventoryBottomSheet>(this);
+        //await _bottomSheetService.OpenBottomSheet<AddInventoryBottomSheet>(this);
+        await _popupService.ShowPopup<MedicineDetailPopup>();
     }
 
     private void ListenForRealmChange(IRealmCollection<InventoryTable> sender, ChangeSet changes)

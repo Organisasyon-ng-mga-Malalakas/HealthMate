@@ -2,15 +2,12 @@
 <templates:BasePopup x:Class="HealthMate.Views.Onboarding.TermsAndConditionPopup"
                      xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                     xmlns:animation="clr-namespace:Mopups.Animations;assembly=Mopups"
-                     xmlns:mopup="clr-namespace:Mopups.Pages;assembly=Mopups"
                      xmlns:templates="clr-namespace:HealthMate.Templates"
                      xmlns:vm="clr-namespace:HealthMate.ViewModels.Onboarding"
                      x:DataType="vm:TermsAndConditionPopupViewModel"
                      x:TypeArguments="vm:TermsAndConditionPopupViewModel">
-    <Frame Padding="16"
-           BackgroundColor="#80000000"
-           HasShadow="False">
+    <Border Padding="16"
+           BackgroundColor="#80000000">
         <ScrollView BackgroundColor="#80000000"
                     VerticalOptions="FillAndExpand">
             <VerticalStackLayout Padding="16"
@@ -211,5 +208,5 @@
                 </HorizontalStackLayout>
             </VerticalStackLayout>
         </ScrollView>
-    </Frame>
+    </Border>
 </templates:BasePopup>

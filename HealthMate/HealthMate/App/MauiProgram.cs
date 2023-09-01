@@ -83,7 +83,8 @@ public static class MauiProgram
             .AddTransient<AddScheduleBottomSheetViewModel>()
             .AddTransientWithShellRoute<InventoryPage, InventoryPageViewModel>(nameof(InventoryPage))
             .AddTransientWithShellRoute<SymptomCheckerPage, SymptomCheckerPageViewModel>(nameof(SymptomCheckerPage))
-            .AddTransient<AddInventoryBottomSheetViewModel>();
+            .AddTransient<AddInventoryBottomSheetViewModel>()
+            .AddTransient<MedicineDetailPopupViewModel>();
 
         return builder;
     }
