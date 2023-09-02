@@ -1,10 +1,12 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Bogus;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using HealthMate.Enums;
 using HealthMate.Models;
 using HealthMate.Services;
 using HealthMate.Views.Inventory;
+using MongoDB.Bson;
 using Realms;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -35,7 +37,19 @@ public partial class InventoryPageViewModel : BaseViewModel
     [RelayCommand]
     private async Task AddInventory()
     {
-        await _bottomSheetService.OpenBottomSheet<AddInventoryBottomSheet>();
+        //await _bottomSheetService.OpenBottomSheet<AddInventoryBottomSheet>();
+        var fakeInventory = new Faker<Models.Tables.Inventory>()
+            .RuleFor(p => p.BrandName, v => v.Name.FirstName())
+            .RuleFor(p => p.MedicineName, v => v.Name.LastName())
+            .RuleFor(p => p.Dosage, v => v.Random.Int(0, 500))
+            .RuleFor(p => p.DosageUnit, v => v.Random.Int(0, 8))
+            .RuleFor(p => p.Stock, v => v.Random.Int(1, 100))
+            .RuleFor(p => p.MedicationType, v => v.Random.Int(0, 9))
+            .RuleFor(p => p.Description, v => v.Lorem.Paragraph(5))
+            .RuleFor(p => p.InventoryId, ObjectId.GenerateNewId())
+            .Generate(1);
+
+        await _realmService.Upsert(fakeInventory[0]);
     }
 
     private void ListenForRealmChange(IRealmCollection<InventoryTable> sender, ChangeSet changes)
@@ -68,25 +82,20 @@ public partial class InventoryPageViewModel : BaseViewModel
 
     private void OnInventoryDelete(object _, InventoryTable deletedInventory)
     {
-        try
-        {
-            var correctGroup = Inventory.FirstOrDefault(_ => _.GroupName == ((MedicationType)deletedInventory.MedicationType).ToString());
-            if (correctGroup is not InventoryGroup unwrappedGroup)
-                return;
+        var correctGroup = Inventory.FirstOrDefault(_ => _.GroupName == ((MedicationType)deletedInventory.MedicationType).ToString());
+        if (correctGroup is not InventoryGroup unwrappedGroup)
+            return;
 
-            var indexOfCorrectGroup = Inventory.IndexOf(unwrappedGroup);
-            Inventory[indexOfCorrectGroup].Remove(deletedInventory);
+        Inventory.First(_ => _ == correctGroup).Remove(deletedInventory);
 
-            if (!Inventory[indexOfCorrectGroup].Any())
-                Inventory.Remove(Inventory[indexOfCorrectGroup]);
-
-            IsActionBtnVisible = Inventory.Any();
-        }
-        catch (Exception)
-        {
-
-            throw;
-        }
+        //if (!Inventory.First(_ => _ == correctGroup).Any())
+        //{
+        //    var test = Inventory.Remove(correctGroup);
+        //    var asa = 1;
+        //}
+        //foreach (var item in Inventory)
+        //    if (!item.Any())
+        //        Inventory.Remove(item);
     }
 
     public override void OnNavigatedFrom()

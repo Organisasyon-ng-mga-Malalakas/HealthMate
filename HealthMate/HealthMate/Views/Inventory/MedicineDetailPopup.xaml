@@ -16,7 +16,7 @@
                   ColumnDefinitions="*,*"
                   RowDefinitions="250,*,60">
                 <BoxView Grid.ColumnSpan="2"
-                         BackgroundColor="{StaticResource Pink}" />
+                         BackgroundColor="{Binding PassedInventory.InventoryColor}" />
                 <Image Grid.ColumnSpan="2"
                        HeightRequest="250"
                        HorizontalOptions="Center"
@@ -48,7 +48,7 @@
                                 <Span FontFamily="{StaticResource Medium}"
                                       FontSize="25"
                                       Text="{Binding PassedInventory.BrandName}"
-                                      TextColor="{StaticResource Pink}" />
+                                      TextColor="{Binding PassedInventory.InventoryColor}" />
                                 <Span Text="&#10;" />
                                 <Span FontFamily="{StaticResource Medium}"
                                       FontSize="13"
@@ -134,19 +134,19 @@
                         Margin="0,10"
                         Padding="10"
                         BackgroundColor="White"
-                        BorderColor="{StaticResource Pink}"
+                        BorderColor="{Binding PassedInventory.InventoryColor}"
                         BorderWidth="1"
                         Command="{Binding DeleteInventoryCommand}"
                         FontFamily="{StaticResource Bold}"
                         HorizontalOptions="Center"
                         Text="Remove"
-                        TextColor="{StaticResource Pink}" />
+                        TextColor="{Binding PassedInventory.InventoryColor}" />
 
                 <Button Grid.Row="2"
                         Grid.Column="1"
                         Margin="0,10"
                         Padding="10"
-                        BackgroundColor="{StaticResource Pink}"
+                        BackgroundColor="{Binding PassedInventory.InventoryColor}"
                         FontFamily="{StaticResource Bold}"
                         HorizontalOptions="Center"
                         Text="Edit Medicine" />

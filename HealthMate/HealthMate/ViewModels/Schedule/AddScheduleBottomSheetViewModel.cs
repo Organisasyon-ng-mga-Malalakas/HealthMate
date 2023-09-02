@@ -68,6 +68,7 @@ public partial class AddScheduleBottomSheetViewModel : BaseViewModel
             ScheduleId = ObjectId.GenerateNewId(),
             ScheduleState = new Random().Next(0, 2),
             Inventory = SelectedMedicine,
+            Quantity = Quantity,
             TimeToTake = new DateTimeOffset(cleanDateAndTime)
         });
 

@@ -28,6 +28,7 @@ public class CustomSearchBarHandler : SearchBarHandler
         //platformView.Background = null;
         //platformView.SetBackgroundColor(Android.Graphics.Color.Transparent);
         //platformView.SetPadding(0, 0, 0, 0);
+        //platformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(Colors.Transparent.ToAndroid());
 
         //var searchIcon = platformView.FindViewById<ImageView>(Resource.Id.search_mag_icon);
         //searchIcon.SetImageDrawable(null);

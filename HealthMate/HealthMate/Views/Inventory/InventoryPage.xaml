@@ -99,7 +99,8 @@
                                     </Label>
 
                                     <Label Grid.Row="1"
-                                           Grid.Column="2"
+                                           Grid.Column="1"
+                                           Grid.ColumnSpan="2"
                                            Margin="16,0"
                                            FontFamily="{StaticResource Regular}"
                                            FontSize="12"
@@ -114,7 +115,7 @@
                                                 <Span Text=" " />
                                                 <Span FontFamily="{StaticResource Bold}"
                                                       FontSize="12"
-                                                      Text="{Binding MedicationType, Converter={converters:MedicationTypeToStringConverter}}" />
+                                                      Text="{Binding MedicationType, Converter={converters:MedicationTypeToStringConverter}, StringFormat='{0} remaining'}" />
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
