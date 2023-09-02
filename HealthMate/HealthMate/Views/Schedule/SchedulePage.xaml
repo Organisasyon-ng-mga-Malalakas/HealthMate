@@ -71,10 +71,11 @@
         <templates:ConditionalView Grid.Row="1"
                                    IsTrue="{Binding IsActionBtnVisible}">
             <templates:ConditionalView.TrueView>
-                <CollectionView Margin="16"
+                <CollectionView x:Name="Schedules"
+                                Margin="16"
                                 IsGrouped="True"
                                 ItemsSource="{Binding Schedules}"
-                                VerticalOptions="Start">
+                                VerticalOptions="FillAndExpand">
                     <CollectionView.GroupHeaderTemplate>
                         <DataTemplate x:DataType="models:ScheduleGroup">
                             <Label FontFamily="{StaticResource Medium}"
@@ -90,6 +91,10 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="tables:Schedule">
                             <Grid ColumnDefinitions="95, *">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.OpenMedsTakenPopupCommand, Source={Reference Name=Schedules}}"
+                                                          CommandParameter="{Binding .}" />
+                                </Grid.GestureRecognizers>
                                 <BoxView BackgroundColor="#DBDBDB"
                                          WidthRequest="0.5" />
 
@@ -173,45 +178,37 @@
                 </CollectionView>
             </templates:ConditionalView.TrueView>
             <templates:ConditionalView.FalseView>
-                <templates:ConditionalView IsTrue="{Binding IsLoading}">
-                    <templates:ConditionalView.TrueView>
-                        <Image HeightRequest="250"
-                               IsAnimationPlaying="True"
-                               Source="loading.gif" />
-                    </templates:ConditionalView.TrueView>
-                    <templates:ConditionalView.FalseView>
-                        <VerticalStackLayout>
-                            <Image HeightRequest="280"
-                                   Source="empty_schedule.svg" />
-                            <Label HorizontalOptions="Center">
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <Span FontFamily="{StaticResource Medium}"
-                                              FontSize="18"
-                                              Text="Monitor your " />
-                                        <Span FontFamily="{StaticResource Medium}"
-                                              FontSize="18"
-                                              Text="Med Schedule"
-                                              TextColor="{StaticResource Pink}" />
-                                    </FormattedString>
-                                </Label.FormattedText>
-                            </Label>
+                <VerticalStackLayout>
+                    <Image HeightRequest="280"
+                           Source="empty_schedule.svg" />
+                    <Label HorizontalOptions="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontFamily="{StaticResource Medium}"
+                                      FontSize="18"
+                                      Text="Monitor your " />
+                                <Span FontFamily="{StaticResource Medium}"
+                                      FontSize="18"
+                                      Text="Med Schedule"
+                                      TextColor="{StaticResource Pink}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
 
-                            <Label FontFamily="{StaticResource Regular}"
-                                   FontSize="14"
-                                   HorizontalOptions="Center"
-                                   HorizontalTextAlignment="Center"
-                                   Text="View your daily schedule and&#10;mark your meds when taken"
-                                   TextColor="{StaticResource RegBlack}" />
+                    <Label FontFamily="{StaticResource Regular}"
+                           FontSize="14"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           Text="View your daily schedule and&#10;mark your meds when taken"
+                           TextColor="{StaticResource RegBlack}" />
 
-                            <Button Margin="80,20"
-                                    BackgroundColor="{StaticResource Pink}"
-                                    Command="{Binding CreateScheduleCommand}"
-                                    FontFamily="{StaticResource Bold}"
-                                    Text="Create Schedule" />
-                        </VerticalStackLayout>
-                    </templates:ConditionalView.FalseView>
-                </templates:ConditionalView>
+                    <Button Margin="80,20"
+                            BackgroundColor="{StaticResource Pink}"
+                            Command="{Binding CreateScheduleCommand}"
+                            FontFamily="{StaticResource Bold}"
+                            Text="Create Schedule" />
+                </VerticalStackLayout>
+
             </templates:ConditionalView.FalseView>
         </templates:ConditionalView>
 

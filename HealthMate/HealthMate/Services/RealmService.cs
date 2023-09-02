@@ -15,6 +15,12 @@ public class RealmService
         var writeOperation = await realm.WriteAsync(() => realm.Add(itemToAdd, true));
         return writeOperation;
     }
+
+    public async Task Write(Action writeActionToPerform)
+    {
+        var realm = await InternalAsyncRealm();
+        await realm.WriteAsync(writeActionToPerform);
+    }
     #endregion
 
     #region Read

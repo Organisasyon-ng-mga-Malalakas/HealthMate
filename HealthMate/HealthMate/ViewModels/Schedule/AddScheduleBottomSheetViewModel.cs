@@ -62,7 +62,7 @@ public partial class AddScheduleBottomSheetViewModel : BaseViewModel
             NotificationTime.Hours,
             NotificationTime.Minutes,
             NotificationTime.Seconds);
-        var test = new DateTimeOffset(cleanDateAndTime);
+
         await _realmService.Upsert(new ScheduleTable
         {
             ScheduleId = ObjectId.GenerateNewId(),

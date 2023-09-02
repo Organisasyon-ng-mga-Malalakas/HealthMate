@@ -5,7 +5,6 @@ namespace HealthMate.Services;
 
 public class BottomSheetService
 {
-    private BaseViewModel _callerViewModel;
 #nullable enable
     private BottomSheet? _passedSheet;
 #nullable disable
@@ -22,13 +21,12 @@ public class BottomSheetService
         _passedSheet = null;
     }
 
-    public async Task OpenBottomSheet<TBottomSheet>(BaseViewModel callerViewModel) where TBottomSheet : BottomSheet
+    public async Task OpenBottomSheet<TBottomSheet>() where TBottomSheet : BottomSheet
     {
         _passedSheet = ActivatorUtilities.CreateInstance<TBottomSheet>(_serviceProvider);
         _passedSheet.Showing += (_, _) => _passedSheet.Controller.Behavior.DisableShapeAnimations();
         _passedSheet.Shown += OnShown;
         _passedSheet.Dismissed += OnDismissed;
-        _callerViewModel = callerViewModel;
         await _passedSheet.ShowAsync(true);
     }
 

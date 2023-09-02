@@ -3,30 +3,6 @@ public class ConditionalView : ContentView
 {
     public ConditionalView() { }
 
-    //public static readonly BindableProperty CollectionViewProperty =
-    //    BindableProperty.Create(
-    //    nameof(CollectionView),
-    //    typeof(CollectionView),
-    //    typeof(ConditionalView),
-    //    default(CollectionView));
-    //public CollectionView CollectionView
-    //{
-    //    get => (CollectionView)GetValue(CollectionViewProperty);
-    //    set => SetValue(CollectionViewProperty, value);
-    //}
-
-    //public static readonly BindableProperty EmptyViewProperty =
-    //    BindableProperty.Create(
-    //    nameof(EmptyView),
-    //    typeof(View),
-    //    typeof(ConditionalView),
-    //    default(View));
-    //public View EmptyView
-    //{
-    //    get => (View)GetValue(EmptyViewProperty);
-    //    set => SetValue(EmptyViewProperty, value);
-    //}
-
     public static readonly BindableProperty TrueViewProperty =
         BindableProperty.Create(
         nameof(TrueView),
@@ -56,7 +32,7 @@ public class ConditionalView : ContentView
         nameof(IsTrue),
         typeof(bool),
         typeof(ConditionalView),
-        default(bool),
+        true,
         propertyChanged: OnIsTruePropertyChanged);
     public bool IsTrue
     {
@@ -69,8 +45,12 @@ public class ConditionalView : ContentView
             return;
 
         var isTrue = (bool)newValue;
-        conditionalView.Content = isTrue
-            ? conditionalView.TrueView
-            : conditionalView.FalseView;
+        //conditionalView.ControlTemplate = new ControlTemplate(() =>
+        //{
+        //    return isTrue
+        //    ? conditionalView.TrueView
+        //    : conditionalView.FalseView;
+        //});
+        conditionalView.Content = (bool)newValue ? conditionalView.TrueView : conditionalView.FalseView;
     }
 }

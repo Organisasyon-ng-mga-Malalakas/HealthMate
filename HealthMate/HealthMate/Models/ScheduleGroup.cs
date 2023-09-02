@@ -7,7 +7,7 @@ public class ScheduleGroup : ObservableCollection<Tables.Schedule>
     public ScheduleGroup(DateTimeOffset groupName, ObservableCollection<Tables.Schedule> schedules) : base(schedules)
     {
         var timeOfDay = DateTime.Today.Add(groupName.TimeOfDay);
-        GroupName = $"{timeOfDay:HH:mm tt}";
+        GroupName = $"{timeOfDay:hh:mm tt}";
     }
 }
 //stock create inventory check for validatrion

@@ -8,6 +8,7 @@
        xmlns:schedule="clr-namespace:HealthMate.Views.Schedule"
        xmlns:symptomChecker="clr-namespace:HealthMate.Views.SymptomChecker"
        Shell.FlyoutBehavior="Disabled"
+       Shell.TabBarBackgroundColor="White"
        Shell.TabBarTitleColor="{StaticResource Pink}"
        Shell.TabBarUnselectedColor="{StaticResource RegBlack}">
 

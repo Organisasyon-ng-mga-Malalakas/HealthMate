@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using HealthMate.Enums;
 using HealthMate.Models;
 using HealthMate.Services;
@@ -34,8 +35,7 @@ public partial class InventoryPageViewModel : BaseViewModel
     [RelayCommand]
     private async Task AddInventory()
     {
-        //await _bottomSheetService.OpenBottomSheet<AddInventoryBottomSheet>(this);
-        await _popupService.ShowPopup<MedicineDetailPopup>();
+        await _bottomSheetService.OpenBottomSheet<AddInventoryBottomSheet>();
     }
 
     private void ListenForRealmChange(IRealmCollection<InventoryTable> sender, ChangeSet changes)
@@ -43,25 +43,50 @@ public partial class InventoryPageViewModel : BaseViewModel
         if (changes == null)
             return;
 
-        foreach (var item in changes.InsertedIndices)
-        {
-            var medicationType = ((MedicationType)sender[item].MedicationType).ToString();
-            var correctGroup = Inventory.FirstOrDefault(_ => _.GroupName == medicationType);
-            if (correctGroup is not InventoryGroup unwrappedGroup)
+        if (changes.InsertedIndices.Any())
+            foreach (var item in changes.InsertedIndices)
             {
-                var inventory = new ObservableCollection<InventoryTable> { sender[item] };
-                Inventory.Add(new InventoryGroup(medicationType, inventory));
-                return;
-            }
+                var medicationType = ((MedicationType)sender[item].MedicationType).ToString();
+                var correctGroup = Inventory.FirstOrDefault(_ => _.GroupName == medicationType);
+                if (correctGroup is not InventoryGroup unwrappedGroup)
+                {
+                    var inventory = new ObservableCollection<InventoryTable> { sender[item] };
+                    Inventory.Add(new InventoryGroup(medicationType, inventory));
+                    return;
+                }
 
-            var indexOfCorrectGroup = Inventory.IndexOf(unwrappedGroup);
-            Inventory[indexOfCorrectGroup].Add(sender[item]);
-        }
+                var indexOfCorrectGroup = Inventory.IndexOf(unwrappedGroup);
+                Inventory[indexOfCorrectGroup].Add(sender[item]);
+                IsActionBtnVisible = Inventory.Any();
+            }
     }
 
     private void OnInventoryCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
         IsActionBtnVisible = Inventory.Any();
+    }
+
+    private void OnInventoryDelete(object _, InventoryTable deletedInventory)
+    {
+        try
+        {
+            var correctGroup = Inventory.FirstOrDefault(_ => _.GroupName == ((MedicationType)deletedInventory.MedicationType).ToString());
+            if (correctGroup is not InventoryGroup unwrappedGroup)
+                return;
+
+            var indexOfCorrectGroup = Inventory.IndexOf(unwrappedGroup);
+            Inventory[indexOfCorrectGroup].Remove(deletedInventory);
+
+            if (!Inventory[indexOfCorrectGroup].Any())
+                Inventory.Remove(Inventory[indexOfCorrectGroup]);
+
+            IsActionBtnVisible = Inventory.Any();
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
     }
 
     public override void OnNavigatedFrom()
@@ -83,6 +108,9 @@ public partial class InventoryPageViewModel : BaseViewModel
                 Inventory.Add(new InventoryGroup(item.ToString(), new ObservableCollection<InventoryTable>(listToAdd)));
         }
 
+        if (!WeakReferenceMessenger.Default.IsRegistered<InventoryTable>(this))
+            WeakReferenceMessenger.Default.Register<InventoryTable>(this, OnInventoryDelete);
+
         #region Faker
         //var fakeInventory = new Faker<Models.Tables.Inventory>()
         //    .RuleFor(p => p.BrandName, v => v.Name.FirstName())
@@ -103,5 +131,11 @@ public partial class InventoryPageViewModel : BaseViewModel
         #endregion
 
         IsActionBtnVisible = Inventory.Any();
+    }
+
+    [RelayCommand]
+    private async Task OpenInventoryDetailPopup(InventoryTable inventory)
+    {
+        await _popupService.ShowPopup<MedicineDetailPopup>(inventory);
     }
 }

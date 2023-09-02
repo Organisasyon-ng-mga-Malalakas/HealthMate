@@ -117,6 +117,9 @@
     <MauiXaml Update="Views\Onboarding\OnboardingPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
+    <MauiXaml Update="Views\Schedule\MedsTakenPopup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="Views\Schedule\SchedulePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>

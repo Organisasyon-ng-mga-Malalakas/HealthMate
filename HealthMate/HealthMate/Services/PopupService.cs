@@ -19,9 +19,9 @@ public class PopupService
         await _popupNavigation.PopAsync();
     }
 
-    public async Task ShowPopup<TPopup>() where TPopup : PopupPage
+    public async Task ShowPopup<TPopup>(params object[] parameters) where TPopup : PopupPage
     {
-        var popup = ActivatorUtilities.CreateInstance<TPopup>(_serviceProvider);
+        var popup = ActivatorUtilities.CreateInstance<TPopup>(_serviceProvider, parameters);
         await _popupNavigation.PushAsync(popup);
     }
 }

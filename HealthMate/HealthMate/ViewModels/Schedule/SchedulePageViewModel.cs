@@ -13,6 +13,7 @@ namespace HealthMate.ViewModels.Schedule;
 public partial class SchedulePageViewModel : BaseViewModel
 {
     private readonly BottomSheetService _bottomSheetService;
+    private readonly PopupService _popupService;
     private readonly RealmService _realmService;
 
     [ObservableProperty]
@@ -27,16 +28,19 @@ public partial class SchedulePageViewModel : BaseViewModel
     [ObservableProperty]
     private DateTime selectedDate = DateTime.Now;
 
-    public SchedulePageViewModel(BottomSheetService bottomSheetService, RealmService realmService)
+    public SchedulePageViewModel(BottomSheetService bottomSheetService,
+        PopupService popupService,
+        RealmService realmService)
     {
         _bottomSheetService = bottomSheetService;
+        _popupService = popupService;
         _realmService = realmService;
     }
 
     [RelayCommand]
     private async Task CreateSchedule()
     {
-        await _bottomSheetService.OpenBottomSheet<AddScheduleBottomSheet>(this);
+        await _bottomSheetService.OpenBottomSheet<AddScheduleBottomSheet>();
     }
 
     private void ListenForRealmChanges(IRealmCollection<ScheduleTable> sender, ChangeSet changes)
@@ -68,7 +72,7 @@ public partial class SchedulePageViewModel : BaseViewModel
 
     public override async void OnNavigatedTo()
     {
-        IsLoading = true;
+        //IsLoading = true;
         Schedules = new ObservableCollection<ScheduleGroup>();
         Schedules.CollectionChanged += OnSchedulesCollectionChanged;
         #region Faker
@@ -104,11 +108,11 @@ public partial class SchedulePageViewModel : BaseViewModel
         {
             var listToAdd = schedules.Where(_ => _.TimeToTake == item.TimeToTake);
             if (listToAdd.Any())
-                Schedules.Add(new ScheduleGroup(item.TimeToTake, new ObservableCollection<ScheduleTable>(listToAdd)));
+                Schedules.Add(new ScheduleGroup(ToLocalTime(item.TimeToTake.DateTime), new ObservableCollection<ScheduleTable>(listToAdd)));
         }
 
         IsActionBtnVisible = Schedules.Any();
-        IsLoading = false;
+        //IsLoading = false;
     }
 
     private void OnSchedulesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -117,21 +121,32 @@ public partial class SchedulePageViewModel : BaseViewModel
     }
 
     [RelayCommand]
+    private async Task OpenMedsTakenPopup(ScheduleTable passedSchedule)
+    {
+        await _popupService.ShowPopup<MedsTakenPopup>(passedSchedule);
+    }
+
+    [RelayCommand]
     private async Task SelectedDateChanged(DateTime newDate)
     {
-        IsLoading = true;
+        //IsLoading = true;
         Schedules.Clear();
         var allSchedules = await _realmService.FindAll<ScheduleTable>();
         var schedules = allSchedules.ToList()
-            .Where(_ => TimeZoneInfo.ConvertTimeFromUtc(_.TimeToTake.DateTime, TimeZoneInfo.Local).Date == newDate.Date);
+            .Where(_ => ToLocalTime(_.TimeToTake.DateTime).Date == newDate.Date);
         foreach (var item in schedules)
         {
             var listToAdd = schedules.Where(_ => _.TimeToTake == item.TimeToTake);
             if (listToAdd.Any())
-                Schedules.Add(new ScheduleGroup(item.TimeToTake, new ObservableCollection<ScheduleTable>(listToAdd)));
+                Schedules.Add(new ScheduleGroup(ToLocalTime(item.TimeToTake.DateTime), new ObservableCollection<ScheduleTable>(listToAdd)));
         }
 
         IsActionBtnVisible = Schedules.Any();
-        IsLoading = false;
+        //IsLoading = false;
+    }
+
+    private static DateTime ToLocalTime(DateTime dateTimeToConvert)
+    {
+        return TimeZoneInfo.ConvertTimeFromUtc(dateTimeToConvert, TimeZoneInfo.Local);
     }
 }
