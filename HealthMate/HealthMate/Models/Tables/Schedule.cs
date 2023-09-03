@@ -4,7 +4,7 @@ using Realms;
 
 namespace HealthMate.Models.Tables;
 
-public partial class Schedule : IRealmObject
+public partial class Schedule : IRealmObject, IEquatable<Schedule>
 {
     [PrimaryKey]
     public ObjectId ScheduleId { get; set; }
@@ -20,4 +20,14 @@ public partial class Schedule : IRealmObject
     public string MedicineIcon => Inventory.ImagePath;
     [Ignored]
     public Color OverallColor => ((ScheduleState)ScheduleState).GetOverallColor();
+
+    public bool Equals(Schedule other)
+    {
+        return TimeToTake.Equals(other.TimeToTake);
+    }
+
+    public override int GetHashCode()
+    {
+        return TimeToTake.GetHashCode();
+    }
 }

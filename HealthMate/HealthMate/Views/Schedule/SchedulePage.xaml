@@ -5,9 +5,12 @@
                     xmlns:behaviors="clr-namespace:HealthMate.Behaviors"
                     xmlns:constants="clr-namespace:HealthMate.Constants"
                     xmlns:converters="clr-namespace:HealthMate.Converters"
+                    xmlns:data="clr-namespace:Syncfusion.Maui.DataSource;assembly=Syncfusion.Maui.DataSource"
+                    xmlns:dataExt="clr-namespace:Syncfusion.Maui.DataSource.Extensions;assembly=Syncfusion.Maui.DataSource"
                     xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                     xmlns:models="clr-namespace:HealthMate.Models"
-                    xmlns:sf="clr-namespace:Syncfusion.Maui.Calendar;assembly=Syncfusion.Maui.Calendar"
+                    xmlns:sfCalendar="clr-namespace:Syncfusion.Maui.Calendar;assembly=Syncfusion.Maui.Calendar"
+                    xmlns:sfListView="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
                     xmlns:sharpnado="http://sharpnado.com"
                     xmlns:tables="clr-namespace:HealthMate.Models.Tables"
                     xmlns:templates="clr-namespace:HealthMate.Templates"
@@ -25,159 +28,58 @@
                         Radius="5"
                         Offset="0,5" />
             </Border.Shadow>
-            <sf:SfCalendar EnablePastDates="False"
-                           Identifier="Gregorian"
-                           NavigationDirection="Horizontal"
-                           SelectedDate="{Binding SelectedDate, Mode=TwoWay}"
-                           SelectionBackground="{StaticResource Pink}"
-                           ShowTrailingAndLeadingDates="False"
-                           TodayHighlightBrush="Transparent"
-                           View="Month">
-                <sf:SfCalendar.Behaviors>
+            <sfCalendar:SfCalendar EnablePastDates="False"
+                                   Identifier="Gregorian"
+                                   NavigationDirection="Horizontal"
+                                   SelectedDate="{Binding SelectedDate, Mode=TwoWay}"
+                                   SelectionBackground="{StaticResource Pink}"
+                                   ShowTrailingAndLeadingDates="False"
+                                   TodayHighlightBrush="Transparent"
+                                   View="Month">
+                <sfCalendar:SfCalendar.Behaviors>
                     <mct:EventToCommandBehavior Command="{Binding SelectedDateChangedCommand}"
                                                 CommandParameter="{Binding SelectedDate}"
                                                 EventName="SelectionChanged" />
-                </sf:SfCalendar.Behaviors>
-                <sf:SfCalendar.Resources>
-                    <sf:CalendarTextStyle x:Key="CommonTextStyle"
-                                          FontFamily="{StaticResource Regular}"
-                                          FontSize="16" />
-                </sf:SfCalendar.Resources>
-                <sf:SfCalendar.HeaderView>
-                    <sf:CalendarHeaderView>
-                        <sf:CalendarHeaderView.TextStyle>
-                            <sf:CalendarTextStyle FontFamily="{StaticResource Medium}"
+                </sfCalendar:SfCalendar.Behaviors>
+                <sfCalendar:SfCalendar.Resources>
+                    <sfCalendar:CalendarTextStyle x:Key="CommonTextStyle"
+                                                  FontFamily="{StaticResource Regular}"
                                                   FontSize="16" />
-                        </sf:CalendarHeaderView.TextStyle>
-                    </sf:CalendarHeaderView>
-                </sf:SfCalendar.HeaderView>
-                <sf:SfCalendar.YearView>
-                    <sf:CalendarYearView TextStyle="{StaticResource CommonTextStyle}"
-                                         TodayTextStyle="{StaticResource CommonTextStyle}">
-                        <sf:CalendarYearView.DisabledDatesTextStyle>
-                            <sf:CalendarTextStyle FontFamily="{StaticResource Regular}"
-                                                  FontSize="16"
-                                                  TextColor="LightGray" />
-                        </sf:CalendarYearView.DisabledDatesTextStyle>
-                    </sf:CalendarYearView>
-                </sf:SfCalendar.YearView>
-                <sf:SfCalendar.MonthView>
-                    <sf:CalendarMonthView TextStyle="{StaticResource CommonTextStyle}"
-                                          TodayTextStyle="{StaticResource CommonTextStyle}" />
-                </sf:SfCalendar.MonthView>
-            </sf:SfCalendar>
+                </sfCalendar:SfCalendar.Resources>
+                <sfCalendar:SfCalendar.HeaderView>
+                    <sfCalendar:CalendarHeaderView>
+                        <sfCalendar:CalendarHeaderView.TextStyle>
+                            <sfCalendar:CalendarTextStyle FontFamily="{StaticResource Medium}"
+                                                          FontSize="16" />
+                        </sfCalendar:CalendarHeaderView.TextStyle>
+                    </sfCalendar:CalendarHeaderView>
+                </sfCalendar:SfCalendar.HeaderView>
+                <sfCalendar:SfCalendar.YearView>
+                    <sfCalendar:CalendarYearView TextStyle="{StaticResource CommonTextStyle}"
+                                                 TodayTextStyle="{StaticResource CommonTextStyle}">
+                        <sfCalendar:CalendarYearView.DisabledDatesTextStyle>
+                            <sfCalendar:CalendarTextStyle FontFamily="{StaticResource Regular}"
+                                                          FontSize="16"
+                                                          TextColor="LightGray" />
+                        </sfCalendar:CalendarYearView.DisabledDatesTextStyle>
+                    </sfCalendar:CalendarYearView>
+                </sfCalendar:SfCalendar.YearView>
+                <sfCalendar:SfCalendar.MonthView>
+                    <sfCalendar:CalendarMonthView TextStyle="{StaticResource CommonTextStyle}"
+                                                  TodayTextStyle="{StaticResource CommonTextStyle}" />
+                </sfCalendar:SfCalendar.MonthView>
+            </sfCalendar:SfCalendar>
         </Border>
 
-        <templates:ConditionalView Grid.Row="1"
-                                   IsTrue="{Binding IsActionBtnVisible}">
-            <templates:ConditionalView.TrueView>
-                <CollectionView x:Name="Schedules"
-                                Margin="16"
-                                IsGrouped="True"
-                                ItemsSource="{Binding Schedules}"
-                                VerticalOptions="FillAndExpand">
-                    <CollectionView.GroupHeaderTemplate>
-                        <DataTemplate x:DataType="models:ScheduleGroup">
-                            <Label FontFamily="{StaticResource Medium}"
-                                   FontSize="18"
-                                   Text="{Binding GroupName}"
-                                   TextColor="{StaticResource RegBlack}" />
-                        </DataTemplate>
-                    </CollectionView.GroupHeaderTemplate>
-                    <CollectionView.ItemsLayout>
-                        <LinearItemsLayout ItemSpacing="5"
-                                           Orientation="Vertical" />
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="tables:Schedule">
-                            <Grid ColumnDefinitions="95, *">
-                                <Grid.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.OpenMedsTakenPopupCommand, Source={Reference Name=Schedules}}"
-                                                          CommandParameter="{Binding .}" />
-                                </Grid.GestureRecognizers>
-                                <BoxView BackgroundColor="#DBDBDB"
-                                         WidthRequest="0.5" />
-
-                                <Border Grid.Column="1"
-                                        HeightRequest="110"
-                                        StrokeShape="RoundRectangle 20">
-                                    <Border.Shadow>
-                                        <Shadow Brush="Gray"
-                                                Opacity="0.15"
-                                                Radius="5"
-                                                Offset="0,5" />
-                                    </Border.Shadow>
-                                    <Grid ColumnDefinitions="80,*"
-                                          RowDefinitions="*,*,*">
-                                        <Label Grid.RowSpan="3"
-                                               FontFamily="{StaticResource FASolid}"
-                                               FontSize="35"
-                                               HorizontalOptions="Center"
-                                               Text="{Binding Icon}"
-                                               TextColor="{Binding OverallColor}"
-                                               VerticalOptions="Center" />
-
-                                        <BoxView Grid.RowSpan="3"
-                                                 Grid.Column="1"
-                                                 BackgroundColor="{Binding OverallColor}" />
-
-                                        <Label Grid.RowSpan="2"
-                                               Grid.Column="1"
-                                               Margin="10,0"
-                                               FontFamily="{StaticResource Bold}"
-                                               FontSize="20"
-                                               Text="{Binding Inventory.BrandName}"
-                                               TextColor="White"
-                                               VerticalOptions="Center" />
-
-                                        <Label Grid.RowSpan="2"
-                                               Grid.Column="1"
-                                               Margin="10,0,10,5"
-                                               FontFamily="{StaticResource Medium}"
-                                               FontSize="12"
-                                               TextColor="White"
-                                               VerticalOptions="End">
-                                            <Label.Text>
-                                                <MultiBinding StringFormat="{}{0}mg, 1 take">
-                                                    <Binding Path="Inventory.Dosage" />
-                                                    <Binding Path="Inventory.DosageUnit" />
-                                                </MultiBinding>
-                                            </Label.Text>
-                                        </Label>
-
-                                        <Label Grid.Row="2"
-                                               Grid.Column="1"
-                                               Margin="10,0"
-                                               FontFamily="{StaticResource Regular}"
-                                               FontSize="16"
-                                               Text="{Binding Inventory.MedicineName}"
-                                               TextColor="White"
-                                               VerticalOptions="Start" />
-
-                                        <Image Grid.RowSpan="3"
-                                               Grid.Column="1"
-                                               Margin="10,0"
-                                               HeightRequest="50"
-                                               HorizontalOptions="End"
-                                               Source="{Binding MedicineIcon}"
-                                               VerticalOptions="Center" />
-                                    </Grid>
-                                </Border>
-
-                                <Label BackgroundColor="{StaticResource PageBackground}"
-                                       FontFamily="{StaticResource Medium}"
-                                       FontSize="13"
-                                       HorizontalOptions="Center"
-                                       Text="{Binding ScheduleState, Converter={converters:ScheduleStateToStingConverter}}"
-                                       TextColor="{Binding OverallColor}"
-                                       VerticalOptions="Center" />
-
-                            </Grid>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </templates:ConditionalView.TrueView>
-            <templates:ConditionalView.FalseView>
+        <sfListView:SfListView x:Name="Schedules"
+                               Grid.Row="1"
+                               Margin="16"
+                               ItemSize="95"
+                               ItemSpacing="10"
+                               ItemsSource="{Binding Schedules}"
+                               SelectionBackground="Transparent"
+                               TapCommand="{Binding OpenMedsTakenPopupCommand}">
+            <sfListView:SfListView.EmptyView>
                 <VerticalStackLayout>
                     <Image HeightRequest="280"
                            Source="empty_schedule.svg" />
@@ -201,16 +103,104 @@
                            HorizontalTextAlignment="Center"
                            Text="View your daily schedule and&#10;mark your meds when taken"
                            TextColor="{StaticResource RegBlack}" />
-
-                    <Button Margin="80,20"
-                            BackgroundColor="{StaticResource Pink}"
-                            Command="{Binding CreateScheduleCommand}"
-                            FontFamily="{StaticResource Bold}"
-                            Text="Create Schedule" />
                 </VerticalStackLayout>
+            </sfListView:SfListView.EmptyView>
+            <sfListView:SfListView.GroupHeaderTemplate>
+                <DataTemplate x:DataType="dataExt:GroupResult">
+                    <Label FontFamily="{StaticResource Medium}"
+                           FontSize="18"
+                           Text="{Binding Key}"
+                           TextColor="{StaticResource RegBlack}" />
+                </DataTemplate>
+            </sfListView:SfListView.GroupHeaderTemplate>
+            <sfListView:SfListView.ItemTemplate>
+                <DataTemplate x:DataType="tables:Schedule">
+                    <Grid ColumnDefinitions="95, *">
+                        <!--<Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Path=BindingContext.OpenMedsTakenPopupCommand, Source={Reference Name=Schedules}}"
+                                                  CommandParameter="{Binding .}" />
+                        </Grid.GestureRecognizers>-->
+                        <BoxView BackgroundColor="#DBDBDB"
+                                 WidthRequest="0.5" />
 
-            </templates:ConditionalView.FalseView>
-        </templates:ConditionalView>
+                        <Border Grid.Column="1"
+                                HeightRequest="110"
+                                StrokeShape="RoundRectangle 20">
+                            <Border.Shadow>
+                                <Shadow Brush="Gray"
+                                        Opacity="0.15"
+                                        Radius="5"
+                                        Offset="0,5" />
+                            </Border.Shadow>
+                            <Grid ColumnDefinitions="80,*"
+                                  RowDefinitions="*,*,*">
+                                <Label Grid.RowSpan="3"
+                                       FontFamily="{StaticResource FASolid}"
+                                       FontSize="35"
+                                       HorizontalOptions="Center"
+                                       Text="{Binding Icon}"
+                                       TextColor="{Binding OverallColor}"
+                                       VerticalOptions="Center" />
+
+                                <BoxView Grid.RowSpan="3"
+                                         Grid.Column="1"
+                                         BackgroundColor="{Binding OverallColor}" />
+
+                                <Label Grid.RowSpan="2"
+                                       Grid.Column="1"
+                                       Margin="10,0"
+                                       FontFamily="{StaticResource Bold}"
+                                       FontSize="20"
+                                       Text="{Binding Inventory.BrandName}"
+                                       TextColor="White"
+                                       VerticalOptions="Center" />
+
+                                <Label Grid.RowSpan="2"
+                                       Grid.Column="1"
+                                       Margin="10,0,10,5"
+                                       FontFamily="{StaticResource Medium}"
+                                       FontSize="12"
+                                       TextColor="White"
+                                       VerticalOptions="End">
+                                    <Label.Text>
+                                        <MultiBinding StringFormat="{}{0}mg, 1 take">
+                                            <Binding Path="Inventory.Dosage" />
+                                            <Binding Path="Inventory.DosageUnit" />
+                                        </MultiBinding>
+                                    </Label.Text>
+                                </Label>
+
+                                <Label Grid.Row="2"
+                                       Grid.Column="1"
+                                       Margin="10,0"
+                                       FontFamily="{StaticResource Regular}"
+                                       FontSize="16"
+                                       Text="{Binding Inventory.MedicineName}"
+                                       TextColor="White"
+                                       VerticalOptions="Start" />
+
+                                <Image Grid.RowSpan="3"
+                                       Grid.Column="1"
+                                       Margin="10,0"
+                                       HeightRequest="50"
+                                       HorizontalOptions="End"
+                                       Source="{Binding MedicineIcon}"
+                                       VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+
+                        <Label BackgroundColor="{StaticResource PageBackground}"
+                               FontFamily="{StaticResource Medium}"
+                               FontSize="13"
+                               HorizontalOptions="Center"
+                               Text="{Binding ScheduleState, Converter={converters:ScheduleStateToStingConverter}}"
+                               TextColor="{Binding OverallColor}"
+                               VerticalOptions="Center" />
+
+                    </Grid>
+                </DataTemplate>
+            </sfListView:SfListView.ItemTemplate>
+        </sfListView:SfListView>
 
         <Button Grid.Row="1"
                 Margin="16"
@@ -221,7 +211,6 @@
                 FontSize="25"
                 HeightRequest="50"
                 HorizontalOptions="End"
-                IsVisible="{Binding IsActionBtnVisible}"
                 Text="{Static constants:FontAwesomeIcons.Plus}"
                 VerticalOptions="End"
                 WidthRequest="50" />

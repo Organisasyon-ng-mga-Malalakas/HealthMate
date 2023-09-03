@@ -21,4 +21,6 @@ public partial class Inventory : IRealmObject
     public string ImagePath => ((MedicationType)MedicationType).ImagePath();
     [Ignored]
     public Color InventoryColor => Color.FromArgb(MedicationType == 0 || MedicationType % 2 == 0 ? "F26CA7" : "89CFF0");
+    [Ignored]
+    public string MedicineDisplayName => $"{BrandName} ({MedicineName})";
 }

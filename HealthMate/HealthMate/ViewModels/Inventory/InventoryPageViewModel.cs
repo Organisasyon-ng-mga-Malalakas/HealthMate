@@ -1,15 +1,9 @@
-﻿using Bogus;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
-using HealthMate.Enums;
-using HealthMate.Models;
 using HealthMate.Services;
 using HealthMate.Views.Inventory;
-using MongoDB.Bson;
 using Realms;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using InventoryTable = HealthMate.Models.Tables.Inventory;
 
 namespace HealthMate.ViewModels.Inventory;
@@ -20,10 +14,7 @@ public partial class InventoryPageViewModel : BaseViewModel
     private readonly RealmService _realmService;
 
     [ObservableProperty]
-    private ObservableCollection<InventoryGroup> inventory;
-
-    [ObservableProperty]
-    private bool isActionBtnVisible;
+    private ObservableCollection<InventoryTable> inventory;
 
     public InventoryPageViewModel(BottomSheetService bottomSheetService,
         PopupService popupService,
@@ -37,19 +28,20 @@ public partial class InventoryPageViewModel : BaseViewModel
     [RelayCommand]
     private async Task AddInventory()
     {
-        //await _bottomSheetService.OpenBottomSheet<AddInventoryBottomSheet>();
-        var fakeInventory = new Faker<Models.Tables.Inventory>()
-            .RuleFor(p => p.BrandName, v => v.Name.FirstName())
-            .RuleFor(p => p.MedicineName, v => v.Name.LastName())
-            .RuleFor(p => p.Dosage, v => v.Random.Int(0, 500))
-            .RuleFor(p => p.DosageUnit, v => v.Random.Int(0, 8))
-            .RuleFor(p => p.Stock, v => v.Random.Int(1, 100))
-            .RuleFor(p => p.MedicationType, v => v.Random.Int(0, 9))
-            .RuleFor(p => p.Description, v => v.Lorem.Paragraph(5))
-            .RuleFor(p => p.InventoryId, ObjectId.GenerateNewId())
-            .Generate(1);
+        await _bottomSheetService.OpenBottomSheet<AddInventoryBottomSheet>();
 
-        await _realmService.Upsert(fakeInventory[0]);
+        //var fakeInventory = new Faker<Models.Tables.Inventory>()
+        //   .RuleFor(p => p.BrandName, v => v.Name.FirstName())
+        //   .RuleFor(p => p.MedicineName, v => v.Name.LastName())
+        //   .RuleFor(p => p.Dosage, v => v.Random.Int(0, 500))
+        //   .RuleFor(p => p.DosageUnit, v => v.Random.Int(0, 8))
+        //   .RuleFor(p => p.Stock, v => v.Random.Int(1, 100))
+        //   .RuleFor(p => p.MedicationType, v => v.Random.Int(0, 9))
+        //   .RuleFor(p => p.Description, v => v.Lorem.Paragraph(5))
+        //   .RuleFor(p => p.InventoryId, ObjectId.GenerateNewId())
+        //   .Generate(1);
+        //await _realmService.Upsert(fakeInventory[0]);
+        //Inventory.Add(fakeInventory[0]);
     }
 
     private void ListenForRealmChange(IRealmCollection<InventoryTable> sender, ChangeSet changes)
@@ -57,68 +49,26 @@ public partial class InventoryPageViewModel : BaseViewModel
         if (changes == null)
             return;
 
+        if (changes.DeletedIndices.Any())
+            foreach (var item in changes.DeletedIndices)
+                Inventory.RemoveAt(item);
+
         if (changes.InsertedIndices.Any())
             foreach (var item in changes.InsertedIndices)
-            {
-                var medicationType = ((MedicationType)sender[item].MedicationType).ToString();
-                var correctGroup = Inventory.FirstOrDefault(_ => _.GroupName == medicationType);
-                if (correctGroup is not InventoryGroup unwrappedGroup)
-                {
-                    var inventory = new ObservableCollection<InventoryTable> { sender[item] };
-                    Inventory.Add(new InventoryGroup(medicationType, inventory));
-                    return;
-                }
-
-                var indexOfCorrectGroup = Inventory.IndexOf(unwrappedGroup);
-                Inventory[indexOfCorrectGroup].Add(sender[item]);
-                IsActionBtnVisible = Inventory.Any();
-            }
-    }
-
-    private void OnInventoryCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-        IsActionBtnVisible = Inventory.Any();
-    }
-
-    private void OnInventoryDelete(object _, InventoryTable deletedInventory)
-    {
-        var correctGroup = Inventory.FirstOrDefault(_ => _.GroupName == ((MedicationType)deletedInventory.MedicationType).ToString());
-        if (correctGroup is not InventoryGroup unwrappedGroup)
-            return;
-
-        Inventory.First(_ => _ == correctGroup).Remove(deletedInventory);
-
-        //if (!Inventory.First(_ => _ == correctGroup).Any())
-        //{
-        //    var test = Inventory.Remove(correctGroup);
-        //    var asa = 1;
-        //}
-        //foreach (var item in Inventory)
-        //    if (!item.Any())
-        //        Inventory.Remove(item);
-    }
-
-    public override void OnNavigatedFrom()
-    {
-        base.OnNavigatedFrom();
-        Inventory.CollectionChanged -= OnInventoryCollectionChanged;
+                Inventory.Add(sender[item]);
     }
 
     public override async void OnNavigatedTo()
     {
-        Inventory = new ObservableCollection<InventoryGroup>();
-        Inventory.CollectionChanged += OnInventoryCollectionChanged;
-        var allItems = await _realmService.FindAll<InventoryTable>();
-        RealmChangesNotification = allItems.SubscribeForNotifications(ListenForRealmChange);
-        foreach (var item in Enum.GetValues<MedicationType>())
-        {
-            var listToAdd = allItems.Where(_ => _.MedicationType == (int)item);
-            if (listToAdd.Any())
-                Inventory.Add(new InventoryGroup(item.ToString(), new ObservableCollection<InventoryTable>(listToAdd)));
-        }
+        Inventory ??= new ObservableCollection<InventoryTable>();
+        var inventories = await _realmService.FindAll<InventoryTable>();
+        RealmChangesNotification = inventories.SubscribeForNotifications(ListenForRealmChange);
 
-        if (!WeakReferenceMessenger.Default.IsRegistered<InventoryTable>(this))
-            WeakReferenceMessenger.Default.Register<InventoryTable>(this, OnInventoryDelete);
+        var realmInventoriesList = inventories.ToList();
+        var inventoriesList = Inventory.ToList();
+        var itemsNotInInventory = realmInventoriesList.Where(realm => !inventoriesList.Any(schedules => schedules.InventoryId == realm.InventoryId));
+        foreach (var item in itemsNotInInventory)
+            Inventory.Add(item);
 
         #region Faker
         //var fakeInventory = new Faker<Models.Tables.Inventory>()
@@ -130,21 +80,20 @@ public partial class InventoryPageViewModel : BaseViewModel
         //    .RuleFor(p => p.MedicationType, v => v.Random.Int(0, 9))
         //    .RuleFor(p => p.Description, v => v.Lorem.Paragraph(5))
         //    .Generate(35);
-        //foreach (var item in medicationTypes)
+        //foreach (var item in Enum.GetValues<MedicationType>())
         //{
-        //    var enumRepresentation = Enum.Parse<MedicationType>(item);
-        //    var listToAdd = fakeInventory.Where(_ => _.MedicationType == (int)enumRepresentation).ToList();
+        //    //var enumRepresentation = Enum.Parse<MedicationType>(item);
+        //    var listToAdd = fakeInventory.Where(_ => _.MedicationType == (int)item);
         //    if (listToAdd.Any())
-        //        Inventory.Add(new InventoryGroup(item, listToAdd));
+        //        Inventory.Add(new InventoryGroup(item.ToString(), new ObservableCollection<InventoryTable>(listToAdd)));
         //}
         #endregion
-
-        IsActionBtnVisible = Inventory.Any();
     }
 
     [RelayCommand]
-    private async Task OpenInventoryDetailPopup(InventoryTable inventory)
+    private async Task OpenInventoryDetailPopup(Syncfusion.Maui.ListView.ItemTappedEventArgs args)
     {
+        var inventory = (InventoryTable)args.DataItem;
         await _popupService.ShowPopup<MedicineDetailPopup>(inventory);
     }
 }

@@ -38,7 +38,7 @@
                         <Setter Property="FontFamily" Value="{StaticResource Regular}" />
                         <Setter Property="TextColor" Value="{StaticResource RegBlack}" />
                         <Setter Property="HorizontalOptions" Value="End" />
-                        <Setter Property="HorizontalTextAlignment" Value="End"/>
+                        <Setter Property="HorizontalTextAlignment" Value="End" />
                         <Setter Property="VerticalOptions" Value="Center" />
                     </Style>
 
@@ -76,15 +76,9 @@
                 <Border Grid.Column="1">
                     <Grid ColumnDefinitions="*, 30">
                         <controls:BorderlessPicker Title="Medicine name"
+                                                   ItemDisplayBinding="{Binding MedicineDisplayName}"
                                                    ItemsSource="{Binding Medicines}"
-                                                   SelectedItem="{Binding SelectedMedicine}">
-                            <controls:BorderlessPicker.ItemDisplayBinding>
-                                <MultiBinding StringFormat="{}{0} ({1})">
-                                    <Binding Path="BrandName" />
-                                    <Binding Path="MedicineName" />
-                                </MultiBinding>
-                            </controls:BorderlessPicker.ItemDisplayBinding>
-                        </controls:BorderlessPicker>
+                                                   SelectedItem="{Binding SelectedMedicine}" />
 
                         <Label Grid.Column="1"
                                Style="{StaticResource FontIcon}"

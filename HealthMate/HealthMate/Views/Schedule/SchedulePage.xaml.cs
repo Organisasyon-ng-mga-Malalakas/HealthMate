@@ -1,5 +1,7 @@
 using HealthMate.Templates;
 using HealthMate.ViewModels.Schedule;
+using Syncfusion.Maui.DataSource;
+using ScheduleTable = HealthMate.Models.Tables.Schedule;
 
 namespace HealthMate.Views.Schedule;
 
@@ -8,25 +10,16 @@ public partial class SchedulePage : BasePage<SchedulePageViewModel>
     public SchedulePage(SchedulePageViewModel viewModel) : base(viewModel)
     {
         InitializeComponent();
-        //        Build();
-        //#if DEBUG
-        //        HotReloadService.UpdateApplicationEvent += ReloadUI;
-        //#endif
+        Schedules.DataSource.GroupDescriptors.Add(new GroupDescriptor
+        {
+            KeySelector = (object scheduleTable) =>
+            {
+                var schedule = scheduleTable as ScheduleTable;
+                var utcTime = DateTime.Today.Add(schedule.TimeToTake.TimeOfDay);
+                var timeOfDay = DateTime.SpecifyKind(utcTime, DateTimeKind.Utc);
+                var correctTime = TimeZoneInfo.ConvertTimeFromUtc(timeOfDay, TimeZoneInfo.Local);
+                return $"{correctTime:hh:mm tt}";
+            }
+        });
     }
-
-    //private void ReloadUI(Type[] obj)
-    //{
-    //    MainThread.BeginInvokeOnMainThread(() =>
-    //    {
-    //        Build();
-    //    });
-    //}
-
-    //private void Build()
-    //{
-    //    Content = new Label
-    //    {
-    //        Text = "hi"
-    //    };
-    //}
 }
