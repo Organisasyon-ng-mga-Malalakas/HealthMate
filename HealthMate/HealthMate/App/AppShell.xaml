@@ -7,6 +7,7 @@
        xmlns:onboarding="clr-namespace:HealthMate.Views.Onboarding"
        xmlns:schedule="clr-namespace:HealthMate.Views.Schedule"
        xmlns:symptomChecker="clr-namespace:HealthMate.Views.SymptomChecker"
+       xmlns:views="clr-namespace:HealthMate.Views"
        Shell.FlyoutBehavior="Disabled"
        Shell.TabBarBackgroundColor="White"
        Shell.TabBarTitleColor="{StaticResource Pink}"
@@ -28,7 +29,8 @@
                                  Glyph="{x:Static constants:FontAwesomeIcons.CalendarClock}"
                                  Size="20" />
             </Tab.Icon>
-            <ShellContent ContentTemplate="{DataTemplate schedule:SchedulePage}" />
+            <!--<ShellContent ContentTemplate="{DataTemplate schedule:SchedulePage}" />-->
+            <ShellContent ContentTemplate="{DataTemplate views:Emulator_Hot_Reload_Crash_Test}" />
         </Tab>
 
         <Tab Title="Inventory">
