@@ -1,5 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using HealthMate.Enums;
+using HealthMate.EventArgs;
 using HealthMate.Services;
 using InventoryTable = HealthMate.Models.Tables.Inventory;
 
@@ -37,6 +40,7 @@ public partial class MedicineDetailPopupViewModel : BaseViewModel
     [RelayCommand]
     private async Task DeleteInventory()
     {
+        WeakReferenceMessenger.Default.Send(new InventoryDeletingEventArgs(PassedInventory.InventoryId, ((MedicationType)PassedInventory.MedicationType).ToString()));
         await _realmService.Delete(PassedInventory);
         await ClosePopup();
     }

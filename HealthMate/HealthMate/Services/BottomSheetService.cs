@@ -30,7 +30,7 @@ public class BottomSheetService
         await _passedSheet.ShowAsync(true);
     }
 
-    private void OnShown(object sender, EventArgs e)
+    private void OnShown(object sender, System.EventArgs e)
     {
         _passedSheet.Shown -= OnShown;
         ((BaseViewModel)_passedSheet.BindingContext).OnNavigatedTo();

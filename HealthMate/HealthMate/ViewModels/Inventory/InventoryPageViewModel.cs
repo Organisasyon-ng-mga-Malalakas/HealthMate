@@ -1,5 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using HealthMate.Enums;
+using HealthMate.EventArgs;
+using HealthMate.Models;
 using HealthMate.Services;
 using HealthMate.Views.Inventory;
 using Realms;
@@ -14,7 +18,9 @@ public partial class InventoryPageViewModel : BaseViewModel
     private readonly RealmService _realmService;
 
     [ObservableProperty]
-    private ObservableCollection<InventoryTable> inventory;
+    private ObservableCollection<InventoryGroup> inventory;
+    [ObservableProperty]
+    private bool isEmptyViewVisible;
 
     public InventoryPageViewModel(BottomSheetService bottomSheetService,
         PopupService popupService,
@@ -23,6 +29,8 @@ public partial class InventoryPageViewModel : BaseViewModel
         _bottomSheetService = bottomSheetService;
         _popupService = popupService;
         _realmService = realmService;
+
+        WeakReferenceMessenger.Default.Register<InventoryDeletingEventArgs>(this, OnItemDeleting);
     }
 
     [RelayCommand]
@@ -49,29 +57,70 @@ public partial class InventoryPageViewModel : BaseViewModel
         if (changes == null)
             return;
 
-        if (changes.DeletedIndices.Any())
-            foreach (var item in changes.DeletedIndices)
-                Inventory.RemoveAt(item);
-
         if (changes.InsertedIndices.Any())
             foreach (var item in changes.InsertedIndices)
-                Inventory.Add(sender[item]);
+            {
+                var medicationType = ((MedicationType)sender[item].MedicationType).ToString();
+                var correctGroup = Inventory.FirstOrDefault(_ => _.Category == medicationType);
+                if (correctGroup is not InventoryGroup unwrappedGroup)
+                {
+                    var inventory = new ObservableCollection<InventoryTable> { sender[item] };
+                    Inventory.Add(new InventoryGroup(medicationType, inventory));
+                    IsEmptyViewVisible = !Inventory.Any();
+                    return;
+                }
+
+                var indexOfCorrectGroup = Inventory.IndexOf(unwrappedGroup);
+                Inventory[indexOfCorrectGroup].Add(sender[item]);
+                IsEmptyViewVisible = !Inventory.Any();
+            }
+    }
+
+    private void OnItemDeleting(object sender, InventoryDeletingEventArgs args)
+    {
+        var correctGroup = Inventory.FirstOrDefault(_ => _.Category == args.MedicationType);
+        if (correctGroup is not null)
+        {
+            var itemToRemove = correctGroup.FirstOrDefault(_ => _.InventoryId == args.InventoryId);
+            if (itemToRemove is not null)
+            {
+                correctGroup.Remove(itemToRemove);
+
+                // Optionally, remove the group if it's now empty
+                if (!correctGroup.Any())
+                    Inventory.Remove(correctGroup);
+            }
+        }
+
+        IsEmptyViewVisible = !Inventory.Any();
     }
 
     public override async void OnNavigatedTo()
     {
-        Inventory ??= new ObservableCollection<InventoryTable>();
+        Inventory ??= new ObservableCollection<InventoryGroup>();
         var inventories = await _realmService.FindAll<InventoryTable>();
         RealmChangesNotification = inventories.SubscribeForNotifications(ListenForRealmChange);
 
         var realmInventoriesList = inventories.ToList();
-        var inventoriesList = Inventory.ToList();
-        var itemsNotInInventory = realmInventoriesList.Where(realm => !inventoriesList.Any(schedules => schedules.InventoryId == realm.InventoryId));
-        foreach (var item in itemsNotInInventory)
-            Inventory.Add(item);
+        foreach (var newInventory in realmInventoriesList)
+        {
+            var groupName = ((MedicationType)newInventory.MedicationType).ToString();
+            var existingGroup = Inventory.FirstOrDefault(g => g.Category == groupName);
+            if (existingGroup == null)
+            {
+                // Group doesn't exist, create a new group and add the item
+                var newGroup = new InventoryGroup(groupName, new ObservableCollection<InventoryTable> { newInventory });
+                Inventory.Add(newGroup);
+            }
+            else
+                // Group exists, check if item already exists within the group based on InventoryId
+                if (!existingGroup.Any(item => item.InventoryId == newInventory.InventoryId))
+                // Item doesn't exist, add it to the group
+                existingGroup.Add(newInventory);
+        }
 
         #region Faker
-        //var fakeInventory = new Faker<Models.Tables.Inventory>()
+        //var fakeInventory = new Faker<InventoryTable>()
         //    .RuleFor(p => p.BrandName, v => v.Name.FirstName())
         //    .RuleFor(p => p.MedicineName, v => v.Name.LastName())
         //    .RuleFor(p => p.Dosage, v => v.Random.Int(0, 500))
@@ -82,18 +131,17 @@ public partial class InventoryPageViewModel : BaseViewModel
         //    .Generate(35);
         //foreach (var item in Enum.GetValues<MedicationType>())
         //{
-        //    //var enumRepresentation = Enum.Parse<MedicationType>(item);
         //    var listToAdd = fakeInventory.Where(_ => _.MedicationType == (int)item);
         //    if (listToAdd.Any())
         //        Inventory.Add(new InventoryGroup(item.ToString(), new ObservableCollection<InventoryTable>(listToAdd)));
         //}
         #endregion
+        IsEmptyViewVisible = !Inventory.Any();
     }
 
     [RelayCommand]
-    private async Task OpenInventoryDetailPopup(Syncfusion.Maui.ListView.ItemTappedEventArgs args)
+    private async Task OpenInventoryDetailPopup(InventoryTable inventory)
     {
-        var inventory = (InventoryTable)args.DataItem;
         await _popupService.ShowPopup<MedicineDetailPopup>(inventory);
     }
 }
