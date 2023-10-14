@@ -16,6 +16,7 @@ public partial class Inventory : IRealmObject
     public int MedicationType { get; set; }
     public string Description { get; set; }
     public IList<Schedule> Schedules { get; }
+    public bool IsDeleted { get; set; }
 
     [Ignored]
     public string ImagePath => ((MedicationType)MedicationType).ImagePath();

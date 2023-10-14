@@ -1,5 +1,4 @@
-﻿using HealthMate.Enums;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using Realms;
 
 namespace HealthMate.Models.Tables;
@@ -15,11 +14,7 @@ public partial class Schedule : IRealmObject, IEquatable<Schedule>
     public double Quantity { get; set; }
 
     [Ignored]
-    public string Icon => ((ScheduleState)ScheduleState).GetIcon();
-    [Ignored]
     public string MedicineIcon => Inventory.ImagePath;
-    [Ignored]
-    public Color OverallColor => ((ScheduleState)ScheduleState).GetOverallColor();
 
     public bool Equals(Schedule other)
     {

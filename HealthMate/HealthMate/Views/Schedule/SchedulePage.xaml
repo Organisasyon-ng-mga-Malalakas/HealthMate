@@ -223,6 +223,10 @@
                 <DataTemplate x:DataType="tables:Schedule">
                     <Grid Margin="0,10"
                           ColumnDefinitions="95, *">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:SchedulePageViewModel}}, Path=OpenScheduleInfoCommand}"
+                                                  CommandParameter="{Binding .}" />
+                        </Grid.GestureRecognizers>
                         <BoxView BackgroundColor="#DBDBDB"
                                  WidthRequest="0.5" />
 
@@ -241,13 +245,13 @@
                                        FontFamily="{StaticResource FASolid}"
                                        FontSize="35"
                                        HorizontalOptions="Center"
-                                       Text="{Binding Icon}"
-                                       TextColor="{Binding OverallColor}"
+                                       Text="{Binding ScheduleState, Converter={converters:ScheduleStateToIconConverter}}"
+                                       TextColor="{Binding ScheduleState, Converter={converters:ScheduleStateToColorConverter}}"
                                        VerticalOptions="Center" />
 
                                 <BoxView Grid.RowSpan="3"
                                          Grid.Column="1"
-                                         BackgroundColor="{Binding OverallColor}" />
+                                         BackgroundColor="{Binding ScheduleState, Converter={converters:ScheduleStateToColorConverter}}" />
 
                                 <Label Grid.RowSpan="2"
                                        Grid.Column="1"
@@ -297,7 +301,7 @@
                                FontSize="13"
                                HorizontalOptions="Center"
                                Text="{Binding ScheduleState, Converter={converters:ScheduleStateToStingConverter}}"
-                               TextColor="{Binding OverallColor}"
+                               TextColor="{Binding ScheduleState, Converter={converters:ScheduleStateToColorConverter}}"
                                VerticalOptions="Center" />
 
                     </Grid>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<templates:BasePopup x:Class="HealthMate.Views.Schedule.MedsMissedPopup"
+                     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                     xmlns:constants="clr-namespace:HealthMate.Constants"
+                     xmlns:templates="clr-namespace:HealthMate.Templates"
+                     xmlns:vm="clr-namespace:HealthMate.ViewModels.Schedule"
+                     x:DataType="vm:MedsMissedPopupViewModel"
+                     x:TypeArguments="vm:MedsMissedPopupViewModel">
+    <Border Padding="16"
+            BackgroundColor="#80000000">
+        <Border HeightRequest="320"
+                StrokeShape="RoundRectangle 10">
+            <FlexLayout AlignItems="Center"
+                        Direction="Column"
+                        JustifyContent="SpaceAround"
+                        VerticalOptions="Center">
+                <Label FontFamily="{StaticResource FASolid}"
+                       FontSize="60"
+                       Text="{Static constants:FontAwesomeIcons.CircleExclamation}"
+                       TextColor="Red" />
+
+                <Label FontFamily="{StaticResource Bold}"
+                       FontSize="25"
+                       Text="Meds Missed"
+                       TextColor="Red" />
+
+                <Label Margin="16,0"
+                       FontFamily="{StaticResource Regular}"
+                       FontSize="16"
+                       HorizontalTextAlignment="Center"
+                       Text="Oops! You missed a dosage. Just a heads up, missed dosages get logged and can't be edited. Let's keep on track for your well-being. If you have questions, your healthcare provider is there to help."
+                       TextColor="{StaticResource RegBlack}" />
+
+                <Button BackgroundColor="Red"
+                        Command="{Binding ClosePopupCommand}"
+                        FontFamily="{StaticResource Bold}"
+                        Text="Agree"
+                        TextColor="White"
+                        WidthRequest="120" />
+            </FlexLayout>
+        </Border>
+    </Border>
+</templates:BasePopup>

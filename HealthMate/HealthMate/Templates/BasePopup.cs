@@ -5,9 +5,11 @@ using FadeAnimation = Mopups.Animations.FadeAnimation;
 namespace HealthMate.Templates;
 public abstract class BasePopup<TViewModel> : PopupPage where TViewModel : BaseViewModel
 {
+    private readonly TViewModel _viewModel;
+
     protected BasePopup(in TViewModel viewModel)
     {
-        BindingContext = viewModel;
+        BindingContext = _viewModel = viewModel;
         Animation = new FadeAnimation
         {
             DurationIn = 250,
@@ -15,5 +17,17 @@ public abstract class BasePopup<TViewModel> : PopupPage where TViewModel : BaseV
             EasingIn = Easing.CubicIn,
             EasingOut = Easing.CubicOut
         };
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        _viewModel.OnNavigatedTo();
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        _viewModel.OnNavigatedFrom();
     }
 }

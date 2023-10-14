@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using HealthMate.Enums;
 using HealthMate.Extensions;
 using HealthMate.Models;
 using HealthMate.Services;
@@ -166,6 +167,13 @@ public partial class SchedulePageViewModel : BaseViewModel
                 existingGroup.Add(newSchedule);
         }
 
+        var missedMeds = Schedules.Where(x => x.ActualSchedule.ToLocalTime().DateTime < DateTime.Now)
+            .SelectMany(_ => _.Schedule);
+
+        foreach (var meds in missedMeds)
+            if ((ScheduleState)meds.ScheduleState == ScheduleState.Pending)
+                await _realmService.Write(() => meds.ScheduleState = (int)ScheduleState.Missed);
+
         #region Faker
         //var fakeInventory = new Faker<InventoryTable>()
         //.RuleFor(p => p.BrandName, v => v.Name.FirstName())
@@ -197,10 +205,12 @@ public partial class SchedulePageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async Task OpenMedsTakenPopup(Syncfusion.Maui.ListView.ItemTappedEventArgs args)
+    public async Task OpenScheduleInfo(ScheduleTable schedule)
     {
-        var schedule = (ScheduleTable)args.DataItem;
-        await _popupService.ShowPopup<MedsTakenPopup>(schedule);
+        if ((ScheduleState)schedule.ScheduleState is ScheduleState.Missed)
+            await _popupService.ShowPopup<MedsMissedPopup>();
+        else
+            await _popupService.ShowPopup<ScheduleInfoPopup>(schedule);
     }
 
     partial void OnSelectedDayChanged(CalendarDays oldValue, CalendarDays newValue)

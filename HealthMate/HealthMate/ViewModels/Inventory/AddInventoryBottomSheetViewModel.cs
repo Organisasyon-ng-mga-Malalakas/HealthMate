@@ -67,11 +67,12 @@ public partial class AddInventoryBottomSheetViewModel : BaseViewModel
 
         await _realmService.Upsert(new InventoryTable
         {
+            InventoryId = ObjectId.GenerateNewId(),
             BrandName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(BrandName).Trim(),
             Description = Description,
             Dosage = Dosage,
             DosageUnit = (int)SelectedDosage,
-            InventoryId = ObjectId.GenerateNewId(),
+            IsDeleted = false,
             MedicationType = (int)SelectedmedicationType,
             MedicineName = MedicineName,
             Stock = Stock

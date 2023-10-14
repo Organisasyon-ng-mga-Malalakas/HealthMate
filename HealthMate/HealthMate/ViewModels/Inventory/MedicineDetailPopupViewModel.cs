@@ -41,7 +41,7 @@ public partial class MedicineDetailPopupViewModel : BaseViewModel
     private async Task DeleteInventory()
     {
         WeakReferenceMessenger.Default.Send(new InventoryDeletingEventArgs(PassedInventory.InventoryId, ((MedicationType)PassedInventory.MedicationType).ToString()));
-        await _realmService.Delete(PassedInventory);
+        await _realmService.Write(() => PassedInventory.IsDeleted = true);
         await ClosePopup();
     }
 

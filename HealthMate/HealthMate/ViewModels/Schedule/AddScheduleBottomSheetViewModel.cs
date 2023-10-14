@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using HealthMate.Enums;
 using HealthMate.Services;
 using MongoDB.Bson;
 using System.Collections.ObjectModel;
@@ -66,7 +67,7 @@ public partial class AddScheduleBottomSheetViewModel : BaseViewModel
         await _realmService.Upsert(new ScheduleTable
         {
             ScheduleId = ObjectId.GenerateNewId(),
-            ScheduleState = new Random().Next(0, 2),
+            ScheduleState = (int)ScheduleState.Pending,
             Inventory = SelectedMedicine,
             Quantity = Quantity,
             TimeToTake = new DateTimeOffset(cleanDateAndTime)
@@ -77,7 +78,7 @@ public partial class AddScheduleBottomSheetViewModel : BaseViewModel
 
     public override async void OnNavigatedTo()
     {
-        var medicines = await _realmService.FindAll<InventoryTable>();
+        var medicines = await _realmService.Find<InventoryTable>(_ => !_.IsDeleted);
         Medicines = new ObservableCollection<InventoryTable>(medicines);
     }
 }

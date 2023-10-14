@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<templates:BasePopup x:Class="HealthMate.Views.Schedule.ScheduleInfoPopup"
+                     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                     xmlns:converters="clr-namespace:HealthMate.Converters"
+                     xmlns:enums="clr-namespace:HealthMate.Enums"
+                     xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+                     xmlns:templates="clr-namespace:HealthMate.Templates"
+                     xmlns:vm="clr-namespace:HealthMate.ViewModels.Schedule"
+                     x:DataType="vm:ScheduleInfoPopupViewModel"
+                     x:TypeArguments="vm:ScheduleInfoPopupViewModel">
+    <Border Padding="16"
+            BackgroundColor="#80000000">
+        <Border HeightRequest="300"
+                StrokeShape="RoundRectangle 10">
+            <Grid Padding="16"
+                  ColumnDefinitions="*,*"
+                  RowDefinitions="Auto,*,Auto">
+                <VerticalStackLayout>
+                    <Label FontFamily="{StaticResource Bold}"
+                           FontSize="20"
+                           Text="{Binding PassedSchedule.Inventory.BrandName}"
+                           TextColor="{StaticResource Pink}" />
+
+                    <Label FontFamily="{StaticResource Regular}"
+                           Text="{Binding PassedSchedule.Inventory.MedicineName}"
+                           TextColor="{StaticResource RegBlack}" />
+                </VerticalStackLayout>
+
+                <Label Grid.Column="1"
+                       FontFamily="{StaticResource Regular}"
+                       FontSize="16"
+                       HorizontalOptions="End"
+                       TextColor="{StaticResource RegBlack}">
+                    <Label.Text>
+                        <MultiBinding StringFormat="{}{0}{1}">
+                            <Binding Path="PassedSchedule.Inventory.Dosage" />
+                            <Binding Converter="{converters:DosageUnitToStringConverter}"
+                                     Path="PassedSchedule.Inventory.DosageUnit" />
+                        </MultiBinding>
+                    </Label.Text>
+                </Label>
+
+                <ScrollView Grid.Row="1"
+                            Grid.ColumnSpan="2"
+                            Margin="0,10">
+                    <Label FontFamily="{StaticResource Regular}"
+                           Text="{Binding PassedSchedule.Inventory.Description}"
+                           TextColor="{StaticResource RegBlack}" />
+                </ScrollView>
+
+                <!--#region Meds pending-->
+                <Button Grid.Row="2"
+                        BackgroundColor="White"
+                        BorderColor="{StaticResource Pink}"
+                        BorderWidth="1"
+                        Command="{Binding ClosePopupCommand}"
+                        FontFamily="{StaticResource Bold}"
+                        HorizontalOptions="Center"
+                        IsVisible="{Binding IsMedsTakenBtnVisible, Converter={mct:InvertedBoolConverter}}"
+                        Text="Close"
+                        TextColor="{StaticResource Pink}"
+                        VerticalOptions="Center" />
+
+                <Button Grid.Row="2"
+                        Grid.Column="1"
+                        BackgroundColor="{StaticResource Pink}"
+                        Command="{Binding MedsTakenCommand}"
+                        FontFamily="{StaticResource Bold}"
+                        HorizontalOptions="Center"
+                        IsVisible="{Binding IsMedsTakenBtnVisible, Converter={mct:InvertedBoolConverter}}"
+                        Text="Meds taken"
+                        TextColor="White"
+                        VerticalOptions="Center" />
+                <!--#endregion-->
+
+                <!--#region Meds taken-->
+                <Button Grid.Row="2"
+                        Grid.ColumnSpan="2"
+                        BackgroundColor="White"
+                        BorderColor="{StaticResource Pink}"
+                        BorderWidth="1"
+                        Command="{Binding ClosePopupCommand}"
+                        FontFamily="{StaticResource Bold}"
+                        HorizontalOptions="Center"
+                        IsVisible="{Binding IsMedsTakenBtnVisible}"
+                        Text="Close"
+                        TextColor="{StaticResource Pink}"
+                        VerticalOptions="Center" />
+                <!--#endregion-->
+            </Grid>
+        </Border>
+    </Border>
+</templates:BasePopup>
