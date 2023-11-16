@@ -139,6 +139,7 @@
                         <controls:BorderlessPicker Title="Medication type"
                                                    FontFamily="{StaticResource Regular}"
                                                    FontSize="12"
+                                                   IsEnabled="{Binding IsMedicationTypePickerEnabled}"
                                                    ItemsSource="{Binding MedicationTypes}"
                                                    SelectedItem="{Binding SelectedmedicationType}"
                                                    TextColor="{StaticResource RegBlack}" />

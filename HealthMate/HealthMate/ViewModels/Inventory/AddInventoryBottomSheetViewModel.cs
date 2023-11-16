@@ -31,6 +31,9 @@ public partial class AddInventoryBottomSheetViewModel : BaseViewModel
     private ObservableCollection<Dosage> dosages;
 
     [ObservableProperty]
+    private bool isMedicationTypePickerEnabled;
+
+    [ObservableProperty]
     private ObservableCollection<MedicationType> medicationTypes;
 
     [ObservableProperty]
@@ -89,6 +92,14 @@ public partial class AddInventoryBottomSheetViewModel : BaseViewModel
     public override void OnNavigatedTo()
     {
         Dosages = new ObservableCollection<Dosage>(Enum.GetValues<Dosage>());
-        MedicationTypes = new ObservableCollection<MedicationType>(Enum.GetValues<MedicationType>());
+        //MedicationTypes = new ObservableCollection<MedicationType>(Enum.GetValues<MedicationType>());
+    }
+
+    partial void OnSelectedDosageChanged(Dosage? value)
+    {
+        if (value == null)
+            return;
+        IsMedicationTypePickerEnabled = value != null;
+        MedicationTypes = new ObservableCollection<MedicationType>(value.Value.AllowedMedicationTypes());
     }
 }

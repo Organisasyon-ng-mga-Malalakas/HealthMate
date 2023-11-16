@@ -26,6 +26,10 @@
     <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android33.0|AnyCPU'">
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
+  </PropertyGroup>
+
   <ItemGroup>
     <!-- App Icon -->
 
@@ -54,6 +58,10 @@
     <None Remove="Resources\Fonts\FontAwesome-Pro-Solid-900.otf" />
     <None Remove="Resources\Fonts\FontAwesome-Pro-Thin-100.otf" />
     <None Remove="Resources\Images\Capsule.svg" />
+    <None Remove="Resources\Images\disclaimer0.svg" />
+    <None Remove="Resources\Images\disclaimer1.svg" />
+    <None Remove="Resources\Images\disclaimer2.svg" />
+    <None Remove="Resources\Images\disclaimer3.svg" />
     <None Remove="Resources\Images\Drops.svg" />
     <None Remove="Resources\Images\empty_inventory.svg" />
     <None Remove="Resources\Images\empty_schedule.svg" />
@@ -84,16 +92,16 @@
 
   <ItemGroup>
     <PackageReference Include="Bogus" Version="34.0.2" />
-    <PackageReference Include="CommunityToolkit.Maui" Version="5.2.0" />
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
-    <PackageReference Include="Mopups" Version="1.1.1" />
-    <PackageReference Include="Realm" Version="11.4.0" />
+    <PackageReference Include="CommunityToolkit.Maui" Version="6.1.0" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="Mopups" Version="1.2.0" />
+    <PackageReference Include="Realm" Version="11.6.0" />
     <PackageReference Include="Sharpnado.CollectionView.Maui" Version="3.0.0" />
     <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
     <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.6" />
     <PackageReference Include="Syncfusion.Maui.Calendar" Version="22.2.7" />
     <PackageReference Include="Syncfusion.Maui.ListView" Version="22.2.7" />
-    <PackageReference Include="The49.Maui.BottomSheet" Version="1.0.1" />
+    <PackageReference Include="The49.Maui.BottomSheet" Version="1.0.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -125,6 +133,9 @@
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Update="Views\Schedule\SchedulePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\SymptomChecker\DisclaimerPopup.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Update="Views\SymptomChecker\SymptomCheckerPage.xaml">

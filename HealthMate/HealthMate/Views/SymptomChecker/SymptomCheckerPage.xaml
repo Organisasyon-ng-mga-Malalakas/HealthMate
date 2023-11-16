@@ -6,35 +6,30 @@
                     xmlns:vm="clr-namespace:HealthMate.ViewModels.SymptomChecker"
                     x:DataType="vm:SymptomCheckerPageViewModel"
                     x:TypeArguments="vm:SymptomCheckerPageViewModel">
-    <VerticalStackLayout BackgroundColor="{StaticResource PageBackground}">
-        <Image HeightRequest="320"
-               Source="symptoms_checker.svg"
-               VerticalOptions="Center" />
+    <Grid BackgroundColor="{StaticResource PageBackground}">
+        <VerticalStackLayout VerticalOptions="Center">
+            <Image HeightRequest="320"
+                   Source="symptoms_checker.svg"
+                   VerticalOptions="CenterAndExpand" />
 
-        <Label HorizontalOptions="Center">
-            <Label.FormattedText>
-                <FormattedString>
-                    <Span FontFamily="{StaticResource Medium}"
-                          FontSize="18"
-                          Text="Monitor your " />
-                    <Span FontFamily="{StaticResource Medium}"
-                          FontSize="18"
-                          Text="Med Supplies"
-                          TextColor="{StaticResource Pink}" />
-                </FormattedString>
-            </Label.FormattedText>
-        </Label>
+            <Label FontFamily="{StaticResource Medium}"
+                   FontSize="18"
+                   HorizontalOptions="Center"
+                   Text="Symptom Checker"
+                   TextColor="{StaticResource Blue}" />
 
-        <Label FontFamily="{StaticResource Regular}"
-               FontSize="14"
-               HorizontalOptions="Center"
-               HorizontalTextAlignment="Center"
-               Text="Keep track of your medication&#10;inventory and stay prepared"
-               TextColor="{StaticResource RegBlack}" />
+            <Label FontFamily="{StaticResource Regular}"
+                   FontSize="14"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   Text="Discover possible illness and&#10;home remedies for better health"
+                   TextColor="{StaticResource RegBlack}" />
 
-        <Button Margin="80,20"
-                BackgroundColor="{StaticResource Pink}"
-                FontFamily="{StaticResource Bold}"
-                Text="Add Med Supplies" />
-    </VerticalStackLayout>
+            <Button Margin="80,20"
+                    BackgroundColor="{StaticResource Blue}"
+                    Command="{Binding OpenDisclaimerPopupCommand}"
+                    FontFamily="{StaticResource Bold}"
+                    Text="Search Symptoms" />
+        </VerticalStackLayout>
+    </Grid>
 </templates:BasePage>

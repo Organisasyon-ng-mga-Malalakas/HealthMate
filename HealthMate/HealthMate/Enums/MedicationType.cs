@@ -16,22 +16,24 @@ public enum MedicationType
 
 public static partial class Extensions
 {
+    public static IEnumerable<Dosage> AllowedDosages(this MedicationType medicationType)
+    {
+        return medicationType switch
+        {
+            MedicationType.Capsule or MedicationType.Tablet or MedicationType.Ointment => new Dosage[2] { Dosage.Milligrams, Dosage.Grams },
+            MedicationType.Liquid => new Dosage[4] { Dosage.Teaspoons, Dosage.Tablespoons, Dosage.Milliliters, Dosage.Ounces },
+            MedicationType.Inhaler => new Dosage[1] { Dosage.Puffs },
+            MedicationType.Injection => new Dosage[2] { Dosage.Units, Dosage.Milliliters },
+            MedicationType.Drops => new Dosage[2] { Dosage.Drops, Dosage.Milliliters },
+            MedicationType.Spray => new Dosage[1] { Dosage.Sprays },
+            MedicationType.Patch => new Dosage[1] { Dosage.Patches },
+            MedicationType.Other => Enum.GetValues(typeof(Dosage)).Cast<Dosage>(),
+            _ => Enumerable.Empty<Dosage>()
+        };
+    }
+
     public static string ImagePath(this MedicationType medicationType)
     {
-        //return medicationType switch
-        //{
-        //    MedicationType.Capsule => throw new NotImplementedException(),
-        //    MedicationType.Drops => throw new NotImplementedException(),
-        //    MedicationType.Inhaler => throw new NotImplementedException(),
-        //    MedicationType.Injection => throw new NotImplementedException(),
-        //    MedicationType.Liquid => throw new NotImplementedException(),
-        //    MedicationType.Ointment => throw new NotImplementedException(),
-        //    MedicationType.Other => throw new NotImplementedException(),
-        //    MedicationType.Patch => throw new NotImplementedException(),
-        //    MedicationType.Spray => throw new NotImplementedException(),
-        //    MedicationType.Tablet => throw new NotImplementedException(),
-        //    _ => throw new NotImplementedException(),
-        //};
         return $"{medicationType.ToString().ToLower()}.svg";
     }
 

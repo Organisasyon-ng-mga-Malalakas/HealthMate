@@ -63,7 +63,7 @@ public static class MauiProgram
     {
         builder.Services
             .AddSingleton<IPopupNavigation, PopupNavigation>()
-            .AddSingleton<PopupService>()
+            .AddSingleton<Services.PopupService>()
             .AddSingleton(_ => VersionTracking.Default)
             .AddSingleton(_ => Preferences.Default)
             .AddSingleton<DatabaseService>()
@@ -86,7 +86,8 @@ public static class MauiProgram
             .AddTransient<AddInventoryBottomSheetViewModel>()
             .AddTransient<MedicineDetailPopupViewModel>()
             .AddTransient<ScheduleInfoPopupViewModel>()
-            .AddTransient<MedsMissedPopupViewModel>();
+            .AddTransient<MedsMissedPopupViewModel>()
+            .AddTransient<DisclaimerPopupViewModel>();
 
         return builder;
     }

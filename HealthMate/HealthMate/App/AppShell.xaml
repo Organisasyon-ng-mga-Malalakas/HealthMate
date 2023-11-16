@@ -48,5 +48,14 @@
             </Tab.Icon>
             <ShellContent ContentTemplate="{DataTemplate symptomChecker:SymptomCheckerPage}" />
         </Tab>
+
+        <!--<Tab Title="Symptom Checker">
+            <Tab.Icon>
+                <FontImageSource FontFamily="{StaticResource FASolid}"
+                                 Glyph="{x:Static constants:FontAwesomeIcons.Person}"
+                                 Size="20" />
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate symptomChecker:DisclaimerPopup}" />
+        </Tab>-->
     </TabBar>
 </Shell>
