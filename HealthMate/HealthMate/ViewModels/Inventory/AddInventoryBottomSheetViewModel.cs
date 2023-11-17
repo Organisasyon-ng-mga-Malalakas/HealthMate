@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HealthMate.Enums;
+using HealthMate.Platforms.Android;
 using HealthMate.Services;
 using MongoDB.Bson;
 using System.Collections.ObjectModel;
@@ -14,6 +15,7 @@ public partial class AddInventoryBottomSheetViewModel : BaseViewModel
 {
     private readonly BottomSheetService _bottomSheetService;
     private readonly DatabaseService _databaseService;
+    private readonly KeyboardService _keyboardService;
     private readonly RealmService _realmService;
 
     [ObservableProperty]
@@ -54,10 +56,12 @@ public partial class AddInventoryBottomSheetViewModel : BaseViewModel
 
     public AddInventoryBottomSheetViewModel(BottomSheetService bottomSheetService,
         DatabaseService databaseService,
+        KeyboardService keyboardService,
         RealmService realmService)
     {
         _bottomSheetService = bottomSheetService;
         _databaseService = databaseService;
+        _keyboardService = keyboardService;
         _realmService = realmService;
     }
 
@@ -80,12 +84,14 @@ public partial class AddInventoryBottomSheetViewModel : BaseViewModel
             MedicineName = MedicineName,
             Stock = Stock
         });
+
         await CloseBottomSheet();
     }
 
     [RelayCommand]
     private async Task CloseBottomSheet()
     {
+        _keyboardService.HideKeyboard();
         await _bottomSheetService.CloseBottomSheet();
     }
 

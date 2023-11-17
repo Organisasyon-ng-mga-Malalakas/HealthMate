@@ -70,6 +70,7 @@
     <None Remove="Resources\Images\Injection.svg" />
     <None Remove="Resources\Images\Liquid.svg" />
     <None Remove="Resources\Images\loading.gif" />
+    <None Remove="Resources\Images\notif_icon.png" />
     <None Remove="Resources\Images\Ointment.svg" />
     <None Remove="Resources\Images\onboarding1.png" />
     <None Remove="Resources\Images\onboarding2.png" />
@@ -94,7 +95,9 @@
     <PackageReference Include="Bogus" Version="34.0.2" />
     <PackageReference Include="CommunityToolkit.Maui" Version="6.1.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="ConfigureAwait.Fody" Version="3.3.2" />
     <PackageReference Include="Mopups" Version="1.2.0" />
+    <PackageReference Include="Plugin.LocalNotification" Version="10.1.8" />
     <PackageReference Include="Realm" Version="11.6.0" />
     <PackageReference Include="Sharpnado.CollectionView.Maui" Version="3.0.0" />
     <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />

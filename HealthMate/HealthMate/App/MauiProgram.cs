@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using HealthMate.Controls;
 using HealthMate.Handlers;
+using HealthMate.Platforms.Android;
 using HealthMate.Platforms.Android.Renderers;
 using HealthMate.Services;
 using HealthMate.ViewModels.Inventory;
@@ -14,6 +15,7 @@ using HealthMate.Views.SymptomChecker;
 using Mopups.Hosting;
 using Mopups.Interfaces;
 using Mopups.Services;
+using Plugin.LocalNotification;
 using Sharpnado.CollectionView;
 using Syncfusion.Maui.Core.Hosting;
 using The49.Maui.BottomSheet;
@@ -53,6 +55,7 @@ public static class MauiProgram
                 .AddHandler<CustomSearchBar, CustomSearchBarHandler>();
             })
             .ConfigureMopups()
+            .UseLocalNotification()
             .RegisterServices()
             .RegisterViewsAndViewModel();
 
@@ -68,7 +71,9 @@ public static class MauiProgram
             .AddSingleton(_ => Preferences.Default)
             .AddSingleton<DatabaseService>()
             .AddSingleton<BottomSheetService>()
-            .AddSingleton<RealmService>();
+            .AddSingleton<RealmService>()
+            .AddSingleton<KeyboardService>()
+            .AddSingleton<NotificationService>();
 
         return builder;
     }
