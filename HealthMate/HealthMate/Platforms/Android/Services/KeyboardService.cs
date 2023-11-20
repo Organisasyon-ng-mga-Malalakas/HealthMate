@@ -1,7 +1,7 @@
 ﻿using Android.Content;
 using Android.Views.InputMethods;
 
-namespace HealthMate.Platforms.Android;
+namespace HealthMate.Platforms.Android.Services;
 
 public class KeyboardService
 {

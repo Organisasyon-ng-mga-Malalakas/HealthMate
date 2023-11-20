@@ -46,6 +46,8 @@ public partial class SchedulePageViewModel : BaseViewModel
         _bottomSheetService = bottomSheetService;
         _popupService = popupService;
         _realmService = realmService;
+
+        //Task.Run(OnNavigatedTos);
     }
 
     [RelayCommand]
@@ -120,7 +122,7 @@ public partial class SchedulePageViewModel : BaseViewModel
 
         if (Days == null)
         {
-            Days ??= new ObservableCollection<CalendarDays>();
+            Days ??= [];
             var year = DateTime.Now.Year;
             var month = DateTime.Now.Month;
             var daysInMonth = DateTime.DaysInMonth(year, month);
@@ -143,7 +145,7 @@ public partial class SchedulePageViewModel : BaseViewModel
             Months.IndexOf(SelectedMonth) + 1,
             Days.IndexOf(SelectedDay) + 1);
 
-        Schedules ??= new ObservableCollection<ScheduleGroup>();
+        Schedules ??= [];
         var schedules = await _realmService.FindAll<ScheduleTable>();
         RealmChangesNotification = schedules.SubscribeForNotifications(ListenForRealmChanges);
 
@@ -157,7 +159,7 @@ public partial class SchedulePageViewModel : BaseViewModel
             if (existingGroup == null)
             {
                 // Group doesn't exist, create a new group and add the item
-                var newGroup = new ScheduleGroup(newSchedule.TimeToTake, new ObservableCollection<ScheduleTable> { newSchedule });
+                var newGroup = new ScheduleGroup(newSchedule.TimeToTake, [newSchedule]);
                 Schedules.Add(newGroup);
             }
             else
@@ -242,7 +244,7 @@ public partial class SchedulePageViewModel : BaseViewModel
         Schedules.Clear();
         if (schedules is List<ScheduleTable> actualSchedules && actualSchedules.Any())
             foreach (var item in actualSchedules)
-                Schedules.Add(new ScheduleGroup(item.TimeToTake, new ObservableCollection<ScheduleTable> { item }));
+                Schedules.Add(new ScheduleGroup(item.TimeToTake, [item]));
 
         IsEmptyViewVisible = !Schedules.Any();
     }

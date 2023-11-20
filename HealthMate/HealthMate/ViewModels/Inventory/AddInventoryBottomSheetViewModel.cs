@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HealthMate.Enums;
-using HealthMate.Platforms.Android;
+using HealthMate.Platforms.Android.Services;
 using HealthMate.Services;
 using MongoDB.Bson;
 using System.Collections.ObjectModel;

@@ -1,8 +1,10 @@
 ﻿using CommunityToolkit.Maui;
 using HealthMate.Controls;
 using HealthMate.Handlers;
-using HealthMate.Platforms.Android;
+using HealthMate.Interfaces;
 using HealthMate.Platforms.Android.Renderers;
+using HealthMate.Platforms.Android.Services;
+using HealthMate.Platforms.Android.Services.AlarmServices;
 using HealthMate.Services;
 using HealthMate.ViewModels.Inventory;
 using HealthMate.ViewModels.Onboarding;
@@ -73,7 +75,8 @@ public static class MauiProgram
             .AddSingleton<BottomSheetService>()
             .AddSingleton<RealmService>()
             .AddSingleton<KeyboardService>()
-            .AddSingleton<NotificationService>();
+            .AddSingleton<NotificationService>()
+            .AddSingleton<IAlarmScheduler, AlarmScheduler>();
 
         return builder;
     }

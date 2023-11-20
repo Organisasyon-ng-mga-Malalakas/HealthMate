@@ -50,7 +50,7 @@ public class NotificationService
                 IconSmallName = notificationIcon,
                 IsGroupSummary = true,
                 Priority = AndroidPriority.Max,
-                VibrationPattern = new long[6] { 200, 300, 200, 300, 200, 300 },
+                VibrationPattern = [200, 300, 200, 300, 200, 300],
                 VisibilityType = AndroidVisibilityType.Public
             },
             CategoryType = NotificationCategoryType.Alarm,

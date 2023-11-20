@@ -1,7 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HealthMate.Enums;
-using HealthMate.Platforms.Android;
+using HealthMate.Interfaces;
+using HealthMate.Platforms.Android.Services;
 using HealthMate.Services;
 using MongoDB.Bson;
 using System.Collections.ObjectModel;
@@ -12,6 +13,7 @@ using ScheduleTable = HealthMate.Models.Tables.Schedule;
 namespace HealthMate.ViewModels.Schedule;
 public partial class AddScheduleBottomSheetViewModel : BaseViewModel
 {
+    private readonly IAlarmScheduler _alarmScheduler;
     private readonly BottomSheetService _bottomSheetService;
     private readonly KeyboardService _keyboardService;
     private readonly NotificationService _notificationService;
@@ -41,15 +43,19 @@ public partial class AddScheduleBottomSheetViewModel : BaseViewModel
     [Required]
     private InventoryTable selectedMedicine;
 
-    public AddScheduleBottomSheetViewModel(BottomSheetService bottomSheetService,
+    public AddScheduleBottomSheetViewModel(IAlarmScheduler alarmScheduler,
+        BottomSheetService bottomSheetService,
         KeyboardService keyboardService,
         NotificationService notificationService,
         RealmService realmService)
     {
+        _alarmScheduler = alarmScheduler;
         _bottomSheetService = bottomSheetService;
         _keyboardService = keyboardService;
         _notificationService = notificationService;
         _realmService = realmService;
+
+        _alarmScheduler.ScheduleAlarm(DateTime.Now.AddSeconds(5));
     }
 
     [RelayCommand]

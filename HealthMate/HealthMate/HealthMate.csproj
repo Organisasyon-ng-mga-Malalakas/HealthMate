@@ -111,6 +111,9 @@
     <MauiXaml Update="App\AppShell.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
+    <MauiXaml Update="Interfaces\TestPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="Views\Inventory\AddInventoryBottomSheet.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
@@ -147,10 +150,6 @@
     <MauiXaml Update="Views\Onboarding\TermsAndConditionPopup.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
   </ItemGroup>
 
   <ItemGroup>
