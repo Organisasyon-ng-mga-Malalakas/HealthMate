@@ -3,7 +3,6 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using AndroidX.Core.App;
-using HealthMate.Interfaces;
 
 namespace HealthMate;
 
@@ -24,29 +23,8 @@ public class MainActivity : MauiAppCompatActivity
         base.OnCreate(savedInstanceState);
 
         // Handle the intent if the activity is launched from the background
-        //NavigateToAlarmPageIfNeeded(Intent);
         SetShowWhenLocked(true);
         SetTurnScreenOn(true);
-    }
-
-    protected override void OnNewIntent(Intent intent)
-    {
-        base.OnNewIntent(intent);
-        NavigateToAlarmPageIfNeeded(intent);
-    }
-
-    private void NavigateToAlarmPageIfNeeded(Intent intent)
-    {
-        if (intent.GetBooleanExtra("openAlarmUI", false))
-        {
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                if (Microsoft.Maui.Controls.Application.Current.MainPage is AppShell shell)
-                {
-                    Shell.Current.GoToAsync(nameof(TestPage)); // Change to your page's route
-                }
-            });
-        }
     }
 }
 
@@ -55,29 +33,9 @@ public class AlarmBroadcastReceiver : BroadcastReceiver
 {
     public override void OnReceive(Context context, Intent intent)
     {
-        //// Navigate to the Alarm UI
-        //var test = Application.Current.MainPage;
-
-        //if (test is AppShell shell)
-        //{
-        //    // Replace 'AlarmPage' with your actual Alarm UI page
-        //    //navigationPage.PushAsync(new TestPage());
-        //    Shell.Current.Navigation.PushAsync(new TestPage());
-        //}
-
         var fullScreenIntent = new Intent(context, typeof(MainActivity));
         fullScreenIntent.SetFlags(ActivityFlags.SingleTop | ActivityFlags.ClearTop);
         var fullScreenPendingIntent = PendingIntent.GetActivity(context, 0, fullScreenIntent, PendingIntentFlags.Immutable);
-        //var builder = new NotificationCompat.Builder(context, "HealthMate.Platforms.Android.Services.AlarmServices")
-        //.SetSmallIcon(Resource.Drawable.notification_icon_background)
-        //.SetContentTitle("My notification")
-        //.SetContentText("Hello World!")
-        //.SetPriority(NotificationCompat.PriorityHigh)
-        ////.SetFullScreenIntent(fullScreenPendingIntent, true)
-        //.SetChannelId("HealthMate.Platforms.Android.Services.AlarmServices");
-
-        //var notificationManager = NotificationManagerCompat.From(context);
-        //notificationManager.Notify(69, builder.Build());
 
         var mBuilder = new NotificationCompat.Builder(context, "69420")
             .SetContentTitle("Trainify")
@@ -109,7 +67,7 @@ public class AlarmBroadcastReceiver : BroadcastReceiver
 
             if (notificationManager != null)
             {
-                mBuilder.SetChannelId("69420");
+                mBuilder.SetChannelId("ChannelId");
                 notificationManager.CreateNotificationChannel(notificationChannel);
             }
         }

@@ -18,6 +18,7 @@ using Mopups.Hosting;
 using Mopups.Interfaces;
 using Mopups.Services;
 using Plugin.LocalNotification;
+using Refit;
 using Sharpnado.CollectionView;
 using Syncfusion.Maui.Core.Hosting;
 using The49.Maui.BottomSheet;
@@ -59,9 +60,18 @@ public static class MauiProgram
             .ConfigureMopups()
             .UseLocalNotification()
             .RegisterServices()
-            .RegisterViewsAndViewModel();
+            .RegisterViewsAndViewModel()
+            .RegisterRefit();
 
         return builder.Build();
+    }
+
+    private static MauiAppBuilder RegisterRefit(this MauiAppBuilder builder)
+    {
+        builder.Services.AddRefitClient<ISymptomChecker>()
+            .ConfigureHttpClient(client => client.BaseAddress = new Uri("https://healthmate-api.mangobeach-087ac216.eastasia.azurecontainerapps.io"));
+
+        return builder;
     }
 
     private static MauiAppBuilder RegisterServices(this MauiAppBuilder builder)
