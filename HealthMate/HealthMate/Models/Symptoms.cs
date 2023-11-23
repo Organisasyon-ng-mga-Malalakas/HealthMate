@@ -1,14 +1,14 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace HealthMate.Models;
 public class Symptoms
 {
-    [JsonPropertyName("id")]
+    [JsonProperty("id")]
     public long Id { get; set; }
 
-    [JsonPropertyName("name")]
+    [JsonProperty("name")]
     public string Name { get; set; }
 
-    [JsonPropertyName("is_critical")]
+    [JsonProperty("is_critical")]
     public bool IsCritical { get; set; }
 }

@@ -49,6 +49,7 @@ public class NotificationService
                 IconLargeName = notificationIcon,
                 IconSmallName = notificationIcon,
                 IsGroupSummary = true,
+                LaunchApp = new AndroidLaunch(),
                 Priority = AndroidPriority.Max,
                 VibrationPattern = [200, 300, 200, 300, 200, 300],
                 VisibilityType = AndroidVisibilityType.Public

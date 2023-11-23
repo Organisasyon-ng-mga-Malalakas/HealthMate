@@ -97,7 +97,8 @@
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="ConfigureAwait.Fody" Version="3.3.2" />
     <PackageReference Include="Mopups" Version="1.2.0" />
-    <PackageReference Include="Plugin.LocalNotification" Version="10.1.8" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Plugin.LocalNotification" Version="11.0.1-preview01" />
     <PackageReference Include="Realm" Version="11.6.0" />
     <PackageReference Include="Refit" Version="7.0.0" />
     <PackageReference Include="Refit.HttpClientFactory" Version="7.0.0" />
@@ -166,6 +167,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
     <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HealthMateBackend\HealthMateBackend.csproj" />
   </ItemGroup>
 
 </Project>

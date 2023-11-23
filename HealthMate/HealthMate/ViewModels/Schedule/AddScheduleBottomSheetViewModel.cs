@@ -14,6 +14,7 @@ namespace HealthMate.ViewModels.Schedule;
 public partial class AddScheduleBottomSheetViewModel : BaseViewModel
 {
     private readonly IAlarmScheduler _alarmScheduler;
+    private readonly BackendService _backendService;
     private readonly BottomSheetService _bottomSheetService;
     private readonly KeyboardService _keyboardService;
     private readonly NotificationService _notificationService;
@@ -44,18 +45,20 @@ public partial class AddScheduleBottomSheetViewModel : BaseViewModel
     private InventoryTable selectedMedicine;
 
     public AddScheduleBottomSheetViewModel(IAlarmScheduler alarmScheduler,
+        BackendService backendService,
         BottomSheetService bottomSheetService,
         KeyboardService keyboardService,
         NotificationService notificationService,
         RealmService realmService)
     {
         _alarmScheduler = alarmScheduler;
+        _backendService = backendService;
         _bottomSheetService = bottomSheetService;
         _keyboardService = keyboardService;
         _notificationService = notificationService;
         _realmService = realmService;
 
-        _alarmScheduler.ScheduleAlarm(DateTime.Now.AddSeconds(5));
+        //_alarmScheduler.ScheduleAlarm(DateTime.Now.AddSeconds(5));
     }
 
     [RelayCommand]
@@ -118,7 +121,7 @@ public partial class AddScheduleBottomSheetViewModel : BaseViewModel
             if (!string.IsNullOrWhiteSpace(Notes))
                 selectedDescription += $"\n\nAdditional notes: {Notes}";
 
-            await _notificationService.ScheduleNotification(selectedDescription, cleanDateAndTime);
+            await _notificationService.ScheduleNotification(selectedDescription, DateTime.Now.AddSeconds(5));
         }
 
         await CloseBottomSheet();
@@ -128,5 +131,7 @@ public partial class AddScheduleBottomSheetViewModel : BaseViewModel
     {
         var medicines = await _realmService.Find<InventoryTable>(_ => !_.IsDeleted);
         Medicines = new ObservableCollection<InventoryTable>(medicines);
+
+        //var test = await _backendService.GetSymptoms(2001, Gender.Male, Body_part.Head);
     }
 }
