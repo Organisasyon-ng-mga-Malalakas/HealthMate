@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using HealthMate.Models;
 using HealthMate.Services;
-using HealthMate.Views.SymptomChecker;
+using HealthMate.Views.SymptomChecker.BodyPicker;
 using System.Collections.ObjectModel;
 
 namespace HealthMate.ViewModels.SymptomChecker;
@@ -23,7 +23,7 @@ public partial class DisclaimerPopupViewModel : BaseViewModel
     public async Task ClosePopup()
     {
         await _popupService.ClosePopup();
-        await Shell.Current.GoToAsync($"{nameof(DiseaseCheckerPage)}", true);
+        await Shell.Current.GoToAsync($"{nameof(BodyPickerPage)}", true);
     }
 
     public override void OnNavigatedTo()

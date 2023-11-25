@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 
-namespace HealthMate.ViewModels.SymptomChecker.DiseaseChecker;
-public partial class DiseaseCheckerPageViewModel : BaseViewModel
+namespace HealthMate.ViewModels.SymptomChecker.BodyPicker;
+public partial class BodyPickerPageViewModel : BaseViewModel
 {
-    public DiseaseCheckerPageViewModel()
+    public BodyPickerPageViewModel()
     {
 
     }

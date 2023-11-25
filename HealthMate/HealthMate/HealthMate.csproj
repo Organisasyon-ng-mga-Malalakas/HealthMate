@@ -157,7 +157,7 @@
     <MauiXaml Update="Views\SymptomChecker\DisclaimerPopup.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
-    <MauiXaml Update="Views\SymptomChecker\DiseaseCheckerPage.xaml">
+    <MauiXaml Update="Views\SymptomChecker\BodyPicker\BodyPickerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Update="Views\SymptomChecker\SymptomCheckerPage.xaml">
@@ -171,6 +171,9 @@
   <ItemGroup>
     <Compile Update="Views\Schedule\AddScheduleBottomSheet.xaml.cs">
       <DependentUpon>AddScheduleBottomSheet.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\SymptomChecker\BodyPicker\BodyPickerPage.xaml.cs">
+      <DependentUpon>BodyPickerPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\SymptomChecker\SymptomCheckerPage.xaml.cs">
       <DependentUpon>SymptomCheckerPage.xaml</DependentUpon>
