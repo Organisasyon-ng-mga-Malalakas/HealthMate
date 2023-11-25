@@ -232,6 +232,7 @@
 
                         <Border Grid.Column="1"
                                 HeightRequest="110"
+                                Stroke="{Binding ScheduleState, Converter={converters:ScheduleStateToColorConverter}}"
                                 StrokeShape="RoundRectangle 20">
                             <Border.Shadow>
                                 <Shadow Brush="Gray"

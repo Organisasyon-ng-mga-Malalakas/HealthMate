@@ -11,7 +11,8 @@
                      x:TypeArguments="vm:ScheduleInfoPopupViewModel">
     <Border Padding="16"
             BackgroundColor="#80000000">
-        <Border HeightRequest="300"
+        <Border BackgroundColor="White"
+                HeightRequest="300"
                 StrokeShape="RoundRectangle 10">
             <Grid Padding="16"
                   ColumnDefinitions="*,*"

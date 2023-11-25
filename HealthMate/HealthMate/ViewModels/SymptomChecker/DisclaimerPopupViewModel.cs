@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using HealthMate.Models;
 using HealthMate.Services;
+using HealthMate.Views.SymptomChecker;
 using System.Collections.ObjectModel;
 
 namespace HealthMate.ViewModels.SymptomChecker;
@@ -22,6 +23,7 @@ public partial class DisclaimerPopupViewModel : BaseViewModel
     public async Task ClosePopup()
     {
         await _popupService.ClosePopup();
+        await Shell.Current.GoToAsync($"{nameof(DiseaseCheckerPage)}", true);
     }
 
     public override void OnNavigatedTo()
@@ -35,7 +37,7 @@ public partial class DisclaimerPopupViewModel : BaseViewModel
             "Make informed decisions regarding your health. If you have any doubts or concerns, do not hesitate to seek professional medical assistance. Thank you for using HealthMate, and we wish you good health and well-being."
         };
 
-        Disclaimers = new ObservableCollection<Disclaimer>();
+        Disclaimers = [];
         for (var index = 0; index < 4; index++)
         {
             Disclaimers.Add(new Disclaimer

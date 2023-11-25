@@ -9,7 +9,8 @@
                      x:TypeArguments="vm:MedsMissedPopupViewModel">
     <Border Padding="16"
             BackgroundColor="#80000000">
-        <Border HeightRequest="320"
+        <Border BackgroundColor="White"
+                HeightRequest="320"
                 StrokeShape="RoundRectangle 10">
             <FlexLayout AlignItems="Center"
                         Direction="Column"

@@ -10,7 +10,8 @@
                      x:TypeArguments="vm:DisclaimerPopupViewModel">
     <Border Padding="16"
             BackgroundColor="#80000000">
-        <Border HeightRequest="650"
+        <Border BackgroundColor="White"
+                HeightRequest="650"
                 StrokeShape="RoundRectangle 10">
             <Grid RowDefinitions="*, 10, Auto">
                 <CarouselView IndicatorView="indicatorView"

@@ -80,6 +80,8 @@
     <None Remove="Resources\Images\Patch.svg" />
     <None Remove="Resources\Images\Spray.svg" />
     <None Remove="Resources\Images\symptoms_checker.svg" />
+    <None Remove="Resources\Images\symptom_checker_black.png" />
+    <None Remove="Resources\Images\symptom_checker_blue.png" />
     <None Remove="Resources\Images\Tablet.svg" />
   </ItemGroup>
 
@@ -92,19 +94,27 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Azure.Identity" Version="1.10.3" />
     <PackageReference Include="Bogus" Version="34.0.2" />
     <PackageReference Include="CommunityToolkit.Maui" Version="6.1.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="ConfigureAwait.Fody" Version="3.3.2" />
+    <PackageReference Include="Microsoft.Kiota.Abstractions" Version="1.7.0" />
+    <PackageReference Include="Microsoft.Kiota.Authentication.Azure" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Kiota.Http.HttpClientLibrary" Version="1.3.0" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Form" Version="1.1.0" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Json" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Multipart" Version="1.1.0" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Text" Version="1.1.0" />
     <PackageReference Include="Mopups" Version="1.2.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Plugin.LocalNotification" Version="11.0.1-preview01" />
-    <PackageReference Include="Realm" Version="11.6.0" />
+    <PackageReference Include="Realm" Version="11.6.1" />
     <PackageReference Include="Refit" Version="7.0.0" />
     <PackageReference Include="Refit.HttpClientFactory" Version="7.0.0" />
     <PackageReference Include="Sharpnado.CollectionView.Maui" Version="3.0.0" />
     <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
-    <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.6" />
+    <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.7" />
     <PackageReference Include="Syncfusion.Maui.Calendar" Version="22.2.7" />
     <PackageReference Include="Syncfusion.Maui.ListView" Version="22.2.7" />
     <PackageReference Include="The49.Maui.BottomSheet" Version="1.0.4" />
@@ -145,6 +155,9 @@
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Update="Views\SymptomChecker\DisclaimerPopup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\SymptomChecker\DiseaseCheckerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Update="Views\SymptomChecker\SymptomCheckerPage.xaml">

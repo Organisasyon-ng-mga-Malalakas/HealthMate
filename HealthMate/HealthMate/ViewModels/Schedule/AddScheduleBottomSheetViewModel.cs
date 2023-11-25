@@ -4,6 +4,8 @@ using HealthMate.Enums;
 using HealthMate.Interfaces;
 using HealthMate.Platforms.Android.Services;
 using HealthMate.Services;
+using HealthMate.Services.HttpServices;
+using HealthMateBackend;
 using MongoDB.Bson;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
@@ -14,8 +16,8 @@ namespace HealthMate.ViewModels.Schedule;
 public partial class AddScheduleBottomSheetViewModel : BaseViewModel
 {
     private readonly IAlarmScheduler _alarmScheduler;
-    private readonly BackendService _backendService;
     private readonly BottomSheetService _bottomSheetService;
+    private readonly HttpService _httpService;
     private readonly KeyboardService _keyboardService;
     private readonly NotificationService _notificationService;
     private readonly RealmService _realmService;
@@ -45,15 +47,15 @@ public partial class AddScheduleBottomSheetViewModel : BaseViewModel
     private InventoryTable selectedMedicine;
 
     public AddScheduleBottomSheetViewModel(IAlarmScheduler alarmScheduler,
-        BackendService backendService,
         BottomSheetService bottomSheetService,
+        HttpService httpService,
         KeyboardService keyboardService,
         NotificationService notificationService,
         RealmService realmService)
     {
         _alarmScheduler = alarmScheduler;
-        _backendService = backendService;
         _bottomSheetService = bottomSheetService;
+        _httpService = httpService;
         _keyboardService = keyboardService;
         _notificationService = notificationService;
         _realmService = realmService;
@@ -132,6 +134,14 @@ public partial class AddScheduleBottomSheetViewModel : BaseViewModel
         var medicines = await _realmService.Find<InventoryTable>(_ => !_.IsDeleted);
         Medicines = new ObservableCollection<InventoryTable>(medicines);
 
-        //var test = await _backendService.GetSymptoms(2001, Gender.Male, Body_part.Head);
+        try
+        {
+            //var test1 = await _httpService.GetDiseaseFromSymptoms(2001, Gender.Male, Body_part.Head, "176,77");
+            var test2 = await _httpService.GetDiseaseInfo(143, 2001, Gender3.Male, Body_part3.Head);
+        }
+        catch (Exception ex)
+        {
+
+        }
     }
 }

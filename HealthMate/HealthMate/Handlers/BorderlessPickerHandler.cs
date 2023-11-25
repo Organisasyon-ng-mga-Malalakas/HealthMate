@@ -30,7 +30,10 @@ public partial class BorderlessPickerHandler : PickerHandler
 
     protected override void DisconnectHandler(MauiPicker platformView)
     {
-        platformView?.Dispose();
-        base.DisconnectHandler(platformView);
+        if (platformView != null)
+        {
+            platformView?.Dispose();
+            base.DisconnectHandler(platformView);
+        }
     }
 }

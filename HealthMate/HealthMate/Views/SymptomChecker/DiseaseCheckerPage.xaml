@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<templates:BasePage x:Class="HealthMate.Views.SymptomChecker.DiseaseCheckerPage"
+                    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:constants="clr-namespace:HealthMate.Constants"
+                    xmlns:controls="clr-namespace:HealthMate.Controls"
+                    xmlns:templates="clr-namespace:HealthMate.Templates"
+                    xmlns:vm="clr-namespace:HealthMate.ViewModels.SymptomChecker.DiseaseChecker"
+                    x:DataType="vm:DiseaseCheckerPageViewModel"
+                    x:TypeArguments="vm:DiseaseCheckerPageViewModel"
+                    Shell.NavBarIsVisible="False">
+    <Grid RowDefinitions="50,120,*,80">
+        <Label Margin="16,10"
+               FontFamily="{StaticResource FARegular}"
+               FontSize="20"
+               Text="{Static constants:FontAwesomeIcons.ArrowLeft}">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding PopPageCommand}" />
+            </Label.GestureRecognizers>
+        </Label>
+
+        <VerticalStackLayout Grid.Row="1">
+            <Label FontSize="20"
+                   HorizontalTextAlignment="Center">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span FontFamily="{StaticResource Regular}"
+                              Text="Which " />
+                        <Span FontFamily="{StaticResource Bold}"
+                              Text="part of your body "
+                              TextColor="{StaticResource Blue}" />
+                        <Span FontFamily="{StaticResource Regular}"
+                              Text="is experiencing&#10;" />
+                        <Span FontFamily="{StaticResource Bold}"
+                              Text="the symptoms or illness?"
+                              TextColor="{StaticResource Blue}" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <Border Padding="10,5"
+                    HorizontalOptions="Center"
+                    StrokeShape="RoundRectangle 20"
+                    StrokeThickness="0.25">
+                <HorizontalStackLayout>
+                    <controls:BorderlessPicker Title="body part"
+                                               FontFamily="{StaticResource Regular}">
+                        <controls:BorderlessPicker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Baboon</x:String>
+                                <x:String>Capuchin Monkey</x:String>
+                                <x:String>Blue Monkey</x:String>
+                                <x:String>Squirrel Monkey</x:String>
+                                <x:String>Golden Lion Tamarin</x:String>
+                                <x:String>Howler Monkey</x:String>
+                                <x:String>Japanese Macaque</x:String>
+                            </x:Array>
+                        </controls:BorderlessPicker.ItemsSource>
+                    </controls:BorderlessPicker>
+
+                    <Label Margin="10,0,5,0"
+                           FontFamily="{StaticResource FARegular}"
+                           FontSize="10"
+                           Text="{Static constants:FontAwesomeIcons.ChevronDown}"
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+
+        <Image Grid.Row="2"
+               HorizontalOptions="Center"
+               Source="symptom_checker_blue"
+               VerticalOptions="Center" />
+
+        <Button Grid.Row="3"
+                BackgroundColor="{StaticResource Blue}"
+                FontFamily="{StaticResource Regular}"
+                HorizontalOptions="Center"
+                Text="Whole Body Selected"
+                VerticalOptions="End" />
+    </Grid>
+</templates:BasePage>

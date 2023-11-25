@@ -10,7 +10,7 @@ using AndroidX.AppCompat.App;
 [assembly: UsesPermission("android.permission.POST_NOTIFICATIONS")]
 namespace HealthMate;
 
-[Application]
+[Application(UsesCleartextTraffic = true)]
 public class MainApplication : MauiApplication
 {
     public MainApplication(IntPtr handle, JniHandleOwnership ownership)

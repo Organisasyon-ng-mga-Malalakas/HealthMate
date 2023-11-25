@@ -6,14 +6,17 @@ using HealthMate.Platforms.Android.Renderers;
 using HealthMate.Platforms.Android.Services;
 using HealthMate.Platforms.Android.Services.AlarmServices;
 using HealthMate.Services;
+using HealthMate.Services.HttpServices;
 using HealthMate.ViewModels.Inventory;
 using HealthMate.ViewModels.Onboarding;
 using HealthMate.ViewModels.Schedule;
 using HealthMate.ViewModels.SymptomChecker;
+using HealthMate.ViewModels.SymptomChecker.DiseaseChecker;
 using HealthMate.Views.Inventory;
 using HealthMate.Views.Onboarding;
 using HealthMate.Views.Schedule;
 using HealthMate.Views.SymptomChecker;
+using HealthMateBackend;
 using Mopups.Hosting;
 using Mopups.Interfaces;
 using Mopups.Services;
@@ -86,7 +89,12 @@ public static class MauiProgram
             .AddSingleton<KeyboardService>()
             .AddSingleton<NotificationService>()
             .AddSingleton<IAlarmScheduler, AlarmScheduler>()
-            .AddSingleton<BackendService>();
+            .AddSingleton<HttpService>()
+            .AddSingleton(_ =>
+            {
+                var httpClient = new HttpClient();
+                return new HealthMateAPIClient("https://healthmate-api.mangobeach-087ac216.eastasia.azurecontainerapps.io", httpClient);
+            });
 
         return builder;
     }
@@ -105,7 +113,8 @@ public static class MauiProgram
             .AddTransient<MedicineDetailPopupViewModel>()
             .AddTransient<ScheduleInfoPopupViewModel>()
             .AddTransient<MedsMissedPopupViewModel>()
-            .AddTransient<DisclaimerPopupViewModel>();
+            .AddTransient<DisclaimerPopupViewModel>()
+            .AddTransientWithShellRoute<DiseaseCheckerPage, DiseaseCheckerPageViewModel>(nameof(DiseaseCheckerPage));
 
         return builder;
     }

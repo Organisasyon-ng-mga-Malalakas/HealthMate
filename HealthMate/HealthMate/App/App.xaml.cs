@@ -6,7 +6,7 @@ public partial class App : Application
 {
     public App(IVersionTracking versionTracking, DatabaseService databaseService)
     {
-        Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NGaF1cWmhIfEx1RHxQdld5ZFRHallYTnNWUj0eQnxTdEZjUX9YcXdRQ2NfWU13Vg==");
+        Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MjkyNTEyMkAzMjMzMmUzMDJlMzBINnQwbjZLekJIYUdRNU5QZGpoakE5empQTkpIT0VDbjFVK1lmU3lMK280PQ==");
         InitializeComponent();
         MainPage = new AppShell(versionTracking);
     }

@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <OpenApiReference Include="OpenAPIs\openapi.json" CodeGenerator="NSwagCSharp" ClassName="HealthMateAPIClient">
+    <OpenApiReference Include="OpenAPIs\openapi.json" CodeGenerator="NSwagCSharp" ClassName="HealtmateAPIClient">
       <SourceUri>https://healthmate-api.mangobeach-087ac216.eastasia.azurecontainerapps.io/openapi.json</SourceUri>
     </OpenApiReference>
   </ItemGroup>
@@ -17,7 +17,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="NSwag.ApiDescription.Client" Version="13.18.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

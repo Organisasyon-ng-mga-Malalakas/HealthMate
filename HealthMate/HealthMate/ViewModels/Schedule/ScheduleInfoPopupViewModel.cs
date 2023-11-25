@@ -32,7 +32,11 @@ public partial class ScheduleInfoPopupViewModel : BaseViewModel
     [RelayCommand]
     public async Task MedsTaken()
     {
-        await _realmService.Write(() => PassedSchedule.ScheduleState = (int)ScheduleState.Taken);
+        await _realmService.Write(() =>
+        {
+            PassedSchedule.ScheduleState = (int)ScheduleState.Taken;
+            PassedSchedule.Inventory.Stock -= PassedSchedule.Quantity;
+        });
         await ClosePopup();
     }
 
