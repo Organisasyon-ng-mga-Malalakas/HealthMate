@@ -1,0 +1,2243 @@
+"head": {
+    "Head, throat & neck": [],
+    "Face & eyes": [
+        {
+            "id": 57,
+            "name": "Blackening of vision",
+            "is_critical": true
+        },
+        {
+            "id": 24,
+            "name": "Blackhead",
+            "is_critical": false
+        },
+        {
+            "id": 176,
+            "name": "Bleeding in the conjunctiva of the eye",
+            "is_critical": false
+        },
+        {
+            "id": 77,
+            "name": "Blurred vision",
+            "is_critical": false
+        },
+        {
+            "id": 75,
+            "name": "Burning eyes",
+            "is_critical": false
+        },
+        {
+            "id": 288,
+            "name": "Burning nose",
+            "is_critical": false
+        },
+        {
+            "id": 170,
+            "name": "Cheek swelling",
+            "is_critical": false
+        },
+        {
+            "id": 71,
+            "name": "Double vision",
+            "is_critical": false
+        },
+        {
+            "id": 270,
+            "name": "Double vision, acute-onset",
+            "is_critical": false
+        },
+        {
+            "id": 244,
+            "name": "Drooping eyelid",
+            "is_critical": false
+        },
+        {
+            "id": 273,
+            "name": "Dry eyes",
+            "is_critical": false
+        },
+        {
+            "id": 242,
+            "name": "Eye blinking",
+            "is_critical": false
+        },
+        {
+            "id": 287,
+            "name": "Eye pain",
+            "is_critical": true
+        },
+        {
+            "id": 33,
+            "name": "Eye redness",
+            "is_critical": false
+        },
+        {
+            "id": 208,
+            "name": "Eyelid swelling",
+            "is_critical": false
+        },
+        {
+            "id": 209,
+            "name": "Eyelids sticking together",
+            "is_critical": false
+        },
+        {
+            "id": 219,
+            "name": "Face pain",
+            "is_critical": false
+        },
+        {
+            "id": 246,
+            "name": "Facial paralysis",
+            "is_critical": false
+        },
+        {
+            "id": 970,
+            "name": "Facial swelling",
+            "is_critical": false
+        },
+        {
+            "id": 76,
+            "name": "Feeling of foreign body in the eye",
+            "is_critical": false
+        },
+        {
+            "id": 72,
+            "name": "Halo",
+            "is_critical": false
+        },
+        {
+            "id": 70,
+            "name": "Impaired light-dark adaptation",
+            "is_critical": false
+        },
+        {
+            "id": 73,
+            "name": "Itching eyes",
+            "is_critical": false
+        },
+        {
+            "id": 210,
+            "name": "Loss of eye lashes",
+            "is_critical": false
+        },
+        {
+            "id": 137,
+            "name": "Oversensitivity to light",
+            "is_critical": false
+        },
+        {
+            "id": 286,
+            "name": "Pain when chewing",
+            "is_critical": false
+        },
+        {
+            "id": 129,
+            "name": "Problems with the sense of touch in the face",
+            "is_critical": false
+        },
+        {
+            "id": 258,
+            "name": "Protrusion of the eyes",
+            "is_critical": false
+        },
+        {
+            "id": 69,
+            "name": "Sensitivity to glare",
+            "is_critical": false
+        },
+        {
+            "id": 211,
+            "name": "Tears",
+            "is_critical": false
+        },
+        {
+            "id": 243,
+            "name": "Tic",
+            "is_critical": false
+        },
+        {
+            "id": 68,
+            "name": "Vision impairment",
+            "is_critical": false
+        },
+        {
+            "id": 213,
+            "name": "Vision impairment for far objects",
+            "is_critical": false
+        },
+        {
+            "id": 166,
+            "name": "Vision impairment for near objects",
+            "is_critical": false
+        },
+        {
+            "id": 66,
+            "name": "Visual field loss",
+            "is_critical": true
+        },
+        {
+            "id": 106,
+            "name": "Yellowish discoloration of the white part of the eye",
+            "is_critical": false
+        }
+    ],
+    "Forehead & head in general": [
+        {
+            "id": 984,
+            "name": "Absence of a pulse",
+            "is_critical": true
+        },
+        {
+            "id": 974,
+            "name": "Aggressiveness",
+            "is_critical": false
+        },
+        {
+            "id": 238,
+            "name": "Anxiety",
+            "is_critical": false
+        },
+        {
+            "id": 57,
+            "name": "Blackening of vision",
+            "is_critical": true
+        },
+        {
+            "id": 126,
+            "name": "Difficulty in finding words",
+            "is_critical": false
+        },
+        {
+            "id": 53,
+            "name": "Difficulty to concentrate",
+            "is_critical": false
+        },
+        {
+            "id": 1007,
+            "name": "Difficulty to learn",
+            "is_critical": false
+        },
+        {
+            "id": 128,
+            "name": "Disorientation regarding time or place",
+            "is_critical": true
+        },
+        {
+            "id": 207,
+            "name": "Dizziness",
+            "is_critical": true
+        },
+        {
+            "id": 244,
+            "name": "Drooping eyelid",
+            "is_critical": false
+        },
+        {
+            "id": 43,
+            "name": "Drowsiness",
+            "is_critical": true
+        },
+        {
+            "id": 242,
+            "name": "Eye blinking",
+            "is_critical": false
+        },
+        {
+            "id": 970,
+            "name": "Facial swelling",
+            "is_critical": false
+        },
+        {
+            "id": 982,
+            "name": "Feeling faint",
+            "is_critical": false
+        },
+        {
+            "id": 1014,
+            "name": "Feeling ill",
+            "is_critical": false
+        },
+        {
+            "id": 11,
+            "name": "Fever",
+            "is_critical": false
+        },
+        {
+            "id": 125,
+            "name": "Forgetfulness",
+            "is_critical": false
+        },
+        {
+            "id": 976,
+            "name": "Hallucination",
+            "is_critical": false
+        },
+        {
+            "id": 9,
+            "name": "Headache",
+            "is_critical": false
+        },
+        {
+            "id": 120,
+            "name": "Impaired balance",
+            "is_critical": false
+        },
+        {
+            "id": 235,
+            "name": "Memory gap",
+            "is_critical": false
+        },
+        {
+            "id": 85,
+            "name": "Mood swings",
+            "is_critical": false
+        },
+        {
+            "id": 44,
+            "name": "Nausea",
+            "is_critical": false
+        },
+        {
+            "id": 114,
+            "name": "Nervousness",
+            "is_critical": false
+        },
+        {
+            "id": 975,
+            "name": "Sadness",
+            "is_critical": false
+        },
+        {
+            "id": 241,
+            "name": "Sleepiness with spontaneous falling asleep",
+            "is_critical": true
+        },
+        {
+            "id": 52,
+            "name": "Sleeplessness",
+            "is_critical": false
+        },
+        {
+            "id": 243,
+            "name": "Tic",
+            "is_critical": false
+        },
+        {
+            "id": 16,
+            "name": "Tiredness",
+            "is_critical": false
+        },
+        {
+            "id": 988,
+            "name": "Trouble understanding speech",
+            "is_critical": true
+        },
+        {
+            "id": 144,
+            "name": "Unconsciousness, short",
+            "is_critical": true
+        }
+    ],
+    "Hair & scalp": [
+        {
+            "id": 239,
+            "name": "Bold area among hair on the head",
+            "is_critical": false
+        },
+        {
+            "id": 245,
+            "name": "Flaking skin on the head",
+            "is_critical": false
+        },
+        {
+            "id": 152,
+            "name": "Hair loss",
+            "is_critical": false
+        },
+        {
+            "id": 247,
+            "name": "Itching on head",
+            "is_critical": false
+        },
+        {
+            "id": 269,
+            "name": "Scalp redness",
+            "is_critical": false
+        }
+    ],
+    "Mouth & jaw": [
+        {
+            "id": 233,
+            "name": "Bloody cough",
+            "is_critical": true
+        },
+        {
+            "id": 991,
+            "name": "Blue colored skin",
+            "is_critical": true
+        },
+        {
+            "id": 15,
+            "name": "Cough",
+            "is_critical": false
+        },
+        {
+            "id": 49,
+            "name": "Cravings",
+            "is_critical": false
+        },
+        {
+            "id": 126,
+            "name": "Difficulty in finding words",
+            "is_critical": false
+        },
+        {
+            "id": 98,
+            "name": "Difficulty in speaking",
+            "is_critical": true
+        },
+        {
+            "id": 93,
+            "name": "Difficulty in swallowing",
+            "is_critical": false
+        },
+        {
+            "id": 272,
+            "name": "Dry mouth",
+            "is_critical": false
+        },
+        {
+            "id": 970,
+            "name": "Facial swelling",
+            "is_critical": false
+        },
+        {
+            "id": 153,
+            "name": "Fast, deepened breathing",
+            "is_critical": false
+        },
+        {
+            "id": 62,
+            "name": "Formation of blisters on a skin area",
+            "is_critical": false
+        },
+        {
+            "id": 122,
+            "name": "Hiccups",
+            "is_critical": false
+        },
+        {
+            "id": 131,
+            "name": "Increased appetite",
+            "is_critical": false
+        },
+        {
+            "id": 204,
+            "name": "Increased salivation",
+            "is_critical": false
+        },
+        {
+            "id": 40,
+            "name": "Increased thirst",
+            "is_critical": false
+        },
+        {
+            "id": 973,
+            "name": "Itching in the mouth or throat",
+            "is_critical": false
+        },
+        {
+            "id": 35,
+            "name": "Lip swelling",
+            "is_critical": false
+        },
+        {
+            "id": 205,
+            "name": "Lockjaw",
+            "is_critical": false
+        },
+        {
+            "id": 135,
+            "name": "Mouth pain",
+            "is_critical": false
+        },
+        {
+            "id": 97,
+            "name": "Mouth ulcers",
+            "is_critical": false
+        },
+        {
+            "id": 133,
+            "name": "Night cough",
+            "is_critical": false
+        },
+        {
+            "id": 203,
+            "name": "Pain on swallowing",
+            "is_critical": false
+        },
+        {
+            "id": 286,
+            "name": "Pain when chewing",
+            "is_critical": false
+        },
+        {
+            "id": 54,
+            "name": "Reduced appetite",
+            "is_critical": false
+        },
+        {
+            "id": 64,
+            "name": "Sputum",
+            "is_critical": false
+        },
+        {
+            "id": 243,
+            "name": "Tic",
+            "is_critical": false
+        },
+        {
+            "id": 980,
+            "name": "Tongue burning",
+            "is_critical": false
+        },
+        {
+            "id": 977,
+            "name": "Tongue swelling",
+            "is_critical": false
+        },
+        {
+            "id": 1008,
+            "name": "Toothache",
+            "is_critical": false
+        },
+        {
+            "id": 101,
+            "name": "Vomiting",
+            "is_critical": false
+        },
+        {
+            "id": 181,
+            "name": "Vomiting blood",
+            "is_critical": true
+        }
+    ],
+    "Nose, ears, throat & neck": [
+        {
+            "id": 984,
+            "name": "Absence of a pulse",
+            "is_critical": true
+        },
+        {
+            "id": 46,
+            "name": "Burning in the throat",
+            "is_critical": false
+        },
+        {
+            "id": 288,
+            "name": "Burning nose",
+            "is_critical": false
+        },
+        {
+            "id": 15,
+            "name": "Cough",
+            "is_critical": false
+        },
+        {
+            "id": 98,
+            "name": "Difficulty in speaking",
+            "is_critical": true
+        },
+        {
+            "id": 93,
+            "name": "Difficulty in swallowing",
+            "is_critical": false
+        },
+        {
+            "id": 87,
+            "name": "Earache",
+            "is_critical": false
+        },
+        {
+            "id": 153,
+            "name": "Fast, deepened breathing",
+            "is_critical": false
+        },
+        {
+            "id": 86,
+            "name": "Feeling of pressure in the ear",
+            "is_critical": false
+        },
+        {
+            "id": 45,
+            "name": "Heartburn",
+            "is_critical": false
+        },
+        {
+            "id": 122,
+            "name": "Hiccups",
+            "is_critical": false
+        },
+        {
+            "id": 121,
+            "name": "Hoarseness",
+            "is_critical": false
+        },
+        {
+            "id": 90,
+            "name": "Impaired hearing",
+            "is_critical": false
+        },
+        {
+            "id": 40,
+            "name": "Increased thirst",
+            "is_critical": false
+        },
+        {
+            "id": 88,
+            "name": "Itching in the ear",
+            "is_critical": false
+        },
+        {
+            "id": 96,
+            "name": "Itching in the nose",
+            "is_critical": false
+        },
+        {
+            "id": 136,
+            "name": "Neck pain",
+            "is_critical": false
+        },
+        {
+            "id": 234,
+            "name": "Neck stiffness",
+            "is_critical": false
+        },
+        {
+            "id": 133,
+            "name": "Night cough",
+            "is_critical": false
+        },
+        {
+            "id": 38,
+            "name": "Nosebleed",
+            "is_critical": false
+        },
+        {
+            "id": 203,
+            "name": "Pain on swallowing",
+            "is_critical": false
+        },
+        {
+            "id": 78,
+            "name": "Ringing in the ear",
+            "is_critical": false
+        },
+        {
+            "id": 14,
+            "name": "Runny nose",
+            "is_critical": false
+        },
+        {
+            "id": 102,
+            "name": "Sensitivity to noise",
+            "is_critical": false
+        },
+        {
+            "id": 95,
+            "name": "Sneezing",
+            "is_critical": false
+        },
+        {
+            "id": 13,
+            "name": "Sore throat",
+            "is_critical": false
+        },
+        {
+            "id": 28,
+            "name": "Stuffy nose",
+            "is_critical": false
+        },
+        {
+            "id": 169,
+            "name": "Swollen glands in the neck",
+            "is_critical": false
+        },
+        {
+            "id": 988,
+            "name": "Trouble understanding speech",
+            "is_critical": true
+        },
+        {
+            "id": 30,
+            "name": "Wheezing",
+            "is_critical": false
+        }
+    ]
+},
+"upperbody": {
+    "Chest & back": [],
+    "Back": [
+        {
+            "id": 998,
+            "name": "Back deformity",
+            "is_critical": false
+        },
+        {
+            "id": 104,
+            "name": "Back pain",
+            "is_critical": false
+        },
+        {
+            "id": 260,
+            "name": "Curvature of the spine",
+            "is_critical": false
+        },
+        {
+            "id": 167,
+            "name": "Limited mobility of the back",
+            "is_critical": false
+        },
+        {
+            "id": 263,
+            "name": "Lower-back pain",
+            "is_critical": false
+        },
+        {
+            "id": 251,
+            "name": "Pain radiating to the arm",
+            "is_critical": false
+        },
+        {
+            "id": 103,
+            "name": "Pain radiating to the leg",
+            "is_critical": false
+        }
+    ],
+    "Chest": [
+        {
+            "id": 233,
+            "name": "Bloody cough",
+            "is_critical": true
+        },
+        {
+            "id": 250,
+            "name": "Breathing-related pains",
+            "is_critical": false
+        },
+        {
+            "id": 17,
+            "name": "Chest pain",
+            "is_critical": true
+        },
+        {
+            "id": 31,
+            "name": "Chest tightness",
+            "is_critical": true
+        },
+        {
+            "id": 15,
+            "name": "Cough",
+            "is_critical": false
+        },
+        {
+            "id": 153,
+            "name": "Fast, deepened breathing",
+            "is_critical": false
+        },
+        {
+            "id": 985,
+            "name": "Heart murmur",
+            "is_critical": false
+        },
+        {
+            "id": 45,
+            "name": "Heartburn",
+            "is_critical": false
+        },
+        {
+            "id": 986,
+            "name": "Irregular heartbeat",
+            "is_critical": true
+        },
+        {
+            "id": 261,
+            "name": "Lump in the breast",
+            "is_critical": false
+        },
+        {
+            "id": 44,
+            "name": "Nausea",
+            "is_critical": false
+        },
+        {
+            "id": 133,
+            "name": "Night cough",
+            "is_critical": false
+        },
+        {
+            "id": 37,
+            "name": "Palpitations",
+            "is_critical": false
+        },
+        {
+            "id": 29,
+            "name": "Shortness of breath",
+            "is_critical": true
+        },
+        {
+            "id": 64,
+            "name": "Sputum",
+            "is_critical": false
+        },
+        {
+            "id": 30,
+            "name": "Wheezing",
+            "is_critical": false
+        }
+    ],
+    "Lateral chest": [
+        {
+            "id": 183,
+            "name": "Side pain",
+            "is_critical": false
+        },
+        {
+            "id": 248,
+            "name": "Swollen glands in the armpit",
+            "is_critical": false
+        }
+    ]
+}
+"lowerbody":{
+    "Abdomen, pelvis & buttocks": [],
+    "Abdomen": [
+        {
+            "id": 188,
+            "name": "Abdominal guarding",
+            "is_critical": false
+        },
+        {
+            "id": 10,
+            "name": "Abdominal pain",
+            "is_critical": false
+        },
+        {
+            "id": 48,
+            "name": "Bloated feeling in the stomach",
+            "is_critical": false
+        },
+        {
+            "id": 192,
+            "name": "Bulging abdominal wall",
+            "is_critical": false
+        },
+        {
+            "id": 49,
+            "name": "Cravings",
+            "is_critical": false
+        },
+        {
+            "id": 50,
+            "name": "Diarrhea",
+            "is_critical": false
+        },
+        {
+            "id": 989,
+            "name": "Distended abdomen",
+            "is_critical": false
+        },
+        {
+            "id": 92,
+            "name": "Early satiety",
+            "is_critical": false
+        },
+        {
+            "id": 153,
+            "name": "Fast, deepened breathing",
+            "is_critical": false
+        },
+        {
+            "id": 154,
+            "name": "Flatulence",
+            "is_critical": false
+        },
+        {
+            "id": 45,
+            "name": "Heartburn",
+            "is_critical": false
+        },
+        {
+            "id": 131,
+            "name": "Increased appetite",
+            "is_critical": false
+        },
+        {
+            "id": 44,
+            "name": "Nausea",
+            "is_critical": false
+        },
+        {
+            "id": 191,
+            "name": "Rebound tenderness",
+            "is_critical": false
+        },
+        {
+            "id": 54,
+            "name": "Reduced appetite",
+            "is_critical": false
+        },
+        {
+            "id": 179,
+            "name": "Stomach burning",
+            "is_critical": false
+        },
+        {
+            "id": 101,
+            "name": "Vomiting",
+            "is_critical": false
+        },
+        {
+            "id": 181,
+            "name": "Vomiting blood",
+            "is_critical": true
+        }
+    ],
+    "Buttocks & rectum": [
+        {
+            "id": 180,
+            "name": "Black stools",
+            "is_critical": false
+        },
+        {
+            "id": 190,
+            "name": "Blood in stool",
+            "is_critical": false
+        },
+        {
+            "id": 50,
+            "name": "Diarrhea",
+            "is_critical": false
+        },
+        {
+            "id": 79,
+            "name": "Difficult defecation",
+            "is_critical": false
+        },
+        {
+            "id": 83,
+            "name": "Fatty defecation",
+            "is_critical": false
+        },
+        {
+            "id": 84,
+            "name": "Foul smelling defecation",
+            "is_critical": false
+        },
+        {
+            "id": 80,
+            "name": "Hard defecation",
+            "is_critical": false
+        },
+        {
+            "id": 81,
+            "name": "Incomplete defecation",
+            "is_critical": false
+        },
+        {
+            "id": 999,
+            "name": "Itching of the anus",
+            "is_critical": false
+        },
+        {
+            "id": 82,
+            "name": "Less than 3 defecations per week",
+            "is_critical": false
+        },
+        {
+            "id": 990,
+            "name": "Pain of the anus",
+            "is_critical": false
+        },
+        {
+            "id": 103,
+            "name": "Pain radiating to the leg",
+            "is_critical": false
+        },
+        {
+            "id": 189,
+            "name": "Painful defecation",
+            "is_critical": false
+        },
+        {
+            "id": 265,
+            "name": "Uncontrolled defecation",
+            "is_critical": false
+        }
+    ],
+    "Genitals & groin": [
+        {
+            "id": 984,
+            "name": "Absence of a pulse",
+            "is_critical": true
+        },
+        {
+            "id": 107,
+            "name": "Burning sensation when urinating",
+            "is_critical": false
+        },
+        {
+            "id": 108,
+            "name": "Dark urine",
+            "is_critical": false
+        },
+        {
+            "id": 163,
+            "name": "Decreased urine stream",
+            "is_critical": false
+        },
+        {
+            "id": 165,
+            "name": "Delayed start to urination",
+            "is_critical": false
+        },
+        {
+            "id": 162,
+            "name": "Dribbling after urination",
+            "is_critical": false
+        },
+        {
+            "id": 164,
+            "name": "Feeling of residual urine",
+            "is_critical": false
+        },
+        {
+            "id": 59,
+            "name": "Frequent urination",
+            "is_critical": false
+        },
+        {
+            "id": 110,
+            "name": "Genital warts",
+            "is_critical": false
+        },
+        {
+            "id": 113,
+            "name": "Impairment of male potency",
+            "is_critical": false
+        },
+        {
+            "id": 39,
+            "name": "Increased urine quantity",
+            "is_critical": false
+        },
+        {
+            "id": 268,
+            "name": "Itching or burning in the genital area",
+            "is_critical": false
+        },
+        {
+            "id": 266,
+            "name": "Malposition of the testicles",
+            "is_critical": false
+        },
+        {
+            "id": 109,
+            "name": "Painful urination",
+            "is_critical": false
+        },
+        {
+            "id": 172,
+            "name": "Purulent discharge from the urethra",
+            "is_critical": false
+        },
+        {
+            "id": 236,
+            "name": "Swelling in the genital area",
+            "is_critical": false
+        },
+        {
+            "id": 267,
+            "name": "Swelling of the testicles",
+            "is_critical": false
+        },
+        {
+            "id": 249,
+            "name": "Swollen glands in the groin",
+            "is_critical": false
+        },
+        {
+            "id": 222,
+            "name": "Testicular pain",
+            "is_critical": false
+        },
+        {
+            "id": 160,
+            "name": "Urge to urinate",
+            "is_critical": false
+        },
+        {
+            "id": 161,
+            "name": "Urination during the night",
+            "is_critical": false
+        }
+    ],
+    "Hips & hip joint": [
+        {
+            "id": 156,
+            "name": "Bone fracture",
+            "is_critical": false
+        },
+        {
+            "id": 1005,
+            "name": "Difficulty with gait",
+            "is_critical": false
+        },
+        {
+            "id": 993,
+            "name": "Hip deformity",
+            "is_critical": false
+        },
+        {
+            "id": 196,
+            "name": "Hip pain",
+            "is_critical": false
+        },
+        {
+            "id": 1010,
+            "name": "Leg pain",
+            "is_critical": false
+        },
+        {
+            "id": 1000,
+            "name": "Limited mobility of the hip",
+            "is_critical": false
+        },
+        {
+            "id": 195,
+            "name": "Limited mobility of the leg",
+            "is_critical": false
+        },
+        {
+            "id": 155,
+            "name": "Pain in the bones",
+            "is_critical": false
+        },
+        {
+            "id": 103,
+            "name": "Pain radiating to the leg",
+            "is_critical": false
+        },
+        {
+            "id": 118,
+            "name": "Physical inactivity",
+            "is_critical": false
+        }
+    ],
+    "Pelvis": [
+        {
+            "id": 107,
+            "name": "Burning sensation when urinating",
+            "is_critical": false
+        },
+        {
+            "id": 108,
+            "name": "Dark urine",
+            "is_critical": false
+        },
+        {
+            "id": 163,
+            "name": "Decreased urine stream",
+            "is_critical": false
+        },
+        {
+            "id": 165,
+            "name": "Delayed start to urination",
+            "is_critical": false
+        },
+        {
+            "id": 162,
+            "name": "Dribbling after urination",
+            "is_critical": false
+        },
+        {
+            "id": 164,
+            "name": "Feeling of residual urine",
+            "is_critical": false
+        },
+        {
+            "id": 59,
+            "name": "Frequent urination",
+            "is_critical": false
+        },
+        {
+            "id": 110,
+            "name": "Genital warts",
+            "is_critical": false
+        },
+        {
+            "id": 39,
+            "name": "Increased urine quantity",
+            "is_critical": false
+        },
+        {
+            "id": 268,
+            "name": "Itching or burning in the genital area",
+            "is_critical": false
+        },
+        {
+            "id": 109,
+            "name": "Painful urination",
+            "is_critical": false
+        },
+        {
+            "id": 236,
+            "name": "Swelling in the genital area",
+            "is_critical": false
+        },
+        {
+            "id": 160,
+            "name": "Urge to urinate",
+            "is_critical": false
+        },
+        {
+            "id": 161,
+            "name": "Urination during the night",
+            "is_critical": false
+        }
+    ]
+}
+"arms": {
+    "Arms & shoulder": [],
+    "Arms general": [
+        {
+            "id": 981,
+            "name": "Agitation",
+            "is_critical": false
+        },
+        {
+            "id": 1009,
+            "name": "Arm pain",
+            "is_critical": false
+        },
+        {
+            "id": 971,
+            "name": "Arm swelling",
+            "is_critical": false
+        },
+        {
+            "id": 156,
+            "name": "Bone fracture",
+            "is_critical": false
+        },
+        {
+            "id": 94,
+            "name": "Cramps",
+            "is_critical": false
+        },
+        {
+            "id": 197,
+            "name": "Immobilization",
+            "is_critical": false
+        },
+        {
+            "id": 194,
+            "name": "Joint effusion",
+            "is_critical": false
+        },
+        {
+            "id": 198,
+            "name": "Joint instability",
+            "is_critical": false
+        },
+        {
+            "id": 27,
+            "name": "Joint pain",
+            "is_critical": false
+        },
+        {
+            "id": 230,
+            "name": "Joint redness",
+            "is_critical": false
+        },
+        {
+            "id": 193,
+            "name": "Joint swelling",
+            "is_critical": false
+        },
+        {
+            "id": 177,
+            "name": "Muscle pain",
+            "is_critical": false
+        },
+        {
+            "id": 119,
+            "name": "Muscle stiffness",
+            "is_critical": false
+        },
+        {
+            "id": 987,
+            "name": "Muscle weakness",
+            "is_critical": false
+        },
+        {
+            "id": 202,
+            "name": "Muscular atrophy of the arm",
+            "is_critical": false
+        },
+        {
+            "id": 168,
+            "name": "Muscular weakness in the arm",
+            "is_critical": false
+        },
+        {
+            "id": 221,
+            "name": "Numbness in the arm",
+            "is_critical": false
+        },
+        {
+            "id": 155,
+            "name": "Pain in the bones",
+            "is_critical": false
+        },
+        {
+            "id": 12,
+            "name": "Pain in the limbs",
+            "is_critical": false
+        },
+        {
+            "id": 251,
+            "name": "Pain radiating to the arm",
+            "is_critical": false
+        },
+        {
+            "id": 140,
+            "name": "Paralysis",
+            "is_critical": false
+        },
+        {
+            "id": 248,
+            "name": "Swollen glands in the armpit",
+            "is_critical": false
+        },
+        {
+            "id": 972,
+            "name": "Weakness or numbness on right or left side of body",
+            "is_critical": true
+        }
+    ],
+    "Finger": [
+        {
+            "id": 991,
+            "name": "Blue colored skin",
+            "is_critical": true
+        },
+        {
+            "id": 91,
+            "name": "Changes in the nails",
+            "is_critical": false
+        },
+        {
+            "id": 995,
+            "name": "Finger deformity",
+            "is_critical": false
+        },
+        {
+            "id": 1013,
+            "name": "Finger pain",
+            "is_critical": false
+        },
+        {
+            "id": 1012,
+            "name": "Finger swelling",
+            "is_critical": false
+        },
+        {
+            "id": 178,
+            "name": "Limited mobility of the fingers",
+            "is_critical": false
+        },
+        {
+            "id": 201,
+            "name": "Tingling",
+            "is_critical": false
+        }
+    ],
+    "Forearm & elbow": [
+        {
+            "id": 971,
+            "name": "Arm swelling",
+            "is_critical": false
+        },
+        {
+            "id": 1011,
+            "name": "Elbow pain",
+            "is_critical": false
+        },
+        {
+            "id": 186,
+            "name": "Hand pain",
+            "is_critical": false
+        }
+    ],
+    "Hand & wrist": [
+        {
+            "id": 984,
+            "name": "Absence of a pulse",
+            "is_critical": true
+        },
+        {
+            "id": 981,
+            "name": "Agitation",
+            "is_critical": false
+        },
+        {
+            "id": 979,
+            "name": "Brittleness of nails",
+            "is_critical": false
+        },
+        {
+            "id": 978,
+            "name": "Cold hands",
+            "is_critical": false
+        },
+        {
+            "id": 216,
+            "name": "Discoloration of nails",
+            "is_critical": false
+        },
+        {
+            "id": 186,
+            "name": "Hand pain",
+            "is_critical": false
+        },
+        {
+            "id": 148,
+            "name": "Hand swelling",
+            "is_critical": false
+        },
+        {
+            "id": 257,
+            "name": "Involuntary movements",
+            "is_critical": false
+        },
+        {
+            "id": 200,
+            "name": "Numbness of the hands",
+            "is_critical": false
+        },
+        {
+            "id": 201,
+            "name": "Tingling",
+            "is_critical": false
+        },
+        {
+            "id": 115,
+            "name": "Tremor at rest",
+            "is_critical": false
+        },
+        {
+            "id": 132,
+            "name": "Tremor on movement",
+            "is_critical": false
+        }
+    ],
+    "Upper arm & shoulder": [
+        {
+            "id": 971,
+            "name": "Arm swelling",
+            "is_critical": false
+        }
+    ]
+}
+"legs": {
+    "Legs": [],
+    "Foot": [
+        {
+            "id": 981,
+            "name": "Agitation",
+            "is_critical": false
+        },
+        {
+            "id": 979,
+            "name": "Brittleness of nails",
+            "is_critical": false
+        },
+        {
+            "id": 91,
+            "name": "Changes in the nails",
+            "is_critical": false
+        },
+        {
+            "id": 89,
+            "name": "Cold feet",
+            "is_critical": false
+        },
+        {
+            "id": 216,
+            "name": "Discoloration of nails",
+            "is_critical": false
+        },
+        {
+            "id": 255,
+            "name": "Foot pain",
+            "is_critical": false
+        },
+        {
+            "id": 1002,
+            "name": "Foot swelling",
+            "is_critical": false
+        },
+        {
+            "id": 257,
+            "name": "Involuntary movements",
+            "is_critical": false
+        },
+        {
+            "id": 146,
+            "name": "Leg cramps",
+            "is_critical": false
+        },
+        {
+            "id": 992,
+            "name": "Limited mobility of the ankle",
+            "is_critical": false
+        },
+        {
+            "id": 130,
+            "name": "Problems with the sense of touch in the feet",
+            "is_critical": false
+        },
+        {
+            "id": 201,
+            "name": "Tingling",
+            "is_critical": false
+        },
+        {
+            "id": 1003,
+            "name": "Toe swelling",
+            "is_critical": false
+        },
+        {
+            "id": 115,
+            "name": "Tremor at rest",
+            "is_critical": false
+        },
+        {
+            "id": 132,
+            "name": "Tremor on movement",
+            "is_critical": false
+        }
+    ],
+    "Legs general": [
+        {
+            "id": 981,
+            "name": "Agitation",
+            "is_critical": false
+        },
+        {
+            "id": 156,
+            "name": "Bone fracture",
+            "is_critical": false
+        },
+        {
+            "id": 94,
+            "name": "Cramps",
+            "is_critical": false
+        },
+        {
+            "id": 1005,
+            "name": "Difficulty with gait",
+            "is_critical": false
+        },
+        {
+            "id": 1006,
+            "name": "Enlarged calf",
+            "is_critical": false
+        },
+        {
+            "id": 145,
+            "name": "Feeling of tension in the legs",
+            "is_critical": false
+        },
+        {
+            "id": 197,
+            "name": "Immobilization",
+            "is_critical": false
+        },
+        {
+            "id": 257,
+            "name": "Involuntary movements",
+            "is_critical": false
+        },
+        {
+            "id": 194,
+            "name": "Joint effusion",
+            "is_critical": false
+        },
+        {
+            "id": 198,
+            "name": "Joint instability",
+            "is_critical": false
+        },
+        {
+            "id": 27,
+            "name": "Joint pain",
+            "is_critical": false
+        },
+        {
+            "id": 230,
+            "name": "Joint redness",
+            "is_critical": false
+        },
+        {
+            "id": 193,
+            "name": "Joint swelling",
+            "is_critical": false
+        },
+        {
+            "id": 146,
+            "name": "Leg cramps",
+            "is_critical": false
+        },
+        {
+            "id": 1010,
+            "name": "Leg pain",
+            "is_critical": false
+        },
+        {
+            "id": 231,
+            "name": "Leg swelling",
+            "is_critical": false
+        },
+        {
+            "id": 195,
+            "name": "Limited mobility of the leg",
+            "is_critical": false
+        },
+        {
+            "id": 177,
+            "name": "Muscle pain",
+            "is_critical": false
+        },
+        {
+            "id": 119,
+            "name": "Muscle stiffness",
+            "is_critical": false
+        },
+        {
+            "id": 987,
+            "name": "Muscle weakness",
+            "is_critical": false
+        },
+        {
+            "id": 252,
+            "name": "Muscular atrophy in the leg",
+            "is_critical": false
+        },
+        {
+            "id": 253,
+            "name": "Muscular weakness in the leg",
+            "is_critical": false
+        },
+        {
+            "id": 254,
+            "name": "Numbness in the leg",
+            "is_critical": false
+        },
+        {
+            "id": 155,
+            "name": "Pain in the bones",
+            "is_critical": false
+        },
+        {
+            "id": 12,
+            "name": "Pain in the limbs",
+            "is_critical": false
+        },
+        {
+            "id": 103,
+            "name": "Pain radiating to the leg",
+            "is_critical": false
+        },
+        {
+            "id": 140,
+            "name": "Paralysis",
+            "is_critical": false
+        },
+        {
+            "id": 118,
+            "name": "Physical inactivity",
+            "is_critical": false
+        },
+        {
+            "id": 185,
+            "name": "Stress-related leg pain",
+            "is_critical": false
+        },
+        {
+            "id": 972,
+            "name": "Weakness or numbness on right or left side of body",
+            "is_critical": true
+        }
+    ],
+    "Lower leg & ankle": [
+        {
+            "id": 996,
+            "name": "Ankle deformity",
+            "is_critical": false
+        },
+        {
+            "id": 147,
+            "name": "Ankle swelling",
+            "is_critical": false
+        },
+        {
+            "id": 1006,
+            "name": "Enlarged calf",
+            "is_critical": false
+        },
+        {
+            "id": 145,
+            "name": "Feeling of tension in the legs",
+            "is_critical": false
+        },
+        {
+            "id": 1002,
+            "name": "Foot swelling",
+            "is_critical": false
+        },
+        {
+            "id": 994,
+            "name": "Knee deformity",
+            "is_critical": false
+        },
+        {
+            "id": 146,
+            "name": "Leg cramps",
+            "is_critical": false
+        },
+        {
+            "id": 1010,
+            "name": "Leg pain",
+            "is_critical": false
+        },
+        {
+            "id": 143,
+            "name": "Leg ulcer",
+            "is_critical": false
+        },
+        {
+            "id": 992,
+            "name": "Limited mobility of the ankle",
+            "is_critical": false
+        },
+        {
+            "id": 232,
+            "name": "Marked veins",
+            "is_critical": false
+        },
+        {
+            "id": 142,
+            "name": "Pain in the calves",
+            "is_critical": false
+        }
+    ],
+    "Thigh & knee": [
+        {
+            "id": 984,
+            "name": "Absence of a pulse",
+            "is_critical": true
+        },
+        {
+            "id": 145,
+            "name": "Feeling of tension in the legs",
+            "is_critical": false
+        },
+        {
+            "id": 256,
+            "name": "Knee pain",
+            "is_critical": false
+        },
+        {
+            "id": 146,
+            "name": "Leg cramps",
+            "is_critical": false
+        },
+        {
+            "id": 1010,
+            "name": "Leg pain",
+            "is_critical": false
+        }
+    ],
+    "Toes": [
+        {
+            "id": 979,
+            "name": "Brittleness of nails",
+            "is_critical": false
+        },
+        {
+            "id": 91,
+            "name": "Changes in the nails",
+            "is_critical": false
+        },
+        {
+            "id": 216,
+            "name": "Discoloration of nails",
+            "is_critical": false
+        },
+        {
+            "id": 27,
+            "name": "Joint pain",
+            "is_critical": false
+        },
+        {
+            "id": 230,
+            "name": "Joint redness",
+            "is_critical": false
+        },
+        {
+            "id": 201,
+            "name": "Tingling",
+            "is_critical": false
+        },
+        {
+            "id": 997,
+            "name": "Toe deformity",
+            "is_critical": false
+        },
+        {
+            "id": 1003,
+            "name": "Toe swelling",
+            "is_critical": false
+        }
+    ]
+}
+"general": {
+    "Skin, joints & general": [],
+    "General, joints & other": [
+        {
+            "id": 974,
+            "name": "Aggressiveness",
+            "is_critical": false
+        },
+        {
+            "id": 981,
+            "name": "Agitation",
+            "is_critical": false
+        },
+        {
+            "id": 238,
+            "name": "Anxiety",
+            "is_critical": false
+        },
+        {
+            "id": 156,
+            "name": "Bone fracture",
+            "is_critical": false
+        },
+        {
+            "id": 175,
+            "name": "Chills",
+            "is_critical": false
+        },
+        {
+            "id": 139,
+            "name": "Cold sweats",
+            "is_critical": false
+        },
+        {
+            "id": 53,
+            "name": "Difficulty to concentrate",
+            "is_critical": false
+        },
+        {
+            "id": 1007,
+            "name": "Difficulty to learn",
+            "is_critical": false
+        },
+        {
+            "id": 1005,
+            "name": "Difficulty with gait",
+            "is_critical": false
+        },
+        {
+            "id": 128,
+            "name": "Disorientation regarding time or place",
+            "is_critical": true
+        },
+        {
+            "id": 207,
+            "name": "Dizziness",
+            "is_critical": true
+        },
+        {
+            "id": 43,
+            "name": "Drowsiness",
+            "is_critical": true
+        },
+        {
+            "id": 982,
+            "name": "Feeling faint",
+            "is_critical": false
+        },
+        {
+            "id": 1014,
+            "name": "Feeling ill",
+            "is_critical": false
+        },
+        {
+            "id": 11,
+            "name": "Fever",
+            "is_critical": false
+        },
+        {
+            "id": 976,
+            "name": "Hallucination",
+            "is_critical": false
+        },
+        {
+            "id": 149,
+            "name": "Hot flushes",
+            "is_critical": false
+        },
+        {
+            "id": 197,
+            "name": "Immobilization",
+            "is_critical": false
+        },
+        {
+            "id": 120,
+            "name": "Impaired balance",
+            "is_critical": false
+        },
+        {
+            "id": 131,
+            "name": "Increased appetite",
+            "is_critical": false
+        },
+        {
+            "id": 262,
+            "name": "Increased drive",
+            "is_critical": false
+        },
+        {
+            "id": 257,
+            "name": "Involuntary movements",
+            "is_critical": false
+        },
+        {
+            "id": 194,
+            "name": "Joint effusion",
+            "is_critical": false
+        },
+        {
+            "id": 198,
+            "name": "Joint instability",
+            "is_critical": false
+        },
+        {
+            "id": 27,
+            "name": "Joint pain",
+            "is_critical": false
+        },
+        {
+            "id": 230,
+            "name": "Joint redness",
+            "is_critical": false
+        },
+        {
+            "id": 193,
+            "name": "Joint swelling",
+            "is_critical": false
+        },
+        {
+            "id": 47,
+            "name": "Joylessness",
+            "is_critical": false
+        },
+        {
+            "id": 195,
+            "name": "Limited mobility of the leg",
+            "is_critical": false
+        },
+        {
+            "id": 85,
+            "name": "Mood swings",
+            "is_critical": false
+        },
+        {
+            "id": 983,
+            "name": "Morning stiffness",
+            "is_critical": false
+        },
+        {
+            "id": 177,
+            "name": "Muscle pain",
+            "is_critical": false
+        },
+        {
+            "id": 987,
+            "name": "Muscle weakness",
+            "is_critical": false
+        },
+        {
+            "id": 44,
+            "name": "Nausea",
+            "is_critical": false
+        },
+        {
+            "id": 114,
+            "name": "Nervousness",
+            "is_critical": false
+        },
+        {
+            "id": 1004,
+            "name": "Night sweats",
+            "is_critical": false
+        },
+        {
+            "id": 157,
+            "name": "Overweight",
+            "is_critical": false
+        },
+        {
+            "id": 12,
+            "name": "Pain in the limbs",
+            "is_critical": false
+        },
+        {
+            "id": 140,
+            "name": "Paralysis",
+            "is_critical": false
+        },
+        {
+            "id": 118,
+            "name": "Physical inactivity",
+            "is_critical": false
+        },
+        {
+            "id": 54,
+            "name": "Reduced appetite",
+            "is_critical": false
+        },
+        {
+            "id": 975,
+            "name": "Sadness",
+            "is_critical": false
+        },
+        {
+            "id": 60,
+            "name": "Sensitivity to cold",
+            "is_critical": false
+        },
+        {
+            "id": 241,
+            "name": "Sleepiness with spontaneous falling asleep",
+            "is_critical": true
+        },
+        {
+            "id": 52,
+            "name": "Sleeplessness",
+            "is_critical": false
+        },
+        {
+            "id": 138,
+            "name": "Sweating",
+            "is_critical": false
+        },
+        {
+            "id": 16,
+            "name": "Tiredness",
+            "is_critical": false
+        },
+        {
+            "id": 115,
+            "name": "Tremor at rest",
+            "is_critical": false
+        },
+        {
+            "id": 132,
+            "name": "Tremor on movement",
+            "is_critical": false
+        },
+        {
+            "id": 144,
+            "name": "Unconsciousness, short",
+            "is_critical": true
+        },
+        {
+            "id": 116,
+            "name": "Underweight",
+            "is_critical": false
+        },
+        {
+            "id": 972,
+            "name": "Weakness or numbness on right or left side of body",
+            "is_critical": true
+        },
+        {
+            "id": 23,
+            "name": "Weight gain",
+            "is_critical": false
+        },
+        {
+            "id": 22,
+            "name": "Weight loss",
+            "is_critical": false
+        }
+    ],
+    "Skin": [
+        {
+            "id": 24,
+            "name": "Blackhead",
+            "is_critical": false
+        },
+        {
+            "id": 991,
+            "name": "Blue colored skin",
+            "is_critical": true
+        },
+        {
+            "id": 240,
+            "name": "Blue spot on skin",
+            "is_critical": false
+        },
+        {
+            "id": 218,
+            "name": "Coarsening of the skin structure",
+            "is_critical": false
+        },
+        {
+            "id": 139,
+            "name": "Cold sweats",
+            "is_critical": false
+        },
+        {
+            "id": 134,
+            "name": "Crusting",
+            "is_critical": false
+        },
+        {
+            "id": 151,
+            "name": "Dry skin",
+            "is_critical": false
+        },
+        {
+            "id": 214,
+            "name": "Flaking skin",
+            "is_critical": false
+        },
+        {
+            "id": 62,
+            "name": "Formation of blisters on a skin area",
+            "is_critical": false
+        },
+        {
+            "id": 184,
+            "name": "Hardening of the skin",
+            "is_critical": false
+        },
+        {
+            "id": 149,
+            "name": "Hot flushes",
+            "is_critical": false
+        },
+        {
+            "id": 220,
+            "name": "Increased touch sensitivity",
+            "is_critical": false
+        },
+        {
+            "id": 65,
+            "name": "Irregular mole",
+            "is_critical": false
+        },
+        {
+            "id": 21,
+            "name": "Itching of skin",
+            "is_critical": false
+        },
+        {
+            "id": 215,
+            "name": "Moist and softened skin",
+            "is_critical": false
+        },
+        {
+            "id": 177,
+            "name": "Muscle pain",
+            "is_critical": false
+        },
+        {
+            "id": 987,
+            "name": "Muscle weakness",
+            "is_critical": false
+        },
+        {
+            "id": 1004,
+            "name": "Night sweats",
+            "is_critical": false
+        },
+        {
+            "id": 63,
+            "name": "Non-healing skin wound",
+            "is_critical": false
+        },
+        {
+            "id": 150,
+            "name": "Pallor",
+            "is_critical": false
+        },
+        {
+            "id": 1001,
+            "name": "Scar",
+            "is_critical": false
+        },
+        {
+            "id": 26,
+            "name": "Skin lesion",
+            "is_critical": false
+        },
+        {
+            "id": 25,
+            "name": "Skin nodules",
+            "is_critical": false
+        },
+        {
+            "id": 124,
+            "name": "Skin rash",
+            "is_critical": false
+        },
+        {
+            "id": 61,
+            "name": "Skin redness",
+            "is_critical": false
+        },
+        {
+            "id": 217,
+            "name": "Skin thickening",
+            "is_critical": false
+        },
+        {
+            "id": 34,
+            "name": "Skin wheal",
+            "is_critical": false
+        },
+        {
+            "id": 138,
+            "name": "Sweating",
+            "is_critical": false
+        },
+        {
+            "id": 187,
+            "name": "Wound",
+            "is_critical": false
+        },
+        {
+            "id": 105,
+            "name": "Yellow colored skin",
+            "is_critical": false
+        }
+    ]
+}
