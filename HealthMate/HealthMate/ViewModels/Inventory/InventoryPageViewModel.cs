@@ -23,8 +23,9 @@ public partial class InventoryPageViewModel : BaseViewModel
     private bool isEmptyViewVisible;
 
     public InventoryPageViewModel(BottomSheetService bottomSheetService,
+        NavigationService navigationService,
         PopupService popupService,
-        RealmService realmService)
+        RealmService realmService) : base(navigationService)
     {
         _bottomSheetService = bottomSheetService;
         _popupService = popupService;
@@ -97,7 +98,7 @@ public partial class InventoryPageViewModel : BaseViewModel
 
     public override async void OnNavigatedTo()
     {
-        Inventory ??= new ObservableCollection<InventoryGroup>();
+        Inventory ??= [];
         var inventories = await _realmService.FindAll<InventoryTable>();
         RealmChangesNotification = inventories.SubscribeForNotifications(ListenForRealmChange);
 
@@ -109,7 +110,7 @@ public partial class InventoryPageViewModel : BaseViewModel
             if (existingGroup == null)
             {
                 // Group doesn't exist, create a new group and add the item
-                var newGroup = new InventoryGroup(groupName, new ObservableCollection<InventoryTable> { newInventory });
+                var newGroup = new InventoryGroup(groupName, [newInventory]);
                 Inventory.Add(newGroup);
             }
             else

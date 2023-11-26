@@ -10,14 +10,7 @@
                     x:TypeArguments="vm:BodyPickerPageViewModel"
                     Shell.NavBarIsVisible="False">
     <Grid RowDefinitions="50,120,*,80">
-        <Label Margin="16,10"
-               FontFamily="{StaticResource FARegular}"
-               FontSize="20"
-               Text="{Static constants:FontAwesomeIcons.ArrowLeft}">
-            <Label.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding PopPageCommand}" />
-            </Label.GestureRecognizers>
-        </Label>
+        <templates:BackButton />
 
         <VerticalStackLayout Grid.Row="1">
             <Label FontSize="20"
@@ -28,12 +21,12 @@
                               Text="Which " />
                         <Span FontFamily="{StaticResource Bold}"
                               Text="part of your body "
-                              TextColor="{StaticResource Blue}" />
+                              TextColor="{StaticResource Pink}" />
                         <Span FontFamily="{StaticResource Regular}"
                               Text="is experiencing&#10;" />
                         <Span FontFamily="{StaticResource Bold}"
                               Text="the symptoms or illness?"
-                              TextColor="{StaticResource Blue}" />
+                              TextColor="{StaticResource Pink}" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
@@ -43,20 +36,12 @@
                     StrokeShape="RoundRectangle 20"
                     StrokeThickness="0.25">
                 <HorizontalStackLayout>
-                    <controls:BorderlessPicker Title="body part"
-                                               FontFamily="{StaticResource Regular}">
-                        <controls:BorderlessPicker.ItemsSource>
-                            <x:Array Type="{x:Type x:String}">
-                                <x:String>Baboon</x:String>
-                                <x:String>Capuchin Monkey</x:String>
-                                <x:String>Blue Monkey</x:String>
-                                <x:String>Squirrel Monkey</x:String>
-                                <x:String>Golden Lion Tamarin</x:String>
-                                <x:String>Howler Monkey</x:String>
-                                <x:String>Japanese Macaque</x:String>
-                            </x:Array>
-                        </controls:BorderlessPicker.ItemsSource>
-                    </controls:BorderlessPicker>
+                    <controls:BorderlessPicker Title="Select body part"
+                                               FontFamily="{StaticResource Regular}"
+                                               ItemsSource="{Binding BodyParts}"
+                                               SelectedItem="{Binding SelectedBodyPart}"
+                                               TextColor="{StaticResource RegBlack}"
+                                               TitleColor="Black" />
 
                     <Label Margin="10,0,5,0"
                            FontFamily="{StaticResource FARegular}"
@@ -69,14 +54,16 @@
 
         <Image Grid.Row="2"
                HorizontalOptions="Center"
-               Source="symptom_checker_blue"
+               Source="{Binding BodyPartImage}"
                VerticalOptions="Center" />
 
         <Button Grid.Row="3"
-                BackgroundColor="{StaticResource Blue}"
+                BackgroundColor="{StaticResource Pink}"
+                Command="{Binding GotoIlnessCheckerPageCommand}"
                 FontFamily="{StaticResource Regular}"
                 HorizontalOptions="Center"
-                Text="Whole Body Selected"
+                Opacity="{Binding CanCheckIllnessOpacity}"
+                Text="Proceed"
                 VerticalOptions="End" />
     </Grid>
 </templates:BasePage>

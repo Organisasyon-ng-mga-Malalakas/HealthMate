@@ -11,7 +11,7 @@ public partial class OnboardingPageViewModel : BaseViewModel
 {
     private readonly PopupService _popupService;
 
-    public OnboardingPageViewModel(PopupService popupService)
+    public OnboardingPageViewModel(NavigationService navigationService, PopupService popupService) : base(navigationService)
     {
         _popupService = popupService;
     }
@@ -51,7 +51,7 @@ public partial class OnboardingPageViewModel : BaseViewModel
             "Take control of your health with HealthMate Symptom Checker. Our comprehensive tool helps you understand and manage your symptoms effectively. From common ailments to potential underlying conditions, HealthMAte provides reliable information and guidance to empower you in your health journey. Stay informed and make informed decisions with HealthMate Symptom Checker."
         };
 
-        Onboarding = new ObservableCollection<Models.Onboarding>();
+        Onboarding = [];
         for (var index = 0; index < 4; index++)
             Onboarding.Add(new Models.Onboarding
             {

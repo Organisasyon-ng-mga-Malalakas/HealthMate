@@ -17,7 +17,7 @@ public partial class ScheduleInfoPopupViewModel : BaseViewModel
     [ObservableProperty]
     private ScheduleTable passedSchedule;
 
-    public ScheduleInfoPopupViewModel(PopupService popupService, RealmService realmService)
+    public ScheduleInfoPopupViewModel(NavigationService navigationService, PopupService popupService, RealmService realmService) : base(navigationService)
     {
         _popupService = popupService;
         _realmService = realmService;

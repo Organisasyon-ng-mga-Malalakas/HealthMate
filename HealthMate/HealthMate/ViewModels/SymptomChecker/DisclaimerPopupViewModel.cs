@@ -14,7 +14,7 @@ public partial class DisclaimerPopupViewModel : BaseViewModel
     [ObservableProperty]
     private ObservableCollection<Disclaimer> disclaimers;
 
-    public DisclaimerPopupViewModel(PopupService popupService)
+    public DisclaimerPopupViewModel(NavigationService navigationService, PopupService popupService) : base(navigationService)
     {
         _popupService = popupService;
     }
@@ -23,7 +23,7 @@ public partial class DisclaimerPopupViewModel : BaseViewModel
     public async Task ClosePopup()
     {
         await _popupService.ClosePopup();
-        await Shell.Current.GoToAsync($"{nameof(BodyPickerPage)}", true);
+        await NavigationService.PushAsync(nameof(BodyPickerPage));
     }
 
     public override void OnNavigatedTo()

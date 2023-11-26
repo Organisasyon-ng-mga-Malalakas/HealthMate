@@ -5,7 +5,6 @@ using HealthMate.Interfaces;
 using HealthMate.Platforms.Android.Services;
 using HealthMate.Services;
 using HealthMate.Services.HttpServices;
-using HealthMateBackend;
 using MongoDB.Bson;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
@@ -50,8 +49,9 @@ public partial class AddScheduleBottomSheetViewModel : BaseViewModel
         BottomSheetService bottomSheetService,
         HttpService httpService,
         KeyboardService keyboardService,
+        NavigationService navigationService,
         NotificationService notificationService,
-        RealmService realmService)
+        RealmService realmService) : base(navigationService)
     {
         _alarmScheduler = alarmScheduler;
         _bottomSheetService = bottomSheetService;
@@ -133,15 +133,5 @@ public partial class AddScheduleBottomSheetViewModel : BaseViewModel
     {
         var medicines = await _realmService.Find<InventoryTable>(_ => !_.IsDeleted);
         Medicines = new ObservableCollection<InventoryTable>(medicines);
-
-        try
-        {
-            //var test1 = await _httpService.GetDiseaseFromSymptoms(2001, Gender.Male, Body_part.Head, "176,77");
-            var test2 = await _httpService.GetDiseaseInfo(143, 2001, Gender3.Male, Body_part3.Head);
-        }
-        catch (Exception ex)
-        {
-
-        }
     }
 }

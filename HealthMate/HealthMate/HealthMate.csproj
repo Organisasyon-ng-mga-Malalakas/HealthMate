@@ -57,6 +57,7 @@
     <None Remove="Resources\Fonts\FontAwesome-Pro-Regular-400.otf" />
     <None Remove="Resources\Fonts\FontAwesome-Pro-Solid-900.otf" />
     <None Remove="Resources\Fonts\FontAwesome-Pro-Thin-100.otf" />
+    <None Remove="Resources\Images\Arms.svg" />
     <None Remove="Resources\Images\Capsule.svg" />
     <None Remove="Resources\Images\disclaimer0.svg" />
     <None Remove="Resources\Images\disclaimer1.svg" />
@@ -66,10 +67,13 @@
     <None Remove="Resources\Images\empty_inventory.svg" />
     <None Remove="Resources\Images\empty_schedule.svg" />
     <None Remove="Resources\Images\getstarted.png" />
+    <None Remove="Resources\Images\Head.svg" />
     <None Remove="Resources\Images\Inhaler.svg" />
     <None Remove="Resources\Images\Injection.svg" />
+    <None Remove="Resources\Images\Legs.svg" />
     <None Remove="Resources\Images\Liquid.svg" />
     <None Remove="Resources\Images\loading.gif" />
+    <None Remove="Resources\Images\LowerBody.svg" />
     <None Remove="Resources\Images\notif_icon.png" />
     <None Remove="Resources\Images\Ointment.svg" />
     <None Remove="Resources\Images\onboarding1.png" />
@@ -80,13 +84,17 @@
     <None Remove="Resources\Images\Patch.svg" />
     <None Remove="Resources\Images\Spray.svg" />
     <None Remove="Resources\Images\symptoms_checker.svg" />
-    <None Remove="Resources\Images\symptom_checker_black.png" />
-    <None Remove="Resources\Images\symptom_checker_blue.png" />
     <None Remove="Resources\Images\Tablet.svg" />
+    <None Remove="Resources\Images\UpperBody.svg" />
+    <None Remove="Services\HttpServices\symptoms.json" />
   </ItemGroup>
 
   <ItemGroup>
     <AndroidEnvironment Include="Platforms\Android\env.conf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Services\HttpServices\symptoms.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -97,6 +105,7 @@
     <PackageReference Include="Azure.Identity" Version="1.10.3" />
     <PackageReference Include="Bogus" Version="34.0.2" />
     <PackageReference Include="CommunityToolkit.Maui" Version="6.1.0" />
+    <PackageReference Include="CommunityToolkit.Maui.Markup" Version="4.0.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="ConfigureAwait.Fody" Version="3.3.2" />
     <PackageReference Include="Microsoft.Kiota.Abstractions" Version="1.7.0" />
@@ -115,8 +124,9 @@
     <PackageReference Include="Sharpnado.CollectionView.Maui" Version="3.0.0" />
     <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
     <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.7" />
-    <PackageReference Include="Syncfusion.Maui.Calendar" Version="22.2.7" />
-    <PackageReference Include="Syncfusion.Maui.ListView" Version="22.2.7" />
+    <PackageReference Include="Syncfusion.Maui.Calendar" Version="23.2.5" />
+    <PackageReference Include="Syncfusion.Maui.Inputs" Version="23.2.5" />
+    <PackageReference Include="Syncfusion.Maui.ListView" Version="23.2.5" />
     <PackageReference Include="The49.Maui.BottomSheet" Version="1.0.4" />
   </ItemGroup>
 
@@ -154,6 +164,12 @@
     <MauiXaml Update="Views\Schedule\SchedulePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
+    <MauiXaml Update="Views\SymptomChecker\BodyPicker\IllnessChecker\IllnessCheckerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\SymptomChecker\BodyPicker\IllnessChecker\IllnessInfoPopup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="Views\SymptomChecker\DisclaimerPopup.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
@@ -187,6 +203,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HealthMateBackend\HealthMateBackend.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <MauiImage Include="Resources\Images\Body parts\arms.svg" />
   </ItemGroup>
 
 </Project>

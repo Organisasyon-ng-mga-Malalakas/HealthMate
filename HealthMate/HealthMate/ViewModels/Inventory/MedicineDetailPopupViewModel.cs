@@ -16,7 +16,7 @@ public partial class MedicineDetailPopupViewModel : BaseViewModel
     [ObservableProperty]
     private InventoryTable passedInventory;
 
-    public MedicineDetailPopupViewModel(PopupService popupService, RealmService realmService)
+    public MedicineDetailPopupViewModel(NavigationService navigationService, PopupService popupService, RealmService realmService) : base(navigationService)
     {
         _popupService = popupService;
         _realmService = realmService;

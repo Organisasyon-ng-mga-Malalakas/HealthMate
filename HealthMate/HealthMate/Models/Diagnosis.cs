@@ -1,7 +1,8 @@
 ﻿using Newtonsoft.Json;
 
 namespace HealthMate.Models;
-public partial class RootDiagnosis
+
+public class RootDiagnosis
 {
     [JsonProperty("diagnosis")]
     public IEnumerable<Diagnosis> Diagnosis { get; set; }
@@ -10,7 +11,7 @@ public partial class RootDiagnosis
     public IEnumerable<SimilarSymptom> SimilarSymptoms { get; set; }
 }
 
-public partial class Diagnosis
+public class Diagnosis
 {
     [JsonProperty("id")]
     public int Id { get; set; }
@@ -22,7 +23,7 @@ public partial class Diagnosis
     public double Accuracy { get; set; }
 }
 
-public partial class SimilarSymptom
+public class SimilarSymptom
 {
     [JsonProperty("id")]
     public int Id { get; set; }

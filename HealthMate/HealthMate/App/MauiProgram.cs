@@ -12,11 +12,13 @@ using HealthMate.ViewModels.Onboarding;
 using HealthMate.ViewModels.Schedule;
 using HealthMate.ViewModels.SymptomChecker;
 using HealthMate.ViewModels.SymptomChecker.BodyPicker;
+using HealthMate.ViewModels.SymptomChecker.BodyPicker.IllnessChecker;
 using HealthMate.Views.Inventory;
 using HealthMate.Views.Onboarding;
 using HealthMate.Views.Schedule;
 using HealthMate.Views.SymptomChecker;
 using HealthMate.Views.SymptomChecker.BodyPicker;
+using HealthMate.Views.SymptomChecker.BodyPicker.IllnessChecker;
 using HealthMateBackend;
 using Mopups.Hosting;
 using Mopups.Interfaces;
@@ -91,10 +93,11 @@ public static class MauiProgram
             .AddSingleton<NotificationService>()
             .AddSingleton<IAlarmScheduler, AlarmScheduler>()
             .AddSingleton<HttpService>()
+            .AddSingleton<NavigationService>()
             .AddSingleton(_ =>
             {
                 var httpClient = new HttpClient();
-                return new HealthMateAPIClient("https://healthmate-api.mangobeach-087ac216.eastasia.azurecontainerapps.io", httpClient);
+                return new HealtmateAPIClient("https://healthmate-api.mangobeach-087ac216.eastasia.azurecontainerapps.io", httpClient);
             });
 
         return builder;
@@ -115,7 +118,9 @@ public static class MauiProgram
             .AddTransient<ScheduleInfoPopupViewModel>()
             .AddTransient<MedsMissedPopupViewModel>()
             .AddTransient<DisclaimerPopupViewModel>()
-            .AddTransientWithShellRoute<BodyPickerPage, BodyPickerPageViewModel>(nameof(BodyPickerPage));
+            .AddTransientWithShellRoute<BodyPickerPage, BodyPickerPageViewModel>(nameof(BodyPickerPage))
+            .AddTransientWithShellRoute<IllnessCheckerPage, IllnessCheckerPageViewModel>(nameof(IllnessCheckerPage))
+            .AddTransient<IllnessInfoPopupViewModel>();
 
         return builder;
     }

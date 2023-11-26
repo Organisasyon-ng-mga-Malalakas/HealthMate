@@ -57,7 +57,8 @@ public partial class AddInventoryBottomSheetViewModel : BaseViewModel
     public AddInventoryBottomSheetViewModel(BottomSheetService bottomSheetService,
         DatabaseService databaseService,
         KeyboardService keyboardService,
-        RealmService realmService)
+        NavigationService navigationService,
+        RealmService realmService) : base(navigationService)
     {
         _bottomSheetService = bottomSheetService;
         _databaseService = databaseService;

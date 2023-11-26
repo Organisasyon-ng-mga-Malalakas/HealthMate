@@ -8,6 +8,7 @@ public abstract class BasePage<TViewModel> : ContentPage where TViewModel : Base
 
     protected BasePage(in TViewModel viewModel)
     {
+        BackgroundColor = Color.FromArgb("F2F2F7");
         BindingContext = _viewModel = viewModel;
         Behaviors.Add(new StatusBarBehavior
         {

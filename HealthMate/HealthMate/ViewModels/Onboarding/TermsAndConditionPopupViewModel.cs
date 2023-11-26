@@ -6,7 +6,7 @@ public partial class TermsAndConditionPopupViewModel : BaseViewModel
 {
     private readonly PopupService _popupService;
 
-    public TermsAndConditionPopupViewModel(PopupService popupService)
+    public TermsAndConditionPopupViewModel(NavigationService navigationService, PopupService popupService) : base(navigationService)
     {
         _popupService = popupService;
     }
@@ -15,7 +15,7 @@ public partial class TermsAndConditionPopupViewModel : BaseViewModel
     private async Task Agreed()
     {
         await ClosePopup();
-        await Shell.Current.GoToAsync("//Tabs", true);
+        await NavigationService.PushAsync("//Tabs");
     }
 
     [RelayCommand]

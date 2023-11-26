@@ -26,7 +26,7 @@
                                        FontSize="24"
                                        HorizontalOptions="Center"
                                        Text="{Binding Title}"
-                                       TextColor="{StaticResource Blue}" />
+                                       TextColor="{StaticResource Pink}" />
 
                                 <Image Margin="0,40"
                                        HeightRequest="250"
@@ -52,12 +52,12 @@
                                HorizontalOptions="Center"
                                IndicatorColor="Gray"
                                IndicatorSize="5"
-                               SelectedIndicatorColor="{StaticResource Blue}"
+                               SelectedIndicatorColor="{StaticResource Pink}"
                                VerticalOptions="Center" />
 
                 <Button Grid.Row="2"
                         Margin="0,20"
-                        BackgroundColor="{StaticResource Blue}"
+                        BackgroundColor="{StaticResource Pink}"
                         Command="{Binding ClosePopupCommand}"
                         FontFamily="{StaticResource Bold}"
                         HorizontalOptions="Center"

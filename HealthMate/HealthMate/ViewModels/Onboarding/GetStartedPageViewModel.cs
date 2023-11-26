@@ -1,10 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using HealthMate.Services;
 using HealthMate.Views.Onboarding;
 
 namespace HealthMate.ViewModels.Onboarding;
 public partial class GetStartedPageViewModel : BaseViewModel
 {
-    public GetStartedPageViewModel()
+    public GetStartedPageViewModel(NavigationService navigationService) : base(navigationService)
     {
 
     }
@@ -12,6 +13,6 @@ public partial class GetStartedPageViewModel : BaseViewModel
     [RelayCommand]
     private async Task GotoOnboarding()
     {
-        await Shell.Current.GoToAsync($"{nameof(OnboardingPage)}", true);
+        await NavigationService.PushAsync($"{nameof(OnboardingPage)}");
     }
 }

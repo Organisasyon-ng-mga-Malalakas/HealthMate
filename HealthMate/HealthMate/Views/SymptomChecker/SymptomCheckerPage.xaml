@@ -17,7 +17,7 @@
                    FontSize="18"
                    HorizontalOptions="Center"
                    Text="Symptom Checker"
-                   TextColor="{StaticResource Blue}" />
+                   TextColor="{StaticResource Pink}" />
 
             <Label FontFamily="{StaticResource Regular}"
                    FontSize="14"
@@ -27,7 +27,7 @@
                    TextColor="{StaticResource RegBlack}" />
 
             <Button Margin="80,20"
-                    BackgroundColor="{StaticResource Blue}"
+                    BackgroundColor="{StaticResource Pink}"
                     Command="{Binding OpenDisclaimerPopupCommand}"
                     FontFamily="{StaticResource Bold}"
                     Text="Search Symptoms" />
@@ -35,7 +35,7 @@
 
         <Button Margin="16"
                 Padding="0"
-                BackgroundColor="{StaticResource Blue}"
+                BackgroundColor="{StaticResource Pink}"
                 Command="{Binding OpenDisclaimerPopupCommand}"
                 CornerRadius="25"
                 FontFamily="{StaticResource FASolid}"

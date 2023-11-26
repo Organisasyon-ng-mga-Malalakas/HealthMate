@@ -7,7 +7,7 @@ public partial class SymptomCheckerPageViewModel : BaseViewModel
 {
     private readonly PopupService _popupService;
 
-    public SymptomCheckerPageViewModel(PopupService popupService)
+    public SymptomCheckerPageViewModel(NavigationService navigationService, PopupService popupService) : base(navigationService)
     {
         _popupService = popupService;
     }

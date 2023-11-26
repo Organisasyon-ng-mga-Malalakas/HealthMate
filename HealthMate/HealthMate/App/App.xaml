@@ -13,7 +13,7 @@
         <Color x:Key="Pink">#F26CA7</Color>
         <Color x:Key="Blue">#89CFF0</Color>
         <Color x:Key="RegBlack">#777777</Color>
-        <Color x:Key="PageBackground">#F8F8F8</Color>
+        <Color x:Key="PageBackground">#F2F2F7</Color>
         <Color x:Key="Unselected">#CECECE</Color>
         <Color x:Key="BorderStroke">#D0D0D0</Color>
     </Application.Resources>

@@ -40,8 +40,9 @@ public partial class SchedulePageViewModel : BaseViewModel
     private ObservableCollection<CalendarDays> days;
 
     public SchedulePageViewModel(BottomSheetService bottomSheetService,
+        NavigationService navigationService,
         PopupService popupService,
-        RealmService realmService)
+        RealmService realmService) : base(navigationService)
     {
         _bottomSheetService = bottomSheetService;
         _popupService = popupService;

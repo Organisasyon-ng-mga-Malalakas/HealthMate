@@ -1,12 +1,17 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using HealthMate.Services;
 using System.ComponentModel;
 
 namespace HealthMate.ViewModels;
 public abstract class BaseViewModel : ObservableValidator, IQueryAttributable
 {
     protected IDisposable RealmChangesNotification { get; set; }
-    public BaseViewModel()
+    protected NavigationService NavigationService { get; }
+
+    public BaseViewModel(NavigationService navigationService)
     {
+        NavigationService = navigationService;
+        Initialization();
         ValidateAllProperties();
     }
 
@@ -14,6 +19,8 @@ public abstract class BaseViewModel : ObservableValidator, IQueryAttributable
     {
         ReceiveParameters(query);
     }
+
+    protected virtual void Initialization() { }
 
     public virtual void OnNavigatedTo() { }
 

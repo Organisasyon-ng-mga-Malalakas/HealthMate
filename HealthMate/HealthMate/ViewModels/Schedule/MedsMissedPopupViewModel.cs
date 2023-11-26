@@ -6,7 +6,7 @@ public partial class MedsMissedPopupViewModel : BaseViewModel
 {
     private readonly PopupService _popupService;
 
-    public MedsMissedPopupViewModel(PopupService popupService)
+    public MedsMissedPopupViewModel(NavigationService navigationService, PopupService popupService) : base(navigationService)
     {
         _popupService = popupService;
     }
