@@ -8,7 +8,7 @@ public class RootDiagnosis
     public IEnumerable<Diagnosis> Diagnosis { get; set; }
 
     [JsonProperty("similar_symptoms")]
-    public IEnumerable<SimilarSymptom> SimilarSymptoms { get; set; }
+    public IEnumerable<Diagnosis> SimilarIllness { get; set; }
 }
 
 public class Diagnosis
@@ -23,11 +23,21 @@ public class Diagnosis
     public double Accuracy { get; set; }
 }
 
-public class SimilarSymptom
+public class DiagnosisGroup : List<Diagnosis>
 {
-    [JsonProperty("id")]
-    public int Id { get; set; }
+    public string Name { get; private set; }
 
-    [JsonProperty("name")]
-    public string Name { get; set; }
+    public DiagnosisGroup(string name, List<Diagnosis> diagnoses) : base(diagnoses)
+    {
+        Name = name;
+    }
 }
+
+//public class SimilarSymptom
+//{
+//    [JsonProperty("id")]
+//    public int Id { get; set; }
+
+//    [JsonProperty("name")]
+//    public string Name { get; set; }
+//}

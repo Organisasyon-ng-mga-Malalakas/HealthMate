@@ -1,0 +1,32 @@
+{
+  "descriptionHash": "3B17897B7E6B327813DB482EE274CCB2A78D7033FD6B6721741F071F8F7F8FC5613329EF8C470793366566EB8C3D7504BE5A3B3A973775F59C5ABCFAA79759E3",
+  "descriptionLocation": "KiotaClient.json",
+  "lockFileVersion": "1.0.0",
+  "kiotaVersion": "1.8.2",
+  "clientClassName": "ApiClient",
+  "clientNamespaceName": "HealthMate.Services.HttpServices",
+  "language": "CSharp",
+  "usesBackingStore": false,
+  "excludeBackwardCompatible": false,
+  "includeAdditionalData": true,
+  "serializers": [
+    "Microsoft.Kiota.Serialization.Json.JsonSerializationWriterFactory",
+    "Microsoft.Kiota.Serialization.Text.TextSerializationWriterFactory",
+    "Microsoft.Kiota.Serialization.Form.FormSerializationWriterFactory",
+    "Microsoft.Kiota.Serialization.Multipart.MultipartSerializationWriterFactory"
+  ],
+  "deserializers": [
+    "Microsoft.Kiota.Serialization.Json.JsonParseNodeFactory",
+    "Microsoft.Kiota.Serialization.Text.TextParseNodeFactory",
+    "Microsoft.Kiota.Serialization.Form.FormParseNodeFactory"
+  ],
+  "structuredMimeTypes": [
+    "application/json",
+    "text/plain;q=0.9",
+    "application/x-www-form-urlencoded;q=0.2",
+    "multipart/form-data;q=0.1"
+  ],
+  "includePatterns": [],
+  "excludePatterns": [],
+  "disabledValidationRules": []
+}

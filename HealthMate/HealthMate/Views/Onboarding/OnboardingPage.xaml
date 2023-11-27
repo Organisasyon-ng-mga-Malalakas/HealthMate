@@ -8,6 +8,7 @@
                     xmlns:vm="clr-namespace:HealthMate.ViewModels.Onboarding"
                     x:DataType="vm:OnboardingPageViewModel"
                     x:TypeArguments="vm:OnboardingPageViewModel"
+                    BackgroundColor="White"
                     NavigationPage.HasNavigationBar="False"
                     Shell.NavBarIsVisible="False">
     <Grid ColumnDefinitions="*,*"
@@ -17,7 +18,7 @@
                       IsBounceEnabled="True"
                       IsScrollAnimated="True"
                       ItemsSource="{Binding Onboarding}"
-                      Loop="True"
+                      Loop="False"
                       Position="{Binding Position}">
             <CarouselView.ItemTemplate>
                 <DataTemplate x:DataType="models:Onboarding">

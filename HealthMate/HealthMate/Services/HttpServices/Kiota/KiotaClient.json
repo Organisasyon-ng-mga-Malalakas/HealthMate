@@ -1,0 +1,478 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "healthmate",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/user/": {
+      "get": {
+        "tags": [ "User" ],
+        "summary": "Read Users",
+        "operationId": "read_users_user__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Read Users User  Get",
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/User" }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [ "User" ],
+        "summary": "Create User Route",
+        "operationId": "create_user_route_user__post",
+        "requestBody": {
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UserCreate" } } },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/User" } } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } } }
+          }
+        }
+      }
+    },
+    "/user/{username}": {
+      "get": {
+        "tags": [ "User" ],
+        "summary": "Read User",
+        "operationId": "read_user_user__username__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Username",
+              "type": "string"
+            },
+            "name": "username",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/User" } } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } } }
+          }
+        }
+      },
+      "put": {
+        "tags": [ "User" ],
+        "summary": "Update User Route",
+        "operationId": "update_user_route_user__username__put",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Username",
+              "type": "string"
+            },
+            "name": "username",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UserUpdate" } } },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/User" } } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } } }
+          }
+        }
+      },
+      "delete": {
+        "tags": [ "User" ],
+        "summary": "Delete User Route",
+        "operationId": "delete_user_route_user__username__delete",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Username",
+              "type": "string"
+            },
+            "name": "username",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/User" } } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } } }
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "post": {
+        "tags": [ "User" ],
+        "summary": "Login Access Token Route",
+        "operationId": "login_access_token_route_user_login_post",
+        "requestBody": {
+          "content": { "application/x-www-form-urlencoded": { "schema": { "$ref": "#/components/schemas/Body_login_access_token_route_user_login_post" } } },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Token" } } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } } }
+          }
+        }
+      }
+    },
+    "/symptoms/": {
+      "get": {
+        "tags": [ "Symptoms" ],
+        "summary": "Get Symptoms",
+        "operationId": "get_symptoms_symptoms__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Birth Year",
+              "type": "integer"
+            },
+            "name": "birth_year",
+            "in": "query"
+          },
+          {
+            "required": true,
+            "schema": {
+              "title": "Gender",
+              "enum": [ "male", "female" ],
+              "type": "string"
+            },
+            "name": "gender",
+            "in": "query"
+          },
+          {
+            "required": true,
+            "schema": {
+              "title": "Body Part",
+              "enum": [ "head", "upperbody", "lowerbody", "legs", "arms", "general" ],
+              "type": "string"
+            },
+            "name": "body_part",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } } }
+          }
+        }
+      }
+    },
+    "/symptoms/result": {
+      "get": {
+        "tags": [ "Symptoms" ],
+        "summary": "Get Diseases From Symptoms",
+        "operationId": "get_diseases_from_symptoms_symptoms_result_get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Birth Year",
+              "type": "integer"
+            },
+            "name": "birth_year",
+            "in": "query"
+          },
+          {
+            "required": true,
+            "schema": {
+              "title": "Gender",
+              "enum": [ "male", "female" ],
+              "type": "string"
+            },
+            "name": "gender",
+            "in": "query"
+          },
+          {
+            "required": true,
+            "schema": {
+              "title": "Body Part",
+              "enum": [ "head", "upperbody", "lowerbody", "legs", "arms", "general" ],
+              "type": "string"
+            },
+            "name": "body_part",
+            "in": "query"
+          },
+          {
+            "required": true,
+            "schema": {
+              "title": "Symptom Ids",
+              "type": "string"
+            },
+            "name": "symptom_ids",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } } }
+          }
+        }
+      }
+    },
+    "/symptoms/details/{diagnosis_id}": {
+      "get": {
+        "tags": [ "Symptoms" ],
+        "summary": "Get Condition Details",
+        "operationId": "get_condition_details_symptoms_details__diagnosis_id__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Diagnosis Id",
+              "type": "integer"
+            },
+            "name": "diagnosis_id",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "schema": {
+              "title": "Birth Year",
+              "type": "integer"
+            },
+            "name": "birth_year",
+            "in": "query"
+          },
+          {
+            "required": true,
+            "schema": {
+              "title": "Gender",
+              "enum": [ "male", "female" ],
+              "type": "string"
+            },
+            "name": "gender",
+            "in": "query"
+          },
+          {
+            "required": true,
+            "schema": {
+              "title": "Body Part",
+              "enum": [ "head", "upperbody", "lowerbody", "legs", "arms", "general" ],
+              "type": "string"
+            },
+            "name": "body_part",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } } }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Body_login_access_token_route_user_login_post": {
+        "title": "Body_login_access_token_route_user_login_post",
+        "required": [ "username", "password" ],
+        "type": "object",
+        "properties": {
+          "grant_type": {
+            "title": "Grant Type",
+            "pattern": "password",
+            "type": "string"
+          },
+          "username": {
+            "title": "Username",
+            "type": "string"
+          },
+          "password": {
+            "title": "Password",
+            "type": "string"
+          },
+          "scope": {
+            "title": "Scope",
+            "type": "string",
+            "default": ""
+          },
+          "client_id": {
+            "title": "Client Id",
+            "type": "string"
+          },
+          "client_secret": {
+            "title": "Client Secret",
+            "type": "string"
+          }
+        }
+      },
+      "HTTPValidationError": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ValidationError" }
+          }
+        }
+      },
+      "Token": {
+        "title": "Token",
+        "required": [ "access_token", "token_type" ],
+        "type": "object",
+        "properties": {
+          "access_token": {
+            "title": "Access Token",
+            "type": "string"
+          },
+          "token_type": {
+            "title": "Token Type",
+            "type": "string"
+          }
+        }
+      },
+      "User": {
+        "title": "User",
+        "required": [ "username", "email", "id" ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "title": "Username",
+            "type": "string"
+          },
+          "email": {
+            "title": "Email",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string",
+            "format": "uuid4"
+          },
+          "updated_at": {
+            "title": "Updated At",
+            "type": "string",
+            "format": "date-time"
+          },
+          "created_at": {
+            "title": "Created At",
+            "type": "string",
+            "format": "date-time"
+          },
+          "deleted_at": {
+            "title": "Deleted At",
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "UserCreate": {
+        "title": "UserCreate",
+        "required": [ "username", "email", "password" ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "title": "Username",
+            "type": "string"
+          },
+          "email": {
+            "title": "Email",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string",
+            "format": "uuid4"
+          },
+          "password": {
+            "title": "Password",
+            "type": "string"
+          }
+        }
+      },
+      "UserUpdate": {
+        "title": "UserUpdate",
+        "required": [ "username", "email" ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "title": "Username",
+            "type": "string"
+          },
+          "email": {
+            "title": "Email",
+            "type": "string"
+          }
+        }
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": [ "loc", "msg", "type" ],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": {
+              "anyOf": [
+                { "type": "string" },
+                { "type": "integer" }
+              ]
+            }
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

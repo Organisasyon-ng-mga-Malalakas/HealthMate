@@ -7,7 +7,7 @@
                      x:DataType="vm:TermsAndConditionPopupViewModel"
                      x:TypeArguments="vm:TermsAndConditionPopupViewModel">
     <Border Padding="16"
-           BackgroundColor="#80000000">
+            BackgroundColor="#80000000">
         <ScrollView BackgroundColor="#80000000"
                     VerticalOptions="FillAndExpand">
             <VerticalStackLayout Padding="16"

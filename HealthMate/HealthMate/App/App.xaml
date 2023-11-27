@@ -12,6 +12,7 @@
         <x:String x:Key="FASolid">FASolid</x:String>
         <Color x:Key="Pink">#F26CA7</Color>
         <Color x:Key="Blue">#89CFF0</Color>
+        <Color x:Key="Red">#EF4444</Color>
         <Color x:Key="RegBlack">#777777</Color>
         <Color x:Key="PageBackground">#F2F2F7</Color>
         <Color x:Key="Unselected">#CECECE</Color>

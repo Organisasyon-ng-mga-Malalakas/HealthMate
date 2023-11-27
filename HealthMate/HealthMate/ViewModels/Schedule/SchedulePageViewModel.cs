@@ -6,15 +6,18 @@ using HealthMate.Extensions;
 using HealthMate.Models;
 using HealthMate.Services;
 using HealthMate.Views.Schedule;
+using Newtonsoft.Json;
 using Realms;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Reflection;
 using ScheduleTable = HealthMate.Models.Tables.Schedule;
 
 namespace HealthMate.ViewModels.Schedule;
 public partial class SchedulePageViewModel : BaseViewModel
 {
     private readonly BottomSheetService _bottomSheetService;
+    private Dictionary<string, IEnumerable<CalendarDays>> _daysIn2023;
     private readonly PopupService _popupService;
     private readonly RealmService _realmService;
 
@@ -47,8 +50,28 @@ public partial class SchedulePageViewModel : BaseViewModel
         _bottomSheetService = bottomSheetService;
         _popupService = popupService;
         _realmService = realmService;
+    }
 
-        //Task.Run(OnNavigatedTos);
+    private async Task ChangeSelectedDate(int calendrical, bool isMonth)
+    {
+        var allSchedules = await _realmService.FindAll<ScheduleTable>();
+        var monthIndex = Months.IndexOf(SelectedMonth) + 1;
+        var dayIndex = Days.IndexOf(SelectedDay) + 1;
+
+        var newDate = new DateTime(DateTime.Now.Year,
+            isMonth ? calendrical : Months.IndexOf(SelectedMonth) + 1,
+            isMonth ? Days.IndexOf(SelectedDay) + 1 : calendrical);
+
+        var schedules = allSchedules.ToList()
+            .Where(_ => TimeZoneInfo.ConvertTimeFromUtc(_.TimeToTake.DateTime, TimeZoneInfo.Local).Date == newDate.Date)
+            .ToList();
+
+        Schedules.Clear();
+        if (schedules is List<ScheduleTable> actualSchedules && actualSchedules.Any())
+            foreach (var item in actualSchedules)
+                Schedules.Add(new ScheduleGroup(item.TimeToTake, [item]));
+
+        IsEmptyViewVisible = !Schedules.Any();
     }
 
     [RelayCommand]
@@ -80,6 +103,33 @@ public partial class SchedulePageViewModel : BaseViewModel
         //Schedules.Add(fakeSchedules[0]);
     }
 
+    [RelayCommand]
+    private void DaysCollViewLoaded(CollectionView collView)
+    {
+        collView.ScrollTo(SelectedDay, position: ScrollToPosition.Start, animate: true);
+    }
+
+    protected override void Initialization()
+    {
+        // Months init code
+        var months = DateTimeFormatInfo.CurrentInfo.MonthNames
+               .Where(_ => !string.IsNullOrWhiteSpace(_))
+               .Select(_ => _[..3]);
+        Months ??= new ObservableCollection<string>(months);
+        SelectedMonth = Months[DateTime.Now.Month - 1];
+
+        // Days init code
+        var assembly = Assembly.GetExecutingAssembly();
+        var stream = assembly.GetManifestResourceStream("HealthMate.Resources.DaysIn2023.json") ?? throw new FileNotFoundException("Embedded resource not found");
+        using var streamReader = new StreamReader(stream);
+        using var jsonTextReader = new JsonTextReader(streamReader);
+        var serializer = new JsonSerializer();
+        _daysIn2023 = serializer.Deserialize<Dictionary<string, IEnumerable<CalendarDays>>>(jsonTextReader);
+
+        Days = new ObservableCollection<CalendarDays>(_daysIn2023[SelectedMonth]);
+        SelectedDay = Days[DateTime.Now.Day - 1];
+    }
+
     private void ListenForRealmChanges(IRealmCollection<ScheduleTable> sender, ChangeSet changes)
     {
         if (changes == null)
@@ -104,47 +154,17 @@ public partial class SchedulePageViewModel : BaseViewModel
             }
     }
 
-    public override void OnNavigatedFrom()
+    [RelayCommand]
+    private void MonthCollViewLoaded(CollectionView collView)
     {
-        base.OnNavigatedFrom();
+        collView.ScrollTo(SelectedMonth, position: ScrollToPosition.Start, animate: true);
     }
 
     public override async void OnNavigatedTo()
     {
-        if (Months == null)
-        {
-            var months = DateTimeFormatInfo.CurrentInfo.MonthNames
-                .Where(_ => !string.IsNullOrWhiteSpace(_))
-                .Select(_ => _[..3]);
-            Months ??= new ObservableCollection<string>(months);
-            SelectedMonth = Months[DateTime.Now.Month - 1];
-            WeakReferenceMessenger.Default.Send(SelectedMonth);
-        }
-
-        if (Days == null)
-        {
-            Days ??= [];
-            var year = DateTime.Now.Year;
-            var month = DateTime.Now.Month;
-            var daysInMonth = DateTime.DaysInMonth(year, month);
-            for (var day = 1; day <= daysInMonth; day++)
-            {
-                var date = new DateTime(year, month, day);
-                var dayOfWeek = date.DayOfWeek.ToString()[..3];
-                Days.Add(new CalendarDays
-                {
-                    Date = day,
-                    Day = dayOfWeek
-                });
-            }
-
-            SelectedDay = Days[DateTime.Now.Day - 1];
-            WeakReferenceMessenger.Default.Send(SelectedDay);
-        }
-
         var selectedDate = new DateTime(DateTime.Now.Year,
-            Months.IndexOf(SelectedMonth) + 1,
-            Days.IndexOf(SelectedDay) + 1);
+           Months.IndexOf(SelectedMonth) + 1,
+           Days.IndexOf(SelectedDay) + 1);
 
         Schedules ??= [];
         var schedules = await _realmService.FindAll<ScheduleTable>();
@@ -224,30 +244,12 @@ public partial class SchedulePageViewModel : BaseViewModel
 
     partial void OnSelectedMonthChanged(string oldValue, string newValue)
     {
-        if (!string.IsNullOrWhiteSpace(oldValue))
-            ChangeSelectedDate(Months.IndexOf(newValue) + 1, true).ConfigureAwait(false);
-    }
+        if (string.IsNullOrWhiteSpace(oldValue))
+            return;
 
-    private async Task ChangeSelectedDate(int calendrical, bool isMonth)
-    {
-        var allSchedules = await _realmService.FindAll<ScheduleTable>();
-        var monthIndex = Months.IndexOf(SelectedMonth) + 1;
-        var dayIndex = Days.IndexOf(SelectedDay) + 1;
-
-        var newDate = new DateTime(DateTime.Now.Year,
-            isMonth ? calendrical : Months.IndexOf(SelectedMonth) + 1,
-            isMonth ? Days.IndexOf(SelectedDay) + 1 : calendrical);
-
-        var schedules = allSchedules.ToList()
-            .Where(_ => TimeZoneInfo.ConvertTimeFromUtc(_.TimeToTake.DateTime, TimeZoneInfo.Local).Date == newDate.Date)
-            .ToList();
-
-        Schedules.Clear();
-        if (schedules is List<ScheduleTable> actualSchedules && actualSchedules.Any())
-            foreach (var item in actualSchedules)
-                Schedules.Add(new ScheduleGroup(item.TimeToTake, [item]));
-
-        IsEmptyViewVisible = !Schedules.Any();
+        ChangeSelectedDate(Months.IndexOf(newValue) + 1, true).ConfigureAwait(false);
+        Days = new ObservableCollection<CalendarDays>(_daysIn2023[SelectedMonth]);
+        SelectedDay = Days[0];
+        WeakReferenceMessenger.Default.Send(SelectedDay);
     }
 }
-//todo: depende sa gamot, palitan yung mga dosages

@@ -14,4 +14,6 @@ public partial class DiagnosisInfo
 
     [JsonProperty("treatment")]
     public string Treatment { get; set; }
+    [JsonIgnore]
+    public string Image { get; set; }
 }

@@ -1,5 +1,3 @@
-using CommunityToolkit.Mvvm.Messaging;
-using HealthMate.Models;
 using HealthMate.Templates;
 using HealthMate.ViewModels.Schedule;
 
@@ -21,23 +19,5 @@ public partial class SchedulePage : BasePage<SchedulePageViewModel>
         //        return $"{correctTime:hh:mm tt}";
         //    }
         //});
-
-        WeakReferenceMessenger.Default.Register<string>(this, ScrollMonthCollectionView);
-        WeakReferenceMessenger.Default.Register<CalendarDays>(this, ScrollDaysCollectionView);
-    }
-
-    private async void ScrollDaysCollectionView(object recipient, CalendarDays message)
-    {
-        await Task.Delay(650);
-        //MainThread.BeginInvokeOnMainThread(() => DayCollectionView.ScrollTo(message, position: ScrollToPosition.Center, animate: true));
-        DayCollectionView.ScrollTo(message, position: ScrollToPosition.Center, animate: true);
-
-    }
-
-    private async void ScrollMonthCollectionView(object recipient, string message)
-    {
-        await Task.Delay(650);
-        //MainThread.BeginInvokeOnMainThread(() => MonthCollectionView.ScrollTo(message, position: ScrollToPosition.Center, animate: true));
-        MonthCollectionView.ScrollTo(message, position: ScrollToPosition.Center, animate: true);
     }
 }

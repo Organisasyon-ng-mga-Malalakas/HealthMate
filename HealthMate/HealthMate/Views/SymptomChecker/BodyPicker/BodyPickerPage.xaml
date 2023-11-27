@@ -13,7 +13,8 @@
         <templates:BackButton />
 
         <VerticalStackLayout Grid.Row="1">
-            <Label FontSize="20"
+            <Label Margin="16,0"
+                   FontSize="18"
                    HorizontalTextAlignment="Center">
                 <Label.FormattedText>
                     <FormattedString>
@@ -53,9 +54,11 @@
         </VerticalStackLayout>
 
         <Image Grid.Row="2"
+               HeightRequest="500"
                HorizontalOptions="Center"
                Source="{Binding BodyPartImage}"
-               VerticalOptions="Center" />
+               VerticalOptions="Center"
+               WidthRequest="500" />
 
         <Button Grid.Row="3"
                 BackgroundColor="{StaticResource Pink}"
@@ -64,6 +67,6 @@
                 HorizontalOptions="Center"
                 Opacity="{Binding CanCheckIllnessOpacity}"
                 Text="Proceed"
-                VerticalOptions="End" />
+                VerticalOptions="Center" />
     </Grid>
 </templates:BasePage>

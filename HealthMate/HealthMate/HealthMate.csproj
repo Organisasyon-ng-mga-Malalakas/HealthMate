@@ -50,6 +50,7 @@
     <None Remove="Platforms\Android\env.conf" />
     <None Remove="Platforms\Android\Resources\values\themes.xml" />
     <None Remove="Resources\AppIcon\healthmate.svg" />
+    <None Remove="Resources\DaysIn2023.json" />
     <None Remove="Resources\Fonts\Avenir-Black.ttf" />
     <None Remove="Resources\Fonts\Avenir-Heavy.ttf" />
     <None Remove="Resources\Fonts\Avenir-Regular.ttf" />
@@ -68,6 +69,12 @@
     <None Remove="Resources\Images\empty_schedule.svg" />
     <None Remove="Resources\Images\getstarted.png" />
     <None Remove="Resources\Images\Head.svg" />
+    <None Remove="Resources\Images\Illness Info\critical0.png" />
+    <None Remove="Resources\Images\Illness Info\critical1.png" />
+    <None Remove="Resources\Images\Illness Info\critical2.png" />
+    <None Remove="Resources\Images\Illness Info\noncritical0.png" />
+    <None Remove="Resources\Images\Illness Info\noncritical1.png" />
+    <None Remove="Resources\Images\Illness Info\noncritical2.png" />
     <None Remove="Resources\Images\Inhaler.svg" />
     <None Remove="Resources\Images\Injection.svg" />
     <None Remove="Resources\Images\Legs.svg" />
@@ -94,6 +101,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\DaysIn2023.json" />
     <EmbeddedResource Include="Services\HttpServices\symptoms.json" />
   </ItemGroup>
 
@@ -104,15 +112,15 @@
   <ItemGroup>
     <PackageReference Include="Azure.Identity" Version="1.10.3" />
     <PackageReference Include="Bogus" Version="34.0.2" />
-    <PackageReference Include="CommunityToolkit.Maui" Version="6.1.0" />
+    <PackageReference Include="CommunityToolkit.Maui" Version="7.0.0" />
     <PackageReference Include="CommunityToolkit.Maui.Markup" Version="4.0.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="ConfigureAwait.Fody" Version="3.3.2" />
-    <PackageReference Include="Microsoft.Kiota.Abstractions" Version="1.7.0" />
-    <PackageReference Include="Microsoft.Kiota.Authentication.Azure" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Kiota.Abstractions" Version="1.7.2" />
+    <PackageReference Include="Microsoft.Kiota.Authentication.Azure" Version="1.1.2" />
     <PackageReference Include="Microsoft.Kiota.Http.HttpClientLibrary" Version="1.3.0" />
     <PackageReference Include="Microsoft.Kiota.Serialization.Form" Version="1.1.0" />
-    <PackageReference Include="Microsoft.Kiota.Serialization.Json" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Json" Version="1.1.2" />
     <PackageReference Include="Microsoft.Kiota.Serialization.Multipart" Version="1.1.0" />
     <PackageReference Include="Microsoft.Kiota.Serialization.Text" Version="1.1.0" />
     <PackageReference Include="Mopups" Version="1.2.0" />
@@ -122,6 +130,8 @@
     <PackageReference Include="Refit" Version="7.0.0" />
     <PackageReference Include="Refit.HttpClientFactory" Version="7.0.0" />
     <PackageReference Include="Sharpnado.CollectionView.Maui" Version="3.0.0" />
+    <PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="2.88.6" />
+    <PackageReference Include="SkiaSharp.Views.Maui.Core" Version="2.88.6" />
     <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
     <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.7" />
     <PackageReference Include="Syncfusion.Maui.Calendar" Version="23.2.5" />
@@ -207,6 +217,40 @@
 
   <ItemGroup>
     <MauiImage Include="Resources\Images\Body parts\arms.svg" />
+    <MauiImage Include="Resources\Images\Body parts\empty_body_part.png" />
+    <MauiImage Include="Resources\Images\Body parts\general.png" />
+    <MauiImage Include="Resources\Images\Body parts\head.svg" />
+    <MauiImage Include="Resources\Images\Body parts\legs.svg" />
+    <MauiImage Include="Resources\Images\Body parts\lowerbody.svg" />
+    <MauiImage Include="Resources\Images\Body parts\upperbody.svg" />
+    <MauiImage Include="Resources\Images\Disclaimer popup\disclaimer0.svg" />
+    <MauiImage Include="Resources\Images\Disclaimer popup\disclaimer1.svg" />
+    <MauiImage Include="Resources\Images\Disclaimer popup\disclaimer2.svg" />
+    <MauiImage Include="Resources\Images\Disclaimer popup\disclaimer3.svg" />
+    <MauiImage Include="Resources\Images\Illness Info\critical1.png" />
+    <MauiImage Include="Resources\Images\Illness Info\critical0.png" />
+    <MauiImage Include="Resources\Images\Illness Info\critical2.png" />
+    <MauiImage Include="Resources\Images\Illness Info\noncritical1.png" />
+    <MauiImage Include="Resources\Images\Illness Info\noncritical0.png" />
+    <MauiImage Include="Resources\Images\Illness Info\noncritical2.png" />
+    <MauiImage Include="Resources\Images\Medicine types\capsule.svg" />
+    <MauiImage Include="Resources\Images\Medicine types\drops.svg" />
+    <MauiImage Include="Resources\Images\Medicine types\inhaler.svg" />
+    <MauiImage Include="Resources\Images\Medicine types\injection.svg" />
+    <MauiImage Include="Resources\Images\Medicine types\liquid.svg" />
+    <MauiImage Include="Resources\Images\Medicine types\ointment.svg" />
+    <MauiImage Include="Resources\Images\Medicine types\other.svg" />
+    <MauiImage Include="Resources\Images\Medicine types\patch.svg" />
+    <MauiImage Include="Resources\Images\Medicine types\spray.svg" />
+    <MauiImage Include="Resources\Images\Medicine types\tablet.svg" />
+    <MauiImage Include="Resources\Images\Onboarding\onboarding1.png" />
+    <MauiImage Include="Resources\Images\Onboarding\onboarding2.png" />
+    <MauiImage Include="Resources\Images\Onboarding\onboarding3.png" />
+    <MauiImage Include="Resources\Images\Onboarding\onboarding4.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <MauiImage Update="Resources\Images\loading.gif" Resize="False" />
   </ItemGroup>
 
 </Project>

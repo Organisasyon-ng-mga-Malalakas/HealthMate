@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HealthMate.Services;
+using HealthMate.Services.HttpServices.Symptoms;
 using HealthMate.Views.SymptomChecker.BodyPicker.IllnessChecker;
 using System.Collections.ObjectModel;
-using BodyPart = HealthMateBackend.Body_part;
 
 namespace HealthMate.ViewModels.SymptomChecker.BodyPicker;
 public partial class BodyPickerPageViewModel : BaseViewModel

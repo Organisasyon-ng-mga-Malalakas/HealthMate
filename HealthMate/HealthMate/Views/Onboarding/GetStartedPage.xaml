@@ -6,6 +6,7 @@
                     xmlns:vm="clr-namespace:HealthMate.ViewModels.Onboarding"
                     x:DataType="vm:GetStartedPageViewModel"
                     x:TypeArguments="vm:GetStartedPageViewModel"
+                    BackgroundColor="White"
                     Shell.NavBarIsVisible="False">
     <FlexLayout Direction="Column"
                 JustifyContent="SpaceEvenly">

@@ -19,7 +19,8 @@ using HealthMate.Views.Schedule;
 using HealthMate.Views.SymptomChecker;
 using HealthMate.Views.SymptomChecker.BodyPicker;
 using HealthMate.Views.SymptomChecker.BodyPicker.IllnessChecker;
-using HealthMateBackend;
+using Microsoft.Kiota.Abstractions.Authentication;
+using Microsoft.Kiota.Http.HttpClientLibrary;
 using Mopups.Hosting;
 using Mopups.Interfaces;
 using Mopups.Services;
@@ -94,11 +95,21 @@ public static class MauiProgram
             .AddSingleton<IAlarmScheduler, AlarmScheduler>()
             .AddSingleton<HttpService>()
             .AddSingleton<NavigationService>()
+            //.AddSingleton(_ =>
+            //{
+            //    var httpClient = new HttpClient();
+            //    return new HealtmateAPIClient("https://healthmate-api.mangobeach-087ac216.eastasia.azurecontainerapps.io", httpClient);
+            //})
             .AddSingleton(_ =>
             {
-                var httpClient = new HttpClient();
-                return new HealtmateAPIClient("https://healthmate-api.mangobeach-087ac216.eastasia.azurecontainerapps.io", httpClient);
-            });
+                var requestAdapter = new HttpClientRequestAdapter(new AnonymousAuthenticationProvider())
+                {
+                    BaseUrl = "https://healthmate-api.mangobeach-087ac216.eastasia.azurecontainerapps.io"
+                };
+
+                return new ApiClient(requestAdapter);
+            })
+            ;
 
         return builder;
     }
@@ -120,7 +131,10 @@ public static class MauiProgram
             .AddTransient<DisclaimerPopupViewModel>()
             .AddTransientWithShellRoute<BodyPickerPage, BodyPickerPageViewModel>(nameof(BodyPickerPage))
             .AddTransientWithShellRoute<IllnessCheckerPage, IllnessCheckerPageViewModel>(nameof(IllnessCheckerPage))
-            .AddTransient<IllnessInfoPopupViewModel>();
+            .AddTransient<IllnessInfoPopupViewModel>()
+
+            //.AddTransientWithShellRoute<IllnessInfoPopup, IllnessInfoPopupViewModel>(nameof(IllnessInfoPopup))
+            ;
 
         return builder;
     }

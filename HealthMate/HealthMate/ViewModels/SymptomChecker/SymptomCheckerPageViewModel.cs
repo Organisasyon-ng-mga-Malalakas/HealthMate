@@ -16,5 +16,6 @@ public partial class SymptomCheckerPageViewModel : BaseViewModel
     private async Task OpenDisclaimerPopup()
     {
         await _popupService.ShowPopup<DisclaimerPopup>();
+        //await NavigationService.PushAsync(nameof(IllnessInfoPopup));
     }
 }

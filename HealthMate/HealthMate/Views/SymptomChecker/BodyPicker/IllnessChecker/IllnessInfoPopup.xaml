@@ -2,15 +2,86 @@
 <templates:BasePopup x:Class="HealthMate.Views.SymptomChecker.BodyPicker.IllnessChecker.IllnessInfoPopup"
                      xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                     xmlns:models="clr-namespace:HealthMate.Models"
                      xmlns:templates="clr-namespace:HealthMate.Templates"
+                     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                      xmlns:vm="clr-namespace:HealthMate.ViewModels.SymptomChecker.BodyPicker.IllnessChecker"
-                     x:DataType="vm:IllnessCheckerPageViewModel"
+                     x:DataType="vm:IllnessInfoPopupViewModel"
                      x:TypeArguments="vm:IllnessInfoPopupViewModel">
     <Border Padding="16"
             BackgroundColor="#80000000">
-        <Border HeightRequest="550"
+        <Border BackgroundColor="White"
+                HeightRequest="680"
                 StrokeShape="RoundRectangle 20">
-            <Label Text="a" />
+            <Grid RowDefinitions="*,30,50">
+                <CarouselView x:Name="carouselView"
+                              IndicatorView="indView"
+                              IsBounceEnabled="True"
+                              IsScrollAnimated="True"
+                              ItemsSource="{Binding DiagnosisInfo}"
+                              Loop="False">
+                    <CarouselView.ItemTemplate>
+                        <DataTemplate x:DataType="models:DiagnosisInfo">
+                            <ScrollView>
+                                <VerticalStackLayout Padding="16,10">
+                                    <Label FontFamily="{StaticResource Bold}"
+                                           FontSize="25"
+                                           HorizontalOptions="Center"
+                                           Text="{Binding Name}"
+                                           TextColor="{Binding Path=BindingContext.TextColors, Source={x:Reference Name=carouselView}}" />
+
+                                    <Image Margin="0,15"
+                                           HeightRequest="300"
+                                           Source="{Binding Image}"
+                                           WidthRequest="300" />
+
+                                    <Label FontFamily="{StaticResource Regular}"
+                                           FontSize="14"
+                                           Text="{Binding Description}"
+                                           TextColor="{StaticResource RegBlack}" />
+                                </VerticalStackLayout>
+                            </ScrollView>
+                        </DataTemplate>
+                    </CarouselView.ItemTemplate>
+                </CarouselView>
+
+                <IndicatorView x:Name="indView"
+                               Grid.Row="1"
+                               HorizontalOptions="Center"
+                               IndicatorColor="Gray"
+                               IndicatorSize="5"
+                               SelectedIndicatorColor="{Binding TextColors}"
+                               VerticalOptions="Center" />
+
+                <Button Grid.Row="2"
+                        BackgroundColor="{Binding TextColors}"
+                        Command="{Binding ClosePopupCommand}"
+                        FontFamily="{StaticResource Bold}"
+                        HorizontalOptions="Center"
+                        IsVisible="{Binding IsLoading, Converter={toolkit:InvertedBoolConverter}}"
+                        Text="Understood"
+                        TextColor="White"
+                        VerticalOptions="Start" />
+
+                <templates:LoadingView Grid.RowSpan="3"
+                                       IsVisible="{Binding IsLoading}"
+                                       LoadingText="Loading illness info..." />
+
+                <VerticalStackLayout Grid.RowSpan="3"
+                                     HorizontalOptions="Center"
+                                     IsVisible="{Binding IsLoading}"
+                                     VerticalOptions="Center">
+                    <Image IsAnimationPlaying="True"
+                           Scale="0.5"
+                           Source="loading" />
+
+                    <Label Margin="0,-30,0,0"
+                           FontFamily="{StaticResource Regular}"
+                           HorizontalOptions="Center"
+                           Text="Loading illness info..."
+                           TextColor="{StaticResource Pink}" />
+                </VerticalStackLayout>
+            </Grid>
         </Border>
     </Border>
 </templates:BasePopup>

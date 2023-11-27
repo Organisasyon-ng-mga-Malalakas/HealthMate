@@ -5,6 +5,7 @@ using Microsoft.Maui.Platform;
 namespace HealthMate.Handlers;
 public partial class BorderlessPickerHandler : PickerHandler
 {
+    private bool _isDisposed = false;
     private static readonly PropertyMapper<BorderlessPicker, BorderlessPickerHandler> PropertyMapper = new(ViewMapper)
     {
         [nameof(BorderlessPicker.FontFamily)] = MapFont,
@@ -30,9 +31,12 @@ public partial class BorderlessPickerHandler : PickerHandler
 
     protected override void DisconnectHandler(MauiPicker platformView)
     {
-        if (platformView != null)
+        if (!_isDisposed)
         {
             platformView?.Dispose();
+            platformView = null;
+            _isDisposed = true;
+
             base.DisconnectHandler(platformView);
         }
     }

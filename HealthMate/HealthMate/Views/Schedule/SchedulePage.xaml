@@ -79,6 +79,11 @@
                             ItemsSource="{Binding Months}"
                             SelectedItem="{Binding SelectedMonth}"
                             SelectionMode="Single">
+                <CollectionView.Behaviors>
+                    <mct:EventToCommandBehavior Command="{Binding MonthCollViewLoadedCommand}"
+                                                CommandParameter="{Reference MonthCollectionView}"
+                                                EventName="Loaded" />
+                </CollectionView.Behaviors>
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout Orientation="Horizontal" />
                 </CollectionView.ItemsLayout>
@@ -126,6 +131,11 @@
                             ItemsSource="{Binding Days}"
                             SelectedItem="{Binding SelectedDay}"
                             SelectionMode="Single">
+                <CollectionView.Behaviors>
+                    <mct:EventToCommandBehavior Command="{Binding DaysCollViewLoadedCommand}"
+                                                CommandParameter="{Reference DayCollectionView}"
+                                                EventName="Loaded" />
+                </CollectionView.Behaviors>
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout Orientation="Horizontal" />
                 </CollectionView.ItemsLayout>
