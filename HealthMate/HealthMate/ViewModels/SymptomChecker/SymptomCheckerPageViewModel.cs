@@ -3,19 +3,12 @@ using HealthMate.Services;
 using HealthMate.Views.SymptomChecker;
 
 namespace HealthMate.ViewModels.SymptomChecker;
-public partial class SymptomCheckerPageViewModel : BaseViewModel
+public partial class SymptomCheckerPageViewModel(NavigationService navigationService, PopupService popupService) : BaseViewModel(navigationService)
 {
-    private readonly PopupService _popupService;
-
-    public SymptomCheckerPageViewModel(NavigationService navigationService, PopupService popupService) : base(navigationService)
-    {
-        _popupService = popupService;
-    }
-
-    [RelayCommand]
-    private async Task OpenDisclaimerPopup()
-    {
-        await _popupService.ShowPopup<DisclaimerPopup>();
-        //await NavigationService.PushAsync(nameof(IllnessInfoPopup));
-    }
+	[RelayCommand]
+	private async Task OpenDisclaimerPopup()
+	{
+		await popupService.ShowPopup<DisclaimerPopup>();
+		//await NavigationService.PushAsync(nameof(IllnessInfoPopup));
+	}
 }

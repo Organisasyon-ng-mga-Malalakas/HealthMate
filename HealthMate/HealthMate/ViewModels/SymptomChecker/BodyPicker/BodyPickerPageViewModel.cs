@@ -6,77 +6,72 @@ using HealthMate.Views.SymptomChecker.BodyPicker.IllnessChecker;
 using System.Collections.ObjectModel;
 
 namespace HealthMate.ViewModels.SymptomChecker.BodyPicker;
-public partial class BodyPickerPageViewModel : BaseViewModel
+public partial class BodyPickerPageViewModel(NavigationService navigationService) : BaseViewModel(navigationService)
 {
-    public BodyPickerPageViewModel(NavigationService navigationService) : base(navigationService)
-    {
+	[ObservableProperty]
+	private string bodyPartImage = "empty_body_part";
 
-    }
+	[ObservableProperty]
+	private ObservableCollection<string> bodyParts;
 
-    [ObservableProperty]
-    private string bodyPartImage = "empty_body_part";
+	[ObservableProperty]
+	private string selectedBodyPart;
 
-    [ObservableProperty]
-    private ObservableCollection<string> bodyParts;
+	[ObservableProperty]
+	private double canCheckIllnessOpacity = 0.5;
 
-    [ObservableProperty]
-    private string selectedBodyPart;
+	protected override void Initialization()
+	{
+		BodyParts = new ObservableCollection<string>(Enum.GetValues<BodyPart>()
+		   .Select(bodyPart =>
+		   {
+			   return bodyPart switch
+			   {
+				   BodyPart.Head or BodyPart.Legs or BodyPart.Arms or BodyPart.General => bodyPart.ToString(),
+				   BodyPart.Upperbody => "Upper body",
+				   BodyPart.Lowerbody => "Lower body",
+				   _ => "",
+			   };
+		   }));
+	}
 
-    [ObservableProperty]
-    private double canCheckIllnessOpacity = 0.5;
+	[RelayCommand]
+	private async Task GotoIlnessCheckerPage()
+	{
+		if (CanCheckIllnessOpacity < 1)
+			return;
 
-    protected override void Initialization()
-    {
-        BodyParts = new ObservableCollection<string>(Enum.GetValues<BodyPart>()
-           .Select(bodyPart =>
-           {
-               return bodyPart switch
-               {
-                   BodyPart.Head or BodyPart.Legs or BodyPart.Arms or BodyPart.General => bodyPart.ToString(),
-                   BodyPart.Upperbody => "Upper body",
-                   BodyPart.Lowerbody => "Lower body",
-                   _ => "",
-               };
-           }));
-    }
+		var bodyPart = SelectedBodyPart switch
+		{
+			"Head" => BodyPart.Head,
+			"Legs" => BodyPart.Legs,
+			"Arms" => BodyPart.Arms,
+			"General" => BodyPart.General,
+			"Upper body" => BodyPart.Upperbody,
+			"Lower body" => BodyPart.Lowerbody,
+			_ => throw new ArgumentException("Illegal body part!"),
+		};
+		await Shell.Current.GoToAsync(nameof(IllnessCheckerPage), true, new Dictionary<string, object>
+		{
+			{ "bodyPart", bodyPart }
+		});
+	}
 
-    [RelayCommand]
-    private async Task GotoIlnessCheckerPage()
-    {
-        if (CanCheckIllnessOpacity < 1)
-            return;
+	partial void OnSelectedBodyPartChanged(string value)
+	{
+		CanCheckIllnessOpacity = string.IsNullOrWhiteSpace(value) ? 0.5 : 1;
+		BodyPartImage = value switch
+		{
+			"Head" or "Legs" or "Arms" or "General" => value.ToLower(),
+			"Upper body" => "upperbody",
+			"Lower body" => "lowerbody",
+			_ => ""
+		};
+	}
 
-        var bodyPart = SelectedBodyPart switch
-        {
-            "Head" => BodyPart.Head,
-            "Legs" => BodyPart.Legs,
-            "Arms" => BodyPart.Arms,
-            "General" => BodyPart.General,
-            "Upper body" => BodyPart.Upperbody,
-            "Lower body" => BodyPart.Lowerbody,
-            _ => throw new ArgumentException("Illegal body part!"),
-        };
-        await Shell.Current.GoToAsync(nameof(IllnessCheckerPage), true, new Dictionary<string, object>
-        {
-            { "bodyPart", bodyPart }
-        });
-    }
-
-    partial void OnSelectedBodyPartChanged(string value)
-    {
-        CanCheckIllnessOpacity = string.IsNullOrWhiteSpace(value) ? 0.5 : 1;
-        BodyPartImage = value switch
-        {
-            "Head" or "Legs" or "Arms" or "General" => value.ToLower(),
-            "Upper body" => "upperbody",
-            "Lower body" => "lowerbody",
-            _ => ""
-        };
-    }
-
-    [RelayCommand]
-    private async Task PopPage()
-    {
-        await NavigationService.PopAsync();
-    }
+	[RelayCommand]
+	private async Task PopPage()
+	{
+		await NavigationService.PopAsync();
+	}
 }

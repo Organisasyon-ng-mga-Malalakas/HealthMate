@@ -8,46 +8,39 @@ using InventoryTable = HealthMate.Models.Tables.Inventory;
 
 namespace HealthMate.ViewModels.Inventory;
 
-public partial class MedicineDetailPopupViewModel : BaseViewModel
+public partial class MedicineDetailPopupViewModel(NavigationService navigationService,
+	PopupService popupService,
+	RealmService realmService) : BaseViewModel(navigationService)
 {
-    private readonly PopupService _popupService;
-    private readonly RealmService _realmService;
+	[ObservableProperty]
+	private InventoryTable passedInventory;
 
-    [ObservableProperty]
-    private InventoryTable passedInventory;
+	[RelayCommand]
+	private async Task ClosePopup()
+	{
+		await popupService.ClosePopup();
+	}
 
-    public MedicineDetailPopupViewModel(NavigationService navigationService, PopupService popupService, RealmService realmService) : base(navigationService)
-    {
-        _popupService = popupService;
-        _realmService = realmService;
-    }
+	[RelayCommand]
+	private async Task DecrementStock()
+	{
+		if (PassedInventory.Stock < 0)
+			return;
 
-    [RelayCommand]
-    private async Task ClosePopup()
-    {
-        await _popupService.ClosePopup();
-    }
+		await realmService.Write(() => PassedInventory.Stock--);
+	}
 
-    [RelayCommand]
-    private async Task DecrementStock()
-    {
-        if (PassedInventory.Stock < 0)
-            return;
+	[RelayCommand]
+	private async Task DeleteInventory()
+	{
+		WeakReferenceMessenger.Default.Send(new InventoryDeletingEventArgs(PassedInventory.InventoryId, ((MedicationType)PassedInventory.MedicationType).ToString()));
+		await realmService.Write(() => PassedInventory.IsDeleted = true);
+		await ClosePopup();
+	}
 
-        await _realmService.Write(() => PassedInventory.Stock--);
-    }
-
-    [RelayCommand]
-    private async Task DeleteInventory()
-    {
-        WeakReferenceMessenger.Default.Send(new InventoryDeletingEventArgs(PassedInventory.InventoryId, ((MedicationType)PassedInventory.MedicationType).ToString()));
-        await _realmService.Write(() => PassedInventory.IsDeleted = true);
-        await ClosePopup();
-    }
-
-    [RelayCommand]
-    private async Task IncrementStock()
-    {
-        await _realmService.Write(() => PassedInventory.Stock++);
-    }
+	[RelayCommand]
+	private async Task IncrementStock()
+	{
+		await realmService.Write(() => PassedInventory.Stock++);
+	}
 }

@@ -14,242 +14,232 @@ using System.Reflection;
 using ScheduleTable = HealthMate.Models.Tables.Schedule;
 
 namespace HealthMate.ViewModels.Schedule;
-public partial class SchedulePageViewModel : BaseViewModel
+public partial class SchedulePageViewModel(BottomSheetService bottomSheetService,
+	NavigationService navigationService,
+	PopupService popupService,
+	RealmService realmService) : BaseViewModel(navigationService)
 {
-    private readonly BottomSheetService _bottomSheetService;
-    private Dictionary<string, IEnumerable<CalendarDays>> _daysIn2023;
-    private readonly PopupService _popupService;
-    private readonly RealmService _realmService;
+	private Dictionary<string, IEnumerable<CalendarDays>> _daysIn2023;
 
-    [ObservableProperty]
-    private bool isEmptyViewVisible;
+	[ObservableProperty]
+	private bool isEmptyViewVisible;
 
-    [ObservableProperty]
-    private ObservableCollection<ScheduleGroup> schedules;
+	[ObservableProperty]
+	private ObservableCollection<ScheduleGroup> schedules;
 
-    [ObservableProperty]
-    private DateTime selectedDate = DateTime.Now;
+	[ObservableProperty]
+	private DateTime selectedDate = DateTime.Now;
 
-    [ObservableProperty]
-    private ObservableCollection<string> months;
+	[ObservableProperty]
+	private ObservableCollection<string> months;
 
-    [ObservableProperty]
-    private string selectedMonth;
+	[ObservableProperty]
+	private string selectedMonth;
 
-    [ObservableProperty]
-    private CalendarDays selectedDay;
+	[ObservableProperty]
+	private CalendarDays selectedDay;
 
-    [ObservableProperty]
-    private ObservableCollection<CalendarDays> days;
+	[ObservableProperty]
+	private ObservableCollection<CalendarDays> days;
 
-    public SchedulePageViewModel(BottomSheetService bottomSheetService,
-        NavigationService navigationService,
-        PopupService popupService,
-        RealmService realmService) : base(navigationService)
-    {
-        _bottomSheetService = bottomSheetService;
-        _popupService = popupService;
-        _realmService = realmService;
-    }
+	private async Task ChangeSelectedDate(int calendrical, bool isMonth)
+	{
+		var allSchedules = await realmService.FindAll<ScheduleTable>();
+		var monthIndex = Months.IndexOf(SelectedMonth) + 1;
+		var dayIndex = Days.IndexOf(SelectedDay) + 1;
 
-    private async Task ChangeSelectedDate(int calendrical, bool isMonth)
-    {
-        var allSchedules = await _realmService.FindAll<ScheduleTable>();
-        var monthIndex = Months.IndexOf(SelectedMonth) + 1;
-        var dayIndex = Days.IndexOf(SelectedDay) + 1;
+		var newDate = new DateTime(DateTime.Now.Year,
+			isMonth ? calendrical : Months.IndexOf(SelectedMonth) + 1,
+			isMonth ? Days.IndexOf(SelectedDay) + 1 : calendrical);
 
-        var newDate = new DateTime(DateTime.Now.Year,
-            isMonth ? calendrical : Months.IndexOf(SelectedMonth) + 1,
-            isMonth ? Days.IndexOf(SelectedDay) + 1 : calendrical);
+		var schedules = allSchedules.ToList()
+			.Where(_ => TimeZoneInfo.ConvertTimeFromUtc(_.TimeToTake.DateTime, TimeZoneInfo.Local).Date == newDate.Date)
+			.ToList();
 
-        var schedules = allSchedules.ToList()
-            .Where(_ => TimeZoneInfo.ConvertTimeFromUtc(_.TimeToTake.DateTime, TimeZoneInfo.Local).Date == newDate.Date)
-            .ToList();
+		Schedules.Clear();
+		if (schedules is List<ScheduleTable> actualSchedules && actualSchedules.Count != 0)
+			foreach (var item in actualSchedules)
+				Schedules.Add(new ScheduleGroup(item.TimeToTake, [item]));
 
-        Schedules.Clear();
-        if (schedules is List<ScheduleTable> actualSchedules && actualSchedules.Any())
-            foreach (var item in actualSchedules)
-                Schedules.Add(new ScheduleGroup(item.TimeToTake, [item]));
+		IsEmptyViewVisible = !Schedules.Any();
+	}
 
-        IsEmptyViewVisible = !Schedules.Any();
-    }
+	[RelayCommand]
+	private async Task CreateSchedule()
+	{
+		await bottomSheetService.OpenBottomSheet<AddScheduleBottomSheet>();
+		//var fakeInventory = new Faker<InventoryTable>()
+		//    .RuleFor(p => p.BrandName, v => v.Name.FirstName())
+		//    .RuleFor(p => p.MedicineName, v => v.Name.LastName())
+		//    .RuleFor(p => p.Dosage, v => v.Random.Int(0, 500))
+		//    .RuleFor(p => p.DosageUnit, v => v.Random.Int(0, 8))
+		//    .RuleFor(p => p.Stock, v => v.Random.Int(1, 100))
+		//    .RuleFor(p => p.MedicationType, v => v.Random.Int(0, 9))
+		//    .RuleFor(p => p.Description, v => v.Lorem.Paragraph(5))
+		//    .Generate(1);
 
-    [RelayCommand]
-    private async Task CreateSchedule()
-    {
-        await _bottomSheetService.OpenBottomSheet<AddScheduleBottomSheet>();
-        //var fakeInventory = new Faker<InventoryTable>()
-        //    .RuleFor(p => p.BrandName, v => v.Name.FirstName())
-        //    .RuleFor(p => p.MedicineName, v => v.Name.LastName())
-        //    .RuleFor(p => p.Dosage, v => v.Random.Int(0, 500))
-        //    .RuleFor(p => p.DosageUnit, v => v.Random.Int(0, 8))
-        //    .RuleFor(p => p.Stock, v => v.Random.Int(1, 100))
-        //    .RuleFor(p => p.MedicationType, v => v.Random.Int(0, 9))
-        //    .RuleFor(p => p.Description, v => v.Lorem.Paragraph(5))
-        //    .Generate(1);
+		//var fakeSchedules = new Faker<ScheduleTable>()
+		//    .RuleFor(p => p.ScheduleState, v => (int)v.Random.Enum<ScheduleState>())
+		//    .RuleFor(p => p.TimeToTake, v => v.Date.Recent(0))
+		//    .RuleFor(p => p.Inventory, v => v.PickRandom(fakeInventory))
+		//    .RuleFor(p => p.TimeToTake, v => v.PickRandom(
+		//        new DateTimeOffset(2020, 1, 1, 5, 30, 0, TimeSpan.Zero),
+		//        new DateTimeOffset(2020, 1, 1, 2, 40, 0, TimeSpan.Zero),
+		//        new DateTimeOffset(2020, 1, 1, 3, 50, 0, TimeSpan.Zero),
+		//        new DateTimeOffset(2020, 1, 1, 17, 29, 0, TimeSpan.Zero),
+		//        new DateTimeOffset(2020, 1, 1, 5, 30, 0, TimeSpan.Zero)))
+		//    .Generate(1);
 
-        //var fakeSchedules = new Faker<ScheduleTable>()
-        //    .RuleFor(p => p.ScheduleState, v => (int)v.Random.Enum<ScheduleState>())
-        //    .RuleFor(p => p.TimeToTake, v => v.Date.Recent(0))
-        //    .RuleFor(p => p.Inventory, v => v.PickRandom(fakeInventory))
-        //    .RuleFor(p => p.TimeToTake, v => v.PickRandom(
-        //        new DateTimeOffset(2020, 1, 1, 5, 30, 0, TimeSpan.Zero),
-        //        new DateTimeOffset(2020, 1, 1, 2, 40, 0, TimeSpan.Zero),
-        //        new DateTimeOffset(2020, 1, 1, 3, 50, 0, TimeSpan.Zero),
-        //        new DateTimeOffset(2020, 1, 1, 17, 29, 0, TimeSpan.Zero),
-        //        new DateTimeOffset(2020, 1, 1, 5, 30, 0, TimeSpan.Zero)))
-        //    .Generate(1);
+		//Schedules.Add(fakeSchedules[0]);
+	}
 
-        //Schedules.Add(fakeSchedules[0]);
-    }
+	[RelayCommand]
+	private void DaysCollViewLoaded(CollectionView collView)
+	{
+		collView.ScrollTo(SelectedDay, position: ScrollToPosition.Start, animate: true);
+	}
 
-    [RelayCommand]
-    private void DaysCollViewLoaded(CollectionView collView)
-    {
-        collView.ScrollTo(SelectedDay, position: ScrollToPosition.Start, animate: true);
-    }
+	protected override void Initialization()
+	{
+		// Months init code
+		var months = DateTimeFormatInfo.CurrentInfo.MonthNames
+			   .Where(_ => !string.IsNullOrWhiteSpace(_))
+			   .Select(_ => _[..3]);
+		Months ??= new ObservableCollection<string>(months);
+		SelectedMonth = Months[DateTime.Now.Month - 1];
 
-    protected override void Initialization()
-    {
-        // Months init code
-        var months = DateTimeFormatInfo.CurrentInfo.MonthNames
-               .Where(_ => !string.IsNullOrWhiteSpace(_))
-               .Select(_ => _[..3]);
-        Months ??= new ObservableCollection<string>(months);
-        SelectedMonth = Months[DateTime.Now.Month - 1];
+		// Days init code
+		var assembly = Assembly.GetExecutingAssembly();
+		var stream = assembly.GetManifestResourceStream("HealthMate.Resources.DaysIn2023.json") ?? throw new FileNotFoundException("Embedded resource not found");
+		using var streamReader = new StreamReader(stream);
+		using var jsonTextReader = new JsonTextReader(streamReader);
+		var serializer = new JsonSerializer();
+		_daysIn2023 = serializer.Deserialize<Dictionary<string, IEnumerable<CalendarDays>>>(jsonTextReader);
 
-        // Days init code
-        var assembly = Assembly.GetExecutingAssembly();
-        var stream = assembly.GetManifestResourceStream("HealthMate.Resources.DaysIn2023.json") ?? throw new FileNotFoundException("Embedded resource not found");
-        using var streamReader = new StreamReader(stream);
-        using var jsonTextReader = new JsonTextReader(streamReader);
-        var serializer = new JsonSerializer();
-        _daysIn2023 = serializer.Deserialize<Dictionary<string, IEnumerable<CalendarDays>>>(jsonTextReader);
+		Days = new ObservableCollection<CalendarDays>(_daysIn2023[SelectedMonth]);
+		SelectedDay = Days[DateTime.Now.Day - 1];
+	}
 
-        Days = new ObservableCollection<CalendarDays>(_daysIn2023[SelectedMonth]);
-        SelectedDay = Days[DateTime.Now.Day - 1];
-    }
+	private void ListenForRealmChanges(IRealmCollection<ScheduleTable> sender, ChangeSet changes)
+	{
+		if (changes == null)
+			return;
 
-    private void ListenForRealmChanges(IRealmCollection<ScheduleTable> sender, ChangeSet changes)
-    {
-        if (changes == null)
-            return;
+		if (changes.InsertedIndices.Length != 0)
+			foreach (var item in changes.InsertedIndices)
+			{
+				var scheduleHeader = sender.ElementAt(item).TimeToTake.GetCorrectTimeStringFromUtc();
+				var correctGroup = Schedules.FirstOrDefault(_ => _.ScheduleHeader == scheduleHeader);
+				if (correctGroup is not ScheduleGroup unwrappedGroup)
+				{
+					var schedule = new ObservableCollection<ScheduleTable> { sender.ElementAt(item) };
+					Schedules.Add(new ScheduleGroup(sender.ElementAt(item).TimeToTake, schedule));
+					IsEmptyViewVisible = !Schedules.Any();
+					return;
+				}
 
-        if (changes.InsertedIndices.Any())
-            foreach (var item in changes.InsertedIndices)
-            {
-                var scheduleHeader = sender.ElementAt(item).TimeToTake.GetCorrectTimeStringFromUtc();
-                var correctGroup = Schedules.FirstOrDefault(_ => _.ScheduleHeader == scheduleHeader);
-                if (correctGroup is not ScheduleGroup unwrappedGroup)
-                {
-                    var schedule = new ObservableCollection<ScheduleTable> { sender.ElementAt(item) };
-                    Schedules.Add(new ScheduleGroup(sender.ElementAt(item).TimeToTake, schedule));
-                    IsEmptyViewVisible = !Schedules.Any();
-                    return;
-                }
+				var indexOfCorrectGroup = Schedules.IndexOf(unwrappedGroup);
+				Schedules[indexOfCorrectGroup].Add(sender[item]);
+				IsEmptyViewVisible = !Schedules.Any();
+			}
+	}
 
-                var indexOfCorrectGroup = Schedules.IndexOf(unwrappedGroup);
-                Schedules[indexOfCorrectGroup].Add(sender[item]);
-                IsEmptyViewVisible = !Schedules.Any();
-            }
-    }
+	[RelayCommand]
+	private void MonthCollViewLoaded(CollectionView collView)
+	{
+		collView.ScrollTo(SelectedMonth, position: ScrollToPosition.Start, animate: true);
+	}
 
-    [RelayCommand]
-    private void MonthCollViewLoaded(CollectionView collView)
-    {
-        collView.ScrollTo(SelectedMonth, position: ScrollToPosition.Start, animate: true);
-    }
+	public override async void OnNavigatedTo()
+	{
+		var selectedDate = new DateTime(DateTime.Now.Year,
+		   Months.IndexOf(SelectedMonth) + 1,
+		   Days.IndexOf(SelectedDay) + 1);
 
-    public override async void OnNavigatedTo()
-    {
-        var selectedDate = new DateTime(DateTime.Now.Year,
-           Months.IndexOf(SelectedMonth) + 1,
-           Days.IndexOf(SelectedDay) + 1);
+		Schedules ??= [];
+		var schedules = await realmService.FindAll<ScheduleTable>();
+		RealmChangesNotification = schedules.SubscribeForNotifications(ListenForRealmChanges);
 
-        Schedules ??= [];
-        var schedules = await _realmService.FindAll<ScheduleTable>();
-        RealmChangesNotification = schedules.SubscribeForNotifications(ListenForRealmChanges);
+		var realmSchedulesList = schedules
+			.ToList()
+			.Where(_ => TimeZoneInfo.ConvertTimeFromUtc(_.TimeToTake.DateTime, TimeZoneInfo.Local).Date == selectedDate.Date);
+		foreach (var newSchedule in realmSchedulesList)
+		{
+			var groupName = newSchedule.TimeToTake.GetCorrectTimeStringFromUtc();
+			var existingGroup = Schedules.FirstOrDefault(g => g.ScheduleHeader == groupName);
+			if (existingGroup == null)
+			{
+				// Group doesn't exist, create a new group and add the item
+				var newGroup = new ScheduleGroup(newSchedule.TimeToTake, [newSchedule]);
+				Schedules.Add(newGroup);
+			}
+			else
+				// Group exists, check if item already exists within the group based on InventoryId
+				if (!existingGroup.Any(item => item.ScheduleId == newSchedule.ScheduleId))
+				// Item doesn't exist, add it to the group
+				existingGroup.Add(newSchedule);
+		}
 
-        var realmSchedulesList = schedules
-            .ToList()
-            .Where(_ => TimeZoneInfo.ConvertTimeFromUtc(_.TimeToTake.DateTime, TimeZoneInfo.Local).Date == selectedDate.Date);
-        foreach (var newSchedule in realmSchedulesList)
-        {
-            var groupName = newSchedule.TimeToTake.GetCorrectTimeStringFromUtc();
-            var existingGroup = Schedules.FirstOrDefault(g => g.ScheduleHeader == groupName);
-            if (existingGroup == null)
-            {
-                // Group doesn't exist, create a new group and add the item
-                var newGroup = new ScheduleGroup(newSchedule.TimeToTake, [newSchedule]);
-                Schedules.Add(newGroup);
-            }
-            else
-                // Group exists, check if item already exists within the group based on InventoryId
-                if (!existingGroup.Any(item => item.ScheduleId == newSchedule.ScheduleId))
-                // Item doesn't exist, add it to the group
-                existingGroup.Add(newSchedule);
-        }
+		var missedMeds = Schedules.Where(x => x.ActualSchedule.ToLocalTime().DateTime < DateTime.Now)
+			.SelectMany(_ => _.Schedule);
 
-        var missedMeds = Schedules.Where(x => x.ActualSchedule.ToLocalTime().DateTime < DateTime.Now)
-            .SelectMany(_ => _.Schedule);
+		foreach (var meds in missedMeds)
+			if ((ScheduleState)meds.ScheduleState == ScheduleState.Pending)
+				await realmService.Write(() => meds.ScheduleState = (int)ScheduleState.Missed);
 
-        foreach (var meds in missedMeds)
-            if ((ScheduleState)meds.ScheduleState == ScheduleState.Pending)
-                await _realmService.Write(() => meds.ScheduleState = (int)ScheduleState.Missed);
+		#region Faker
+		//var fakeInventory = new Faker<InventoryTable>()
+		//.RuleFor(p => p.BrandName, v => v.Name.FirstName())
+		//.RuleFor(p => p.MedicineName, v => v.Name.LastName())
+		//.RuleFor(p => p.Dosage, v => v.Random.Int(0, 500))
+		//.RuleFor(p => p.DosageUnit, v => v.Random.Int(0, 8))
+		//.RuleFor(p => p.Stock, v => v.Random.Int(1, 100))
+		//.RuleFor(p => p.MedicationType, v => v.Random.Int(0, 9))
+		//.RuleFor(p => p.Description, v => v.Lorem.Paragraph(5))
+		//.Generate(25);
 
-        #region Faker
-        //var fakeInventory = new Faker<InventoryTable>()
-        //.RuleFor(p => p.BrandName, v => v.Name.FirstName())
-        //.RuleFor(p => p.MedicineName, v => v.Name.LastName())
-        //.RuleFor(p => p.Dosage, v => v.Random.Int(0, 500))
-        //.RuleFor(p => p.DosageUnit, v => v.Random.Int(0, 8))
-        //.RuleFor(p => p.Stock, v => v.Random.Int(1, 100))
-        //.RuleFor(p => p.MedicationType, v => v.Random.Int(0, 9))
-        //.RuleFor(p => p.Description, v => v.Lorem.Paragraph(5))
-        //.Generate(25);
+		//var fakeSchedules = new Faker<ScheduleTable>()
+		//    .RuleFor(p => p.ScheduleState, v => (int)v.Random.Enum<ScheduleState>())
+		//    .RuleFor(p => p.TimeToTake, v => v.Date.Recent(0))
+		//    .RuleFor(p => p.Inventory, v => v.PickRandom(fakeInventory))
+		//    .RuleFor(p => p.TimeToTake, v => v.PickRandom(
+		//        new DateTimeOffset(2020, 1, 1, 5, 30, 0, TimeSpan.Zero),
+		//        new DateTimeOffset(2020, 1, 1, 2, 40, 0, TimeSpan.Zero),
+		//        new DateTimeOffset(2020, 1, 1, 3, 50, 0, TimeSpan.Zero),
+		//        new DateTimeOffset(2020, 1, 1, 17, 29, 0, TimeSpan.Zero),
+		//        new DateTimeOffset(2020, 1, 1, 5, 30, 0, TimeSpan.Zero)))
+		//    .Generate(25);
 
-        //var fakeSchedules = new Faker<ScheduleTable>()
-        //    .RuleFor(p => p.ScheduleState, v => (int)v.Random.Enum<ScheduleState>())
-        //    .RuleFor(p => p.TimeToTake, v => v.Date.Recent(0))
-        //    .RuleFor(p => p.Inventory, v => v.PickRandom(fakeInventory))
-        //    .RuleFor(p => p.TimeToTake, v => v.PickRandom(
-        //        new DateTimeOffset(2020, 1, 1, 5, 30, 0, TimeSpan.Zero),
-        //        new DateTimeOffset(2020, 1, 1, 2, 40, 0, TimeSpan.Zero),
-        //        new DateTimeOffset(2020, 1, 1, 3, 50, 0, TimeSpan.Zero),
-        //        new DateTimeOffset(2020, 1, 1, 17, 29, 0, TimeSpan.Zero),
-        //        new DateTimeOffset(2020, 1, 1, 5, 30, 0, TimeSpan.Zero)))
-        //    .Generate(25);
+		//foreach (var item in fakeSchedules)
+		//    Schedules.Add(new ScheduleGroup(item.TimeToTake, new ObservableCollection<ScheduleTable>(fakeSchedules)));
+		#endregion
 
-        //foreach (var item in fakeSchedules)
-        //    Schedules.Add(new ScheduleGroup(item.TimeToTake, new ObservableCollection<ScheduleTable>(fakeSchedules)));
-        #endregion
+		IsEmptyViewVisible = !Schedules.Any();
+	}
 
-        IsEmptyViewVisible = !Schedules.Any();
-    }
+	[RelayCommand]
+	public async Task OpenScheduleInfo(ScheduleTable schedule)
+	{
+		if ((ScheduleState)schedule.ScheduleState is ScheduleState.Missed)
+			await popupService.ShowPopup<MedsMissedPopup>();
+		else
+			await popupService.ShowPopup<ScheduleInfoPopup>(schedule);
+	}
 
-    [RelayCommand]
-    public async Task OpenScheduleInfo(ScheduleTable schedule)
-    {
-        if ((ScheduleState)schedule.ScheduleState is ScheduleState.Missed)
-            await _popupService.ShowPopup<MedsMissedPopup>();
-        else
-            await _popupService.ShowPopup<ScheduleInfoPopup>(schedule);
-    }
+	partial void OnSelectedDayChanged(CalendarDays oldValue, CalendarDays newValue)
+	{
+		if (oldValue != null)
+			ChangeSelectedDate(newValue.Date, false).ConfigureAwait(false);
+	}
 
-    partial void OnSelectedDayChanged(CalendarDays oldValue, CalendarDays newValue)
-    {
-        if (oldValue != null)
-            ChangeSelectedDate(newValue.Date, false).ConfigureAwait(false);
-    }
+	partial void OnSelectedMonthChanged(string oldValue, string newValue)
+	{
+		if (string.IsNullOrWhiteSpace(oldValue))
+			return;
 
-    partial void OnSelectedMonthChanged(string oldValue, string newValue)
-    {
-        if (string.IsNullOrWhiteSpace(oldValue))
-            return;
-
-        ChangeSelectedDate(Months.IndexOf(newValue) + 1, true).ConfigureAwait(false);
-        Days = new ObservableCollection<CalendarDays>(_daysIn2023[SelectedMonth]);
-        SelectedDay = Days[0];
-        WeakReferenceMessenger.Default.Send(SelectedDay);
-    }
+		ChangeSelectedDate(Months.IndexOf(newValue) + 1, true).ConfigureAwait(false);
+		Days = new ObservableCollection<CalendarDays>(_daysIn2023[SelectedMonth]);
+		SelectedDay = Days[0];
+		WeakReferenceMessenger.Default.Send(SelectedDay);
+	}
 }

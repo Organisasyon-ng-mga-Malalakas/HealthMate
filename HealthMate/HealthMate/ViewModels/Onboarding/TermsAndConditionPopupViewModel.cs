@@ -2,30 +2,23 @@
 using HealthMate.Services;
 
 namespace HealthMate.ViewModels.Onboarding;
-public partial class TermsAndConditionPopupViewModel : BaseViewModel
+public partial class TermsAndConditionPopupViewModel(NavigationService navigationService, PopupService popupService) : BaseViewModel(navigationService)
 {
-    private readonly PopupService _popupService;
+	[RelayCommand]
+	private async Task Agreed()
+	{
+		await ClosePopup();
+		await NavigationService.PushAsync("//Tabs");
+	}
 
-    public TermsAndConditionPopupViewModel(NavigationService navigationService, PopupService popupService) : base(navigationService)
-    {
-        _popupService = popupService;
-    }
+	[RelayCommand]
+	private async Task Disagreed()
+	{
+		await ClosePopup();
+	}
 
-    [RelayCommand]
-    private async Task Agreed()
-    {
-        await ClosePopup();
-        await NavigationService.PushAsync("//Tabs");
-    }
-
-    [RelayCommand]
-    private async Task Disagreed()
-    {
-        await ClosePopup();
-    }
-
-    private async Task ClosePopup()
-    {
-        await _popupService.ClosePopup();
-    }
+	private async Task ClosePopup()
+	{
+		await popupService.ClosePopup();
+	}
 }

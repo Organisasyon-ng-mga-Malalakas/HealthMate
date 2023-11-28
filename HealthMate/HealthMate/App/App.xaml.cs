@@ -1,13 +1,11 @@
-﻿using HealthMate.Services;
-
-namespace HealthMate;
+﻿namespace HealthMate;
 
 public partial class App : Application
 {
-    public App(IVersionTracking versionTracking, DatabaseService databaseService)
-    {
-        Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MjkyNTEyMkAzMjMzMmUzMDJlMzBINnQwbjZLekJIYUdRNU5QZGpoakE5empQTkpIT0VDbjFVK1lmU3lMK280PQ==");
-        InitializeComponent();
-        MainPage = new AppShell(versionTracking);
-    }
+	public App(IVersionTracking versionTracking)
+	{
+		Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MjkyNTEyMkAzMjMzMmUzMDJlMzBINnQwbjZLekJIYUdRNU5QZGpoakE5empQTkpIT0VDbjFVK1lmU3lMK280PQ==");
+		InitializeComponent();
+		MainPage = new AppShell(versionTracking);
+	}
 }

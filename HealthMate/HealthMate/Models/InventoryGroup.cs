@@ -2,14 +2,8 @@
 using System.Collections.ObjectModel;
 
 namespace HealthMate.Models;
-public class InventoryGroup : ObservableCollection<Inventory>
+public class InventoryGroup(string category, ObservableCollection<Inventory> inventory) : ObservableCollection<Inventory>(inventory)
 {
-    public string Category { get; set; }
-    public ObservableCollection<Inventory> Inventory { get; set; }
-
-    public InventoryGroup(string category, ObservableCollection<Inventory> inventory) : base(inventory)
-    {
-        Category = category;
-        Inventory = inventory;
-    }
+	public string Category { get; set; } = category;
+	public ObservableCollection<Inventory> Inventory { get; set; } = inventory;
 }

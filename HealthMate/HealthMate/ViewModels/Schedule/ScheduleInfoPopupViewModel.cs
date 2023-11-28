@@ -5,44 +5,39 @@ using HealthMate.Services;
 using ScheduleTable = HealthMate.Models.Tables.Schedule;
 
 namespace HealthMate.ViewModels.Schedule;
-public partial class ScheduleInfoPopupViewModel : BaseViewModel
+public partial class ScheduleInfoPopupViewModel(NavigationService navigationService,
+	PopupService popupService,
+	RealmService realmService) : BaseViewModel(navigationService)
 {
-    private readonly PopupService _popupService;
-    private readonly RealmService _realmService;
+	[ObservableProperty]
+	public int closeBtnColSpan;
 
-    [ObservableProperty]
-    public int closeBtnColSpan;
-    [ObservableProperty]
-    public bool isMedsTakenBtnVisible;
-    [ObservableProperty]
-    private ScheduleTable passedSchedule;
+	[ObservableProperty]
+	public bool isMedsTakenBtnVisible;
 
-    public ScheduleInfoPopupViewModel(NavigationService navigationService, PopupService popupService, RealmService realmService) : base(navigationService)
-    {
-        _popupService = popupService;
-        _realmService = realmService;
-    }
+	[ObservableProperty]
+	private ScheduleTable passedSchedule;
 
-    [RelayCommand]
-    public async Task ClosePopup()
-    {
-        await _popupService.ClosePopup();
-    }
+	[RelayCommand]
+	public async Task ClosePopup()
+	{
+		await popupService.ClosePopup();
+	}
 
-    [RelayCommand]
-    public async Task MedsTaken()
-    {
-        await _realmService.Write(() =>
-        {
-            PassedSchedule.ScheduleState = (int)ScheduleState.Taken;
-            PassedSchedule.Inventory.Stock -= PassedSchedule.Quantity;
-        });
-        await ClosePopup();
-    }
+	[RelayCommand]
+	public async Task MedsTaken()
+	{
+		await realmService.Write(() =>
+		{
+			PassedSchedule.ScheduleState = (int)ScheduleState.Taken;
+			PassedSchedule.Inventory.Stock -= PassedSchedule.Quantity;
+		});
+		await ClosePopup();
+	}
 
-    public override void OnNavigatedTo()
-    {
-        CloseBtnColSpan = (ScheduleState)PassedSchedule.ScheduleState == ScheduleState.Taken ? 2 : 1;
-        IsMedsTakenBtnVisible = (ScheduleState)PassedSchedule.ScheduleState == ScheduleState.Taken;
-    }
+	public override void OnNavigatedTo()
+	{
+		CloseBtnColSpan = (ScheduleState)PassedSchedule.ScheduleState == ScheduleState.Taken ? 2 : 1;
+		IsMedsTakenBtnVisible = (ScheduleState)PassedSchedule.ScheduleState == ScheduleState.Taken;
+	}
 }

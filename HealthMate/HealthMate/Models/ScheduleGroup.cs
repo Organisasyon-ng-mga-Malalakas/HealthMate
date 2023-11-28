@@ -3,16 +3,9 @@ using HealthMate.Models.Tables;
 using System.Collections.ObjectModel;
 
 namespace HealthMate.Models;
-public class ScheduleGroup : ObservableCollection<Schedule>
+public class ScheduleGroup(DateTimeOffset schedule, ObservableCollection<Schedule> schedules) : ObservableCollection<Schedule>(schedules)
 {
-    public DateTimeOffset ActualSchedule { get; set; }
-    public string ScheduleHeader { get; }
-    public ObservableCollection<Schedule> Schedule { get; }
-
-    public ScheduleGroup(DateTimeOffset schedule, ObservableCollection<Schedule> schedules) : base(schedules)
-    {
-        ActualSchedule = schedule;
-        ScheduleHeader = schedule.GetCorrectTimeStringFromUtc();
-        Schedule = schedules;
-    }
+	public DateTimeOffset ActualSchedule { get; set; } = schedule;
+	public string ScheduleHeader { get; } = schedule.GetCorrectTimeStringFromUtc();
+	public ObservableCollection<Schedule> Schedule { get; } = schedules;
 }

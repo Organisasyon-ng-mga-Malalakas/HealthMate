@@ -63,7 +63,7 @@
                         </HorizontalStackLayout>
 
                         <CollectionView x:Name="symptomsCollView"
-                                        Margin="5,0,5,10"
+                                        Margin="5,0"
                                         HeightRequest="400"
                                         ItemsSource="{Binding Symptoms}"
                                         SelectionMode="None">
