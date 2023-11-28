@@ -1,8 +1,11 @@
+using HealthMate.Templates;
+using HealthMate.ViewModels.Settings;
+
 namespace HealthMate.Views.Settings;
 
-public partial class SettingsPage : ContentPage
+public partial class SettingsPage : BasePage<SettingsPageViewModel>
 {
-	public SettingsPage()
+	public SettingsPage(SettingsPageViewModel vm) : base(vm)
 	{
 		InitializeComponent();
 	}

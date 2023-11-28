@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<templates:BasePage x:Class="HealthMate.Views.Accounts.AccountPage"
+                    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:templates="clr-namespace:HealthMate.Templates"
+                    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+                    xmlns:vm="clr-namespace:HealthMate.ViewModels.Accounts"
+                    x:DataType="vm:AccountPageViewModel"
+                    xmlns:constants="clr-namespace:HealthMate.Constants"
+                    x:TypeArguments="vm:AccountPageViewModel"
+                    BackgroundColor="White">
+    <templates:BasePage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="White"
+                                   StatusBarStyle="DarkContent" />
+    </templates:BasePage.Behaviors>
+    <ContentView>
+        <ContentView.Triggers>
+            <DataTrigger Binding="{Binding IsSignup}"
+                         TargetType="ContentView"
+                         Value="True">
+                <Setter Property="Content">
+                    <Setter.Value>
+                        <ScrollView>
+                            <VerticalStackLayout Margin="16,0">
+                                <Image Source="signup.png"
+                                       VerticalOptions="Center" />
+
+                                <Label Margin="0,20"
+                                       FontFamily="{StaticResource Bold}"
+                                       FontSize="30"
+                                       Text="Sign up"
+                                       TextColor="{StaticResource Blue}" />
+
+                                <Label Margin="3,0"
+                                       FontFamily="{StaticResource Regular}"
+                                       Text="Username" />
+
+                                <Entry FontFamily="{StaticResource Regular}"
+                                       TextColor="{StaticResource RegBlack}" />
+
+                                <Label Margin="3,0"
+                                       FontFamily="{StaticResource Regular}"
+                                       Text="Email address" />
+
+                                <Entry FontFamily="{StaticResource Regular}"
+                                       Keyboard="Email"
+                                       TextColor="{StaticResource RegBlack}" />
+
+                                <Grid ColumnDefinitions="*,*"
+                                      RowDefinitions="*,*">
+                                    <Label Margin="3,0"
+                                           FontFamily="{StaticResource Regular}"
+                                           Text="Password" />
+
+                                    <Entry Grid.Row="1"
+                                           FontFamily="{StaticResource Regular}"
+                                           IsPassword="True"
+                                           Keyboard="Email"
+                                           TextColor="{StaticResource RegBlack}" />
+
+                                    <Label Text="{Static constants:FontAwesomeIcons.Eye}"/>
+
+                                    <Label Grid.Column="1"
+                                           Margin="3,0"
+                                           FontFamily="{StaticResource Regular}"
+                                           Text="Confirm password" />
+
+                                    <Entry Grid.Row="1"
+                                           Grid.Column="1"
+                                           FontFamily="{StaticResource Regular}"
+                                           IsPassword="True"
+                                           Keyboard="Email"
+                                           TextColor="{StaticResource RegBlack}" />
+                                </Grid>
+
+                                <Label Margin="0,10"
+                                       FontFamily="{StaticResource Regular}"
+                                       FontSize="16"
+                                       HorizontalOptions="End"
+                                       Text="Forgot passoword?"
+                                       TextColor="{StaticResource Blue}" />
+
+                                <Button BackgroundColor="{StaticResource Blue}"
+                                        FontFamily="{StaticResource Bold}"
+                                        Text="Login"
+                                        TextColor="White" />
+
+                                <Label Margin="0,10"
+                                       HorizontalOptions="Center">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding ChangeAccountStateCommand}">
+                                            <TapGestureRecognizer.CommandParameter>
+                                                <x:Boolean>False</x:Boolean>
+                                            </TapGestureRecognizer.CommandParameter>
+                                        </TapGestureRecognizer>
+                                    </Label.GestureRecognizers>
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span FontFamily="{StaticResource Regular}"
+                                                  Text="Don't have an account yet? "
+                                                  TextColor="{StaticResource RegBlack}" />
+                                            <Span FontFamily="{StaticResource Regular}"
+                                                  Text="Sign up"
+                                                  TextColor="#007AFF" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </VerticalStackLayout>
+                        </ScrollView>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding IsSignup}"
+                         TargetType="ContentView"
+                         Value="False">
+                <Setter Property="Content">
+                    <Setter.Value>
+                        <VerticalStackLayout Margin="16,0">
+                            <Image Source="login.png"
+                                   VerticalOptions="Center" />
+
+                            <Label Margin="0,20"
+                                   FontFamily="{StaticResource Bold}"
+                                   FontSize="30"
+                                   Text="LOGIN"
+                                   TextColor="{StaticResource Blue}" />
+
+                            <Label Margin="3,0"
+                                   FontFamily="{StaticResource Regular}"
+                                   Text="Email address" />
+
+                            <Entry FontFamily="{StaticResource Regular}"
+                                   Keyboard="Email"
+                                   TextColor="{StaticResource RegBlack}" />
+
+                            <Label Margin="3,0"
+                                   FontFamily="{StaticResource Regular}"
+                                   Text="Password" />
+
+                            <Entry FontFamily="{StaticResource Regular}"
+                                   IsPassword="True"
+                                   Keyboard="Email"
+                                   TextColor="{StaticResource RegBlack}" />
+
+                            <Label Margin="0,10"
+                                   FontFamily="{StaticResource Regular}"
+                                   FontSize="16"
+                                   HorizontalOptions="End"
+                                   Text="Forgot passoword?"
+                                   TextColor="{StaticResource Blue}" />
+
+                            <Button BackgroundColor="{StaticResource Blue}"
+                                    FontFamily="{StaticResource Bold}"
+                                    Text="Login"
+                                    TextColor="White" />
+
+                            <Label Margin="0,10"
+                                   HorizontalOptions="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ChangeAccountStateCommand}">
+                                        <TapGestureRecognizer.CommandParameter>
+                                            <x:Boolean>True</x:Boolean>
+                                        </TapGestureRecognizer.CommandParameter>
+                                    </TapGestureRecognizer>
+                                </Label.GestureRecognizers>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span FontFamily="{StaticResource Regular}"
+                                              Text="Already have an account? "
+                                              TextColor="{StaticResource RegBlack}" />
+                                        <Span FontFamily="{StaticResource Regular}"
+                                              Text="Sign in"
+                                              TextColor="#007AFF" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </VerticalStackLayout>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+        </ContentView.Triggers>
+    </ContentView>
+</templates:BasePage>
+
+
+<!--  Login  -->
+<!--<VerticalStackLayout Margin="16,0">
+    <Image Source="login.png"
+               VerticalOptions="Center" />
+
+    <Label Margin="0,20"
+               FontFamily="{StaticResource Bold}"
+               FontSize="30"
+               Text="LOGIN"
+               TextColor="{StaticResource Blue}" />
+
+    <Label Margin="3,0"
+               FontFamily="{StaticResource Regular}"
+               Text="Email address" />
+
+    <Entry FontFamily="{StaticResource Regular}"
+               Keyboard="Email"
+               TextColor="{StaticResource RegBlack}" />
+
+    <Label Margin="3,0"
+               FontFamily="{StaticResource Regular}"
+               Text="Password" />
+
+    <Entry FontFamily="{StaticResource Regular}"
+               IsPassword="True"
+               Keyboard="Email"
+               TextColor="{StaticResource RegBlack}" />
+
+    <Label Margin="0,10"
+               FontFamily="{StaticResource Regular}"
+               FontSize="16"
+               HorizontalOptions="End"
+               Text="Forgot passoword?"
+               TextColor="{StaticResource Blue}" />
+
+    <Button BackgroundColor="{StaticResource Blue}"
+                FontFamily="{StaticResource Bold}"
+                Text="Login"
+                TextColor="White" />
+
+    <Label Margin="0,10"
+               HorizontalOptions="Center">
+        <Label.FormattedText>
+            <FormattedString>
+                <Span FontFamily="{StaticResource Regular}"
+                          Text="Don't have an account yet? "
+                          TextColor="{StaticResource RegBlack}" />
+                <Span FontFamily="{StaticResource Regular}"
+                          Text="Sign up"
+                          TextColor="#007AFF" />
+            </FormattedString>
+        </Label.FormattedText>
+    </Label>
+</VerticalStackLayout>-->
+
+<!--  Signup  -->
+<!--<ScrollView>
+    <VerticalStackLayout Margin="16,0">
+        <Image Source="signup.png"
+                   VerticalOptions="Center" />
+
+        <Label Margin="0,20"
+                   FontFamily="{StaticResource Bold}"
+                   FontSize="30"
+                   Text="Sign up"
+                   TextColor="{StaticResource Blue}" />
+
+        <Label Margin="3,0"
+                   FontFamily="{StaticResource Regular}"
+                   Text="Username" />
+
+        <Entry FontFamily="{StaticResource Regular}"
+                   TextColor="{StaticResource RegBlack}" />
+
+        <Label Margin="3,0"
+                   FontFamily="{StaticResource Regular}"
+                   Text="Email address" />
+
+        <Entry FontFamily="{StaticResource Regular}"
+                   Keyboard="Email"
+                   TextColor="{StaticResource RegBlack}" />
+
+        <Grid ColumnDefinitions="*,*"
+                  RowDefinitions="*,*">
+            <Label Margin="3,0"
+                       FontFamily="{StaticResource Regular}"
+                       Text="Password" />
+
+            <Entry Grid.Row="1"
+                       FontFamily="{StaticResource Regular}"
+                       IsPassword="True"
+                       Keyboard="Email"
+                       TextColor="{StaticResource RegBlack}" />
+
+            <Label Grid.Column="1"
+                       Margin="3,0"
+                       FontFamily="{StaticResource Regular}"
+                       Text="Confirm password" />
+
+            <Entry Grid.Row="1"
+                       Grid.Column="1"
+                       FontFamily="{StaticResource Regular}"
+                       IsPassword="True"
+                       Keyboard="Email"
+                       TextColor="{StaticResource RegBlack}" />
+        </Grid>
+
+        <Label Margin="0,10"
+                   FontFamily="{StaticResource Regular}"
+                   FontSize="16"
+                   HorizontalOptions="End"
+                   Text="Forgot passoword?"
+                   TextColor="{StaticResource Blue}" />
+
+        <Button BackgroundColor="{StaticResource Blue}"
+                    FontFamily="{StaticResource Bold}"
+                    Text="Login"
+                    TextColor="White" />
+
+        <Label Margin="0,10"
+                   HorizontalOptions="Center">
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span FontFamily="{StaticResource Regular}"
+                              Text="Don't have an account yet? "
+                              TextColor="{StaticResource RegBlack}" />
+                    <Span FontFamily="{StaticResource Regular}"
+                              Text="Sign up"
+                              TextColor="#007AFF" />
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+    </VerticalStackLayout>
+</ScrollView>-->

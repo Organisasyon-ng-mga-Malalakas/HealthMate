@@ -58,6 +58,10 @@
     <None Remove="Resources\Fonts\FontAwesome-Pro-Regular-400.otf" />
     <None Remove="Resources\Fonts\FontAwesome-Pro-Solid-900.otf" />
     <None Remove="Resources\Fonts\FontAwesome-Pro-Thin-100.otf" />
+    <None Remove="Resources\Images\Accounts\forgot_pw.png" />
+    <None Remove="Resources\Images\Accounts\login.png" />
+    <None Remove="Resources\Images\Accounts\reset_pw.png" />
+    <None Remove="Resources\Images\Accounts\signup.png" />
     <None Remove="Resources\Images\Arms.svg" />
     <None Remove="Resources\Images\Capsule.svg" />
     <None Remove="Resources\Images\disclaimer0.svg" />
@@ -81,6 +85,7 @@
     <None Remove="Resources\Images\Liquid.svg" />
     <None Remove="Resources\Images\loading.gif" />
     <None Remove="Resources\Images\LowerBody.svg" />
+    <None Remove="Resources\Images\memoji.png" />
     <None Remove="Resources\Images\notif_icon.png" />
     <None Remove="Resources\Images\Ointment.svg" />
     <None Remove="Resources\Images\onboarding1.png" />
@@ -138,13 +143,16 @@
     <PackageReference Include="Syncfusion.Maui.Inputs" Version="23.2.5" />
     <PackageReference Include="Syncfusion.Maui.ListView" Version="23.2.5" />
     <PackageReference Include="The49.Maui.BottomSheet" Version="1.0.4" />
+    <PackageReference Include="Xamarin.AndroidX.Biometric" Version="1.1.0.17" />
+	  <PackageReference Include="Xamarin.AndroidX.Collection" Version="1.3.0.1" />
+	  <PackageReference Include="Xamarin.AndroidX.Collection.Ktx" Version="1.3.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <MauiXaml Update="App\AppShell.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
-    <MauiXaml Update="Interfaces\TestPage.xaml">
+    <MauiXaml Update="Views\Accounts\AccountPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Update="Views\Inventory\AddInventoryBottomSheet.xaml">
@@ -219,6 +227,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <MauiImage Include="Resources\Images\Accounts\forgot_pw.png" />
+    <MauiImage Include="Resources\Images\Accounts\login.png" />
+    <MauiImage Include="Resources\Images\Accounts\reset_pw.png" />
+    <MauiImage Include="Resources\Images\Accounts\signup.png" />
     <MauiImage Include="Resources\Images\Body parts\arms.svg" />
     <MauiImage Include="Resources\Images\Body parts\empty_body_part.png" />
     <MauiImage Include="Resources\Images\Body parts\general.png" />

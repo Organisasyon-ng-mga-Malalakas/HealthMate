@@ -2,6 +2,7 @@
 <Shell x:Class="HealthMate.AppShell"
        xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:accounts="clr-namespace:HealthMate.Views.Accounts"
        xmlns:constants="clr-namespace:HealthMate.Constants"
        xmlns:inventory="clr-namespace:HealthMate.Views.Inventory"
        xmlns:onboarding="clr-namespace:HealthMate.Views.Onboarding"
@@ -19,6 +20,10 @@
 
     <ShellItem>
         <ShellContent ContentTemplate="{DataTemplate onboarding:OnboardingPage}" />
+    </ShellItem>
+
+    <ShellItem x:Name="AccountPage">
+        <ShellContent ContentTemplate="{DataTemplate accounts:AccountPage}" />
     </ShellItem>
 
     <TabBar x:Name="Tabs"
