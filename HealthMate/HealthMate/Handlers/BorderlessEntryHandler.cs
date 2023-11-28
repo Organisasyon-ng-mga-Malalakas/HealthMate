@@ -12,7 +12,8 @@ public partial class BorderlessEntryHandler : EntryHandler
         [nameof(BorderlessEntry.Keyboard)] = MapKeyboard,
         [nameof(BorderlessEntry.TextColor)] = MapTextColor,
         [nameof(BorderlessEntry.Placeholder)] = MapPlaceholder,
-        [nameof(BorderlessEntry.IsReadOnly)] = MapIsReadOnly
+        [nameof(BorderlessEntry.IsReadOnly)] = MapIsReadOnly,
+        [nameof(BorderlessEntry.ReturnType)] = MapReturnType,
     };
 
     public BorderlessEntryHandler() : base(PropertyMapper) { }

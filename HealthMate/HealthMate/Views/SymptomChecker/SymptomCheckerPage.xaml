@@ -16,7 +16,7 @@
             <Label FontFamily="{StaticResource Medium}"
                    FontSize="18"
                    HorizontalOptions="Center"
-                   Text="Symptom Checker"
+                   Text="Illness Checker"
                    TextColor="{StaticResource Pink}" />
 
             <Label FontFamily="{StaticResource Regular}"
@@ -30,7 +30,7 @@
                     BackgroundColor="{StaticResource Pink}"
                     Command="{Binding OpenDisclaimerPopupCommand}"
                     FontFamily="{StaticResource Bold}"
-                    Text="Search Symptoms" />
+                    Text="Fill illness" />
         </VerticalStackLayout>
 
         <Button Margin="16"

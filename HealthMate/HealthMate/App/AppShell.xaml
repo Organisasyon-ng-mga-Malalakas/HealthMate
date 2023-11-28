@@ -6,6 +6,7 @@
        xmlns:inventory="clr-namespace:HealthMate.Views.Inventory"
        xmlns:onboarding="clr-namespace:HealthMate.Views.Onboarding"
        xmlns:schedule="clr-namespace:HealthMate.Views.Schedule"
+       xmlns:settings="clr-namespace:HealthMate.Views.Settings"
        xmlns:symptomChecker="clr-namespace:HealthMate.Views.SymptomChecker"
        Shell.FlyoutBehavior="Disabled"
        Shell.TabBarBackgroundColor="White"
@@ -24,38 +25,38 @@
             Route="Tabs">
         <Tab Title="Schedule">
             <Tab.Icon>
-                <FontImageSource FontFamily="{StaticResource FASolid}"
+                <FontImageSource FontFamily="{StaticResource FALight}"
                                  Glyph="{x:Static constants:FontAwesomeIcons.CalendarClock}"
-                                 Size="20" />
+                                 Size="12" />
             </Tab.Icon>
             <ShellContent ContentTemplate="{DataTemplate schedule:SchedulePage}" />
         </Tab>
 
         <Tab Title="Inventory">
             <Tab.Icon>
-                <FontImageSource FontFamily="{StaticResource FASolid}"
+                <FontImageSource FontFamily="{StaticResource FALight}"
                                  Glyph="{x:Static constants:FontAwesomeIcons.Pills}"
-                                 Size="20" />
+                                 Size="12" />
             </Tab.Icon>
             <ShellContent ContentTemplate="{DataTemplate inventory:InventoryPage}" />
         </Tab>
 
-        <Tab Title="Symptom Checker">
+        <Tab Title="Illness Checker">
             <Tab.Icon>
-                <FontImageSource FontFamily="{StaticResource FASolid}"
-                                 Glyph="{x:Static constants:FontAwesomeIcons.Person}"
-                                 Size="20" />
+                <FontImageSource FontFamily="{StaticResource FALight}"
+                                 Glyph="{x:Static constants:FontAwesomeIcons.Stethoscope}"
+                                 Size="12" />
             </Tab.Icon>
             <ShellContent ContentTemplate="{DataTemplate symptomChecker:SymptomCheckerPage}" />
         </Tab>
 
-        <!--<Tab Title="Symptom Checker">
+        <Tab Title="Settings">
             <Tab.Icon>
-                <FontImageSource FontFamily="{StaticResource FASolid}"
-                                 Glyph="{x:Static constants:FontAwesomeIcons.Person}"
-                                 Size="20" />
+                <FontImageSource FontFamily="{StaticResource FALight}"
+                                 Glyph="{x:Static constants:FontAwesomeIcons.Gear}"
+                                 Size="12" />
             </Tab.Icon>
-            <ShellContent ContentTemplate="{DataTemplate symptomChecker:DisclaimerPopup}" />
-        </Tab>-->
+            <ShellContent ContentTemplate="{DataTemplate settings:SettingsPage}" />
+        </Tab>
     </TabBar>
 </Shell>

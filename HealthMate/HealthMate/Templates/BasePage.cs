@@ -12,7 +12,7 @@ public abstract class BasePage<TViewModel> : ContentPage where TViewModel : Base
         BindingContext = _viewModel = viewModel;
         Behaviors.Add(new StatusBarBehavior
         {
-            StatusBarColor = Colors.White,
+            StatusBarColor = Color.FromArgb("F2F2F7"),
             StatusBarStyle = CommunityToolkit.Maui.Core.StatusBarStyle.DarkContent
         });
     }

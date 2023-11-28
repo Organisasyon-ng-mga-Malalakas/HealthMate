@@ -3,6 +3,7 @@
                     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                     xmlns:constants="clr-namespace:HealthMate.Constants"
+                    xmlns:controls="clr-namespace:HealthMate.Controls"
                     xmlns:converters="clr-namespace:HealthMate.Converters"
                     xmlns:models="clr-namespace:HealthMate.Models"
                     xmlns:sf="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
@@ -12,122 +13,156 @@
                     x:DataType="vm:IllnessCheckerPageViewModel"
                     x:TypeArguments="vm:IllnessCheckerPageViewModel"
                     Shell.NavBarIsVisible="False">
-    <Grid Margin="16,0"
-          RowDefinitions="50,Auto,*,80,*">
-        <templates:BackButton Margin="-16,0" />
+    <ScrollView>
+        <VerticalStackLayout>
+            <templates:BackButton Margin="0,0" />
 
-        <Label Grid.Row="1"
-               FontSize="20">
-            <Label.FormattedText>
-                <FormattedString>
-                    <Span FontFamily="{StaticResource Medium}"
-                          Text="Describe your "
-                          TextColor="{StaticResource RegBlack}" />
-                    <Span FontFamily="{StaticResource Medium}"
-                          Text="symptoms"
-                          TextColor="{StaticResource Pink}" />
-                </FormattedString>
-            </Label.FormattedText>
-        </Label>
+            <Grid Margin="16,0"
+                  RowDefinitions="Auto,Auto,80,*"
+                  VerticalOptions="Start">
+                <Label FontSize="20">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontFamily="{StaticResource Medium}"
+                                  Text="Describe your "
+                                  TextColor="{StaticResource RegBlack}" />
+                            <Span FontFamily="{StaticResource Medium}"
+                                  Text="symptoms"
+                                  TextColor="{StaticResource Pink}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
 
-        <Border Grid.Row="2"
-                BackgroundColor="White"
-                StrokeShape="RoundRectangle 10">
-            <CollectionView x:Name="symptomsCollView"
-                            Margin="5"
-                            ItemsSource="{Binding Symptoms}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Symptoms">
-                        <HorizontalStackLayout>
-                            <CheckBox IsChecked="{Binding IsSelected}"
-                                      Color="{StaticResource Pink}" />
-
-                            <Label Margin="16,5"
-                                   FontFamily="{StaticResource Regular}"
-                                   Text="{Binding Name}"
-                                   TextColor="{StaticResource RegBlack}" />
-                        </HorizontalStackLayout>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </Border>
-
-        <Button Grid.Row="3"
-                BackgroundColor="{StaticResource Pink}"
-                Command="{Binding FindIllnessCommand}"
-                FontFamily="{StaticResource Bold}"
-                HorizontalOptions="Center"
-                Opacity="{Binding IsLoading, Converter={converters:BoolToOpacityConverter}}"
-                Text="Find possible illness"
-                TextColor="White"
-                VerticalOptions="Center" />
-
-        <CollectionView x:Name="illnessCollView"
-                        Grid.Row="4"
-                        IsGrouped="True"
-                        ItemsSource="{Binding Illnesses}">
-            <CollectionView.GroupHeaderTemplate>
-                <DataTemplate x:DataType="models:DiagnosisGroup">
-                    <Label FontFamily="{StaticResource Medium}"
-                           FontSize="20"
-                           Text="{Binding Name}"
-                           TextColor="{StaticResource RegBlack}" />
-                </DataTemplate>
-            </CollectionView.GroupHeaderTemplate>
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:Diagnosis">
-                    <Border Margin="0,8"
-                            BackgroundColor="White"
-                            StrokeShape="RoundRectangle 10">
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding Path=BindingContext.GetIllnessInfoCommand, Source={x:Reference Name=illnessCollView}}"
-                                                  CommandParameter="{Binding .}" />
-                        </Border.GestureRecognizers>
-                        <Grid ColumnDefinitions="*, *">
-                            <Label Padding="8"
-                                   FontFamily="{StaticResource Regular}"
-                                   FontSize="14"
-                                   Text="{Binding Name}"
+                <Border Grid.Row="1"
+                        Margin="0,10,0,0"
+                        BackgroundColor="White"
+                        StrokeShape="RoundRectangle 10">
+                    <VerticalStackLayout>
+                        <HorizontalStackLayout Margin="12,10"
+                                               Spacing="10">
+                            <Label FontFamily="{StaticResource FARegular}"
+                                   Text="{Static constants:FontAwesomeIcons.MagnifyingGlass}"
                                    TextColor="{StaticResource RegBlack}"
                                    VerticalOptions="Center" />
 
+                            <controls:BorderlessEntry FontFamily="{StaticResource Regular}"
+                                                      HorizontalOptions="FillAndExpand"
+                                                      Keyboard="Text"
+                                                      Placeholder="Search symptoms"
+                                                      PlaceholderColor="Gray"
+                                                      ReturnCommand="{Binding SearchSymptomCommand}"
+                                                      ReturnType="Search"
+                                                      Text="{Binding SearchTerm}"
+                                                      TextColor="{StaticResource RegBlack}"
+                                                      VerticalOptions="Center">
+                                <controls:BorderlessEntry.Behaviors>
+                                    <toolkit:EventToCommandBehavior Command="{Binding SearchTermChangedCommand}"
+                                                                    EventName="TextChanged" />
+                                </controls:BorderlessEntry.Behaviors>
+                            </controls:BorderlessEntry>
+                        </HorizontalStackLayout>
 
-                            <HorizontalStackLayout Grid.Column="1"
-                                                   HorizontalOptions="End">
-                                <Label FontFamily="{StaticResource Regular}"
-                                       FontSize="14"
-                                       IsVisible="{Binding Accuracy, Converter={converters:DoubleToBoolConverter}}"
-                                       Text="{Binding Accuracy, StringFormat='Accuracy: {0}%'}"
-                                       TextColor="{StaticResource Pink}"
-                                       VerticalOptions="Center" />
+                        <CollectionView x:Name="symptomsCollView"
+                                        Margin="5,0,5,10"
+                                        HeightRequest="400"
+                                        ItemsSource="{Binding Symptoms}"
+                                        SelectionMode="None">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:Symptoms">
+                                    <HorizontalStackLayout>
+                                        <CheckBox IsChecked="{Binding IsSelected}"
+                                                  Color="{StaticResource Pink}" />
 
-                                <Label Grid.Column="1"
-                                       Margin="8,0,16,0"
-                                       FontFamily="{StaticResource FARegular}"
-                                       FontSize="10"
-                                       Text="{Static constants:FontAwesomeIcons.ChevronRight}"
-                                       TextColor="{StaticResource RegBlack}"
-                                       VerticalOptions="Center" />
-                            </HorizontalStackLayout>
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                                        <Label Margin="16,5"
+                                               FontFamily="{StaticResource Regular}"
+                                               Text="{Binding Name}"
+                                               TextColor="{StaticResource RegBlack}" />
+                                    </HorizontalStackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Border>
 
-        <VerticalStackLayout Grid.Row="5"
-                             HorizontalOptions="Center"
-                             IsVisible="{Binding IsLoading}"
-                             VerticalOptions="Center">
-            <Image IsAnimationPlaying="True"
-                   Scale="0.5"
-                   Source="loading" />
+                <Button Grid.Row="2"
+                        BackgroundColor="{StaticResource Pink}"
+                        Command="{Binding FindIllnessCommand}"
+                        FontFamily="{StaticResource Bold}"
+                        HorizontalOptions="Center"
+                        Opacity="{Binding IsLoading, Converter={converters:BoolToOpacityConverter}}"
+                        Text="Find possible illness"
+                        TextColor="White"
+                        VerticalOptions="Center" />
 
-            <Label Margin="0,-30,0,0"
-                   FontFamily="{StaticResource Regular}"
-                   HorizontalOptions="Center"
-                   Text="Loading possible illness..."
-                   TextColor="{StaticResource Pink}" />
+                <CollectionView x:Name="illnessCollView"
+                                Grid.Row="3"
+                                Margin="0,10,0,0"
+                                IsGrouped="True"
+                                ItemsSource="{Binding Illnesses}">
+                    <CollectionView.GroupHeaderTemplate>
+                        <DataTemplate x:DataType="models:DiagnosisGroup">
+                            <Label FontFamily="{StaticResource Medium}"
+                                   FontSize="20"
+                                   Text="{Binding Name}"
+                                   TextColor="{StaticResource RegBlack}" />
+                        </DataTemplate>
+                    </CollectionView.GroupHeaderTemplate>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Diagnosis">
+                            <Border Margin="0,8"
+                                    BackgroundColor="White"
+                                    StrokeShape="RoundRectangle 10">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.GetIllnessInfoCommand, Source={x:Reference Name=illnessCollView}}"
+                                                          CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+                                <Grid ColumnDefinitions="*, *">
+                                    <Label Padding="8"
+                                           FontFamily="{StaticResource Regular}"
+                                           FontSize="14"
+                                           Text="{Binding Name}"
+                                           TextColor="{StaticResource RegBlack}"
+                                           VerticalOptions="Center" />
+
+
+                                    <HorizontalStackLayout Grid.Column="1"
+                                                           HorizontalOptions="End">
+                                        <Label FontFamily="{StaticResource Regular}"
+                                               FontSize="14"
+                                               IsVisible="{Binding Accuracy, Converter={converters:DoubleToBoolConverter}}"
+                                               Text="{Binding Accuracy, StringFormat='Accuracy: {0}%'}"
+                                               TextColor="{StaticResource Pink}"
+                                               VerticalOptions="Center" />
+
+                                        <Label Grid.Column="1"
+                                               Margin="8,0,16,0"
+                                               FontFamily="{StaticResource FARegular}"
+                                               FontSize="10"
+                                               Text="{Static constants:FontAwesomeIcons.ChevronRight}"
+                                               TextColor="{StaticResource RegBlack}"
+                                               VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <VerticalStackLayout Grid.Row="4"
+                                     HorizontalOptions="Center"
+                                     IsVisible="{Binding IsLoading}"
+                                     VerticalOptions="Center">
+                    <Image IsAnimationPlaying="True"
+                           Scale="0.5"
+                           Source="loading" />
+
+                    <Label Margin="0,-30,0,0"
+                           FontFamily="{StaticResource Regular}"
+                           HorizontalOptions="Center"
+                           Text="Loading possible illness..."
+                           TextColor="{StaticResource Pink}" />
+                </VerticalStackLayout>
+            </Grid>
         </VerticalStackLayout>
-    </Grid>
+    </ScrollView>
 </templates:BasePage>
