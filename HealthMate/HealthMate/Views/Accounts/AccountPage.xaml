@@ -2,11 +2,11 @@
 <templates:BasePage x:Class="HealthMate.Views.Accounts.AccountPage"
                     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:constants="clr-namespace:HealthMate.Constants"
                     xmlns:templates="clr-namespace:HealthMate.Templates"
                     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                     xmlns:vm="clr-namespace:HealthMate.ViewModels.Accounts"
                     x:DataType="vm:AccountPageViewModel"
-                    xmlns:constants="clr-namespace:HealthMate.Constants"
                     x:TypeArguments="vm:AccountPageViewModel"
                     BackgroundColor="White">
     <templates:BasePage.Behaviors>
@@ -22,8 +22,10 @@
                     <Setter.Value>
                         <ScrollView>
                             <VerticalStackLayout Margin="16,0">
-                                <Image Source="signup.png"
-                                       VerticalOptions="Center" />
+                                <Image HeightRequest="350"
+                                       Source="signup.png"
+                                       VerticalOptions="Center"
+                                       WidthRequest="350" />
 
                                 <Label Margin="0,20"
                                        FontFamily="{StaticResource Bold}"
@@ -36,6 +38,7 @@
                                        Text="Username" />
 
                                 <Entry FontFamily="{StaticResource Regular}"
+                                       Text="{Binding SignUpUsername}"
                                        TextColor="{StaticResource RegBlack}" />
 
                                 <Label Margin="3,0"
@@ -44,6 +47,7 @@
 
                                 <Entry FontFamily="{StaticResource Regular}"
                                        Keyboard="Email"
+                                       Text="{Binding SignUpEmail}"
                                        TextColor="{StaticResource RegBlack}" />
 
                                 <Grid ColumnDefinitions="*,*"
@@ -52,25 +56,49 @@
                                            FontFamily="{StaticResource Regular}"
                                            Text="Password" />
 
-                                    <Entry Grid.Row="1"
-                                           FontFamily="{StaticResource Regular}"
-                                           IsPassword="True"
-                                           Keyboard="Email"
-                                           TextColor="{StaticResource RegBlack}" />
+                                    <Grid Grid.Row="1"
+                                          ColumnDefinitions="*,30">
+                                        <Entry Grid.ColumnSpan="2"
+                                               FontFamily="{StaticResource Regular}"
+                                               IsPassword="{Binding IsHidingSignupPassword}"
+                                               Text="{Binding SignUpPassword}"
+                                               TextColor="{StaticResource RegBlack}" />
 
-                                    <Label Text="{Static constants:FontAwesomeIcons.Eye}"/>
+                                        <Label Grid.Column="1"
+                                               FontFamily="{StaticResource FARegular}"
+                                               FontSize="18"
+                                               Text="{Binding SignUpPasswordIcon}"
+                                               TextColor="{StaticResource RegBlack}">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding ToggleSignupPasswordVisibilityCommand}" />
+                                            </Label.GestureRecognizers>
+                                        </Label>
+                                    </Grid>
 
                                     <Label Grid.Column="1"
                                            Margin="3,0"
                                            FontFamily="{StaticResource Regular}"
                                            Text="Confirm password" />
 
-                                    <Entry Grid.Row="1"
-                                           Grid.Column="1"
-                                           FontFamily="{StaticResource Regular}"
-                                           IsPassword="True"
-                                           Keyboard="Email"
-                                           TextColor="{StaticResource RegBlack}" />
+                                    <Grid Grid.Row="1"
+                                          Grid.Column="1"
+                                          ColumnDefinitions="*,30">
+                                        <Entry Grid.ColumnSpan="2"
+                                               FontFamily="{StaticResource Regular}"
+                                               IsPassword="{Binding IsHidingSignupConfirmPassword}"
+                                               Text="{Binding SignUpConfirmPassword}"
+                                               TextColor="{StaticResource RegBlack}" />
+
+                                        <Label Grid.Column="1"
+                                               FontFamily="{StaticResource FARegular}"
+                                               FontSize="18"
+                                               Text="{Binding SignUpConfirmPasswordIcon}"
+                                               TextColor="{StaticResource RegBlack}">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding ToggleSignupConfirmPasswordVisibilityCommand}" />
+                                            </Label.GestureRecognizers>
+                                        </Label>
+                                    </Grid>
                                 </Grid>
 
                                 <Label Margin="0,10"
@@ -81,8 +109,9 @@
                                        TextColor="{StaticResource Blue}" />
 
                                 <Button BackgroundColor="{StaticResource Blue}"
+                                        Command="{Binding SignupCommand}"
                                         FontFamily="{StaticResource Bold}"
-                                        Text="Login"
+                                        Text="Sign up"
                                         TextColor="White" />
 
                                 <Label Margin="0,10"
@@ -97,10 +126,10 @@
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span FontFamily="{StaticResource Regular}"
-                                                  Text="Don't have an account yet? "
+                                                  Text="Already have an account? "
                                                   TextColor="{StaticResource RegBlack}" />
                                             <Span FontFamily="{StaticResource Regular}"
-                                                  Text="Sign up"
+                                                  Text="Sign in"
                                                   TextColor="#007AFF" />
                                         </FormattedString>
                                     </Label.FormattedText>
@@ -117,31 +146,46 @@
                 <Setter Property="Content">
                     <Setter.Value>
                         <VerticalStackLayout Margin="16,0">
-                            <Image Source="login.png"
-                                   VerticalOptions="Center" />
+                            <Image HeightRequest="350"
+                                   Source="login.png"
+                                   VerticalOptions="Center"
+                                   WidthRequest="350" />
 
                             <Label Margin="0,20"
                                    FontFamily="{StaticResource Bold}"
                                    FontSize="30"
-                                   Text="LOGIN"
+                                   Text="Login"
                                    TextColor="{StaticResource Blue}" />
 
                             <Label Margin="3,0"
                                    FontFamily="{StaticResource Regular}"
-                                   Text="Email address" />
+                                   Text="Username" />
 
                             <Entry FontFamily="{StaticResource Regular}"
-                                   Keyboard="Email"
+                                   Text="{Binding LoginUsername}"
                                    TextColor="{StaticResource RegBlack}" />
 
                             <Label Margin="3,0"
                                    FontFamily="{StaticResource Regular}"
                                    Text="Password" />
 
-                            <Entry FontFamily="{StaticResource Regular}"
-                                   IsPassword="True"
-                                   Keyboard="Email"
-                                   TextColor="{StaticResource RegBlack}" />
+                            <Grid ColumnDefinitions="*,30">
+                                <Entry Grid.ColumnSpan="2"
+                                       FontFamily="{StaticResource Regular}"
+                                       IsPassword="{Binding IsHidingLoginPassword}"
+                                       Text="{Binding LoginPassword}"
+                                       TextColor="{StaticResource RegBlack}" />
+
+                                <Label Grid.Column="1"
+                                       FontFamily="{StaticResource FARegular}"
+                                       FontSize="18"
+                                       Text="{Binding LoginPasswordIcon}"
+                                       TextColor="{StaticResource RegBlack}">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding ToggleLoginPasswordVisibilityCommand}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </Grid>
 
                             <Label Margin="0,10"
                                    FontFamily="{StaticResource Regular}"
@@ -151,6 +195,7 @@
                                    TextColor="{StaticResource Blue}" />
 
                             <Button BackgroundColor="{StaticResource Blue}"
+                                    Command="{Binding LoginCommand}"
                                     FontFamily="{StaticResource Bold}"
                                     Text="Login"
                                     TextColor="White" />
@@ -167,10 +212,10 @@
                                 <Label.FormattedText>
                                     <FormattedString>
                                         <Span FontFamily="{StaticResource Regular}"
-                                              Text="Already have an account? "
+                                              Text="Don't have an account yet? "
                                               TextColor="{StaticResource RegBlack}" />
                                         <Span FontFamily="{StaticResource Regular}"
-                                              Text="Sign in"
+                                              Text="Sign up"
                                               TextColor="#007AFF" />
                                     </FormattedString>
                                 </Label.FormattedText>

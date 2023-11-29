@@ -150,6 +150,62 @@
         }
       }
     },
+    "/user/forgot-password/confirm/{hash}": {
+      "get": {
+        "tags": [ "User" ],
+        "summary": "Generate New Password",
+        "operationId": "generate_new_password_user_forgot_password_confirm__hash__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Hash",
+              "type": "string"
+            },
+            "name": "hash",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } } }
+          }
+        }
+      }
+    },
+    "/user/forgot-password/{username}": {
+      "get": {
+        "tags": [ "User" ],
+        "summary": "Forgot Password",
+        "operationId": "forgot_password_user_forgot_password__username__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Username",
+              "type": "string"
+            },
+            "name": "username",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } } }
+          }
+        }
+      }
+    },
     "/symptoms/": {
       "get": {
         "tags": [ "Symptoms" ],

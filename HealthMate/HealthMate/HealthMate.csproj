@@ -24,10 +24,17 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
     <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+    <EnableLLVM>True</EnableLLVM>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android33.0|AnyCPU'">
     <AndroidPackageFormat>apk</AndroidPackageFormat>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|AnyCPU'">
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
+    <AndroidLinkTool>r8</AndroidLinkTool>
+    <EnableLLVM>True</EnableLLVM>
   </PropertyGroup>
 
   <ItemGroup>
@@ -63,6 +70,7 @@
     <None Remove="Resources\Images\Accounts\reset_pw.png" />
     <None Remove="Resources\Images\Accounts\signup.png" />
     <None Remove="Resources\Images\Arms.svg" />
+    <None Remove="Resources\Images\Body parts\general.png" />
     <None Remove="Resources\Images\Capsule.svg" />
     <None Remove="Resources\Images\disclaimer0.svg" />
     <None Remove="Resources\Images\disclaimer1.svg" />
@@ -266,6 +274,10 @@
 
   <ItemGroup>
     <MauiImage Update="Resources\Images\loading.gif" Resize="False" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Effects\" />
   </ItemGroup>
 
 </Project>

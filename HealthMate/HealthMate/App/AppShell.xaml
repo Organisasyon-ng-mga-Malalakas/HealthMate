@@ -30,7 +30,7 @@
             Route="Tabs">
         <Tab Title="Schedule">
             <Tab.Icon>
-                <FontImageSource FontFamily="{StaticResource FALight}"
+                <FontImageSource FontFamily="{StaticResource FASolid}"
                                  Glyph="{x:Static constants:FontAwesomeIcons.CalendarClock}"
                                  Size="12" />
             </Tab.Icon>
@@ -39,7 +39,7 @@
 
         <Tab Title="Inventory">
             <Tab.Icon>
-                <FontImageSource FontFamily="{StaticResource FALight}"
+                <FontImageSource FontFamily="{StaticResource FASolid}"
                                  Glyph="{x:Static constants:FontAwesomeIcons.Pills}"
                                  Size="12" />
             </Tab.Icon>
@@ -48,7 +48,7 @@
 
         <Tab Title="Illness Checker">
             <Tab.Icon>
-                <FontImageSource FontFamily="{StaticResource FALight}"
+                <FontImageSource FontFamily="{StaticResource FASolid}"
                                  Glyph="{x:Static constants:FontAwesomeIcons.Stethoscope}"
                                  Size="12" />
             </Tab.Icon>
@@ -57,7 +57,7 @@
 
         <Tab Title="Settings">
             <Tab.Icon>
-                <FontImageSource FontFamily="{StaticResource FALight}"
+                <FontImageSource FontFamily="{StaticResource FASolid}"
                                  Glyph="{x:Static constants:FontAwesomeIcons.Gear}"
                                  Size="12" />
             </Tab.Icon>

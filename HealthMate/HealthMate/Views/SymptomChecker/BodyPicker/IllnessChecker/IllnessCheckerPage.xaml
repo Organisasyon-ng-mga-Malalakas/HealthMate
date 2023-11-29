@@ -67,7 +67,7 @@
                                         HeightRequest="400"
                                         ItemsSource="{Binding Symptoms}"
                                         SelectionMode="None">
-                            <CollectionView.ItemTemplate>
+                            <CollectionView.ItemTemplate>   
                                 <DataTemplate x:DataType="models:Symptoms">
                                     <HorizontalStackLayout>
                                         <CheckBox IsChecked="{Binding IsSelected}"

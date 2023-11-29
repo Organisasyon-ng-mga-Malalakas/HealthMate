@@ -13,14 +13,14 @@ namespace HealthMate;
 [Application(UsesCleartextTraffic = true)]
 public class MainApplication : MauiApplication
 {
-    public MainApplication(IntPtr handle, JniHandleOwnership ownership)
-        : base(handle, ownership)
-    {
-        AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightNo;
-    }
+	public MainApplication(IntPtr handle, JniHandleOwnership ownership)
+		: base(handle, ownership)
+	{
+		AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightNo;
+	}
 
-    protected override MauiApp CreateMauiApp()
-    {
-        return MauiProgram.CreateMauiApp();
-    }
+	protected override MauiApp CreateMauiApp()
+	{
+		return MauiProgram.CreateMauiApp();
+	}
 }

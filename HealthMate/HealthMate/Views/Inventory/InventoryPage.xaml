@@ -18,7 +18,7 @@
     <Grid Padding="16,0"
           BackgroundColor="{StaticResource PageBackground}"
           RowDefinitions="Auto,*">
-        <Border BackgroundColor="White"
+        <!--<Border BackgroundColor="White"
                 Stroke="{StaticResource BorderStroke}"
                 StrokeShape="RoundRectangle 10">
             <SearchBar CancelButtonColor="Transparent"
@@ -26,7 +26,7 @@
                        IsTextPredictionEnabled="False"
                        Placeholder="Search medicines"
                        TextColor="{StaticResource RegBlack}" />
-        </Border>
+        </Border>-->
 
         <VerticalStackLayout Grid.Row="1"
                              IsVisible="{Binding IsEmptyViewVisible}"

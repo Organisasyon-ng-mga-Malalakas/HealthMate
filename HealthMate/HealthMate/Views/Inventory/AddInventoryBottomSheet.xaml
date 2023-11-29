@@ -77,7 +77,7 @@
 
                 <Label Grid.Row="1"
                        Style="{StaticResource Header}"
-                       Text="Medicine Name" />
+                       Text="Generic Name" />
                 <Border Grid.Row="1"
                         Grid.Column="1">
                     <controls:BorderlessEntry FontFamily="{StaticResource Regular}"

@@ -19,7 +19,7 @@
                    FontFamily="{StaticResource Medium}"
                    FontSize="25"
                    HorizontalOptions="Center"
-                   Text="Juan Dela Cruz"
+                   Text="{Binding Username}"
                    TextColor="{StaticResource RegBlack}" />
 
             <Label Margin="0,0,0,10"
@@ -30,7 +30,7 @@
 
             <Border BackgroundColor="White">
                 <VerticalStackLayout>
-                    <Grid ColumnDefinitions="30,*">
+                    <!--<Grid ColumnDefinitions="30,*">
                         <Label Margin="10,0,0,0"
                                FontFamily="{StaticResource FASolid}"
                                Text="{Static constants:FontAwesomeIcons.Envelope}"
@@ -49,7 +49,7 @@
 
                     <BoxView Margin="40,0,0,0"
                              BackgroundColor="LightGray"
-                             HeightRequest="0.5" />
+                             HeightRequest="0.5" />-->
 
                     <Grid ColumnDefinitions="30,*">
                         <Label Margin="10,0,0,0"
@@ -64,12 +64,10 @@
                                                   FontSize="16"
                                                   Placeholder="Username"
                                                   PlaceholderColor="Gray"
+                                                  Text="{Binding Username}"
                                                   TextColor="Gray"
                                                   VerticalOptions="Center" />
-
-
                     </Grid>
-
 
                     <BoxView Margin="40,0,0,0"
                              BackgroundColor="LightGray"
@@ -88,6 +86,8 @@
                                                    Margin="10"
                                                    FontFamily="{StaticResource Regular}"
                                                    FontSize="16"
+                                                   ItemsSource="{Binding Genders}"
+                                                   SelectedItem="{Binding SelectedGender}"
                                                    TextColor="{StaticResource RegBlack}"
                                                    TitleColor="Gray"
                                                    VerticalOptions="Center" />
@@ -105,13 +105,31 @@
                                TextColor="{StaticResource RegBlack}"
                                VerticalOptions="Center" />
 
-                        <controls:BorderlessDatePicker Grid.Column="1"
-                                                       Margin="10,5,0,0"
-                                                       Date="2023-11-05"
-                                                       FontFamily="{StaticResource Regular}"
-                                                       Format="MMMM dd, yyyy"
-                                                       TextColor="{StaticResource RegBlack}"
-                                                       VerticalOptions="Center" />
+                        <DatePicker Grid.Column="1"
+                                    Margin="5,5,0,0"
+                                    Date="{Binding BirthDate}"
+                                    FontFamily="{StaticResource Regular}"
+                                    Format="MMMM dd, yyyy"
+                                    MaximumDate="{Binding MaxDate}"
+                                    MinimumDate="01-01-1900"
+                                    TextColor="{StaticResource RegBlack}"
+                                    VerticalOptions="Center" />
+                    </Grid>
+
+                    <Grid Padding="10,5"
+                          RowSpacing="-5">
+                        <Label FontFamily="{StaticResource Medium}"
+                               FontSize="18"
+                               Text="Update info"
+                               TextColor="{StaticResource Pink}" />
+
+                        <Label FontFamily="{StaticResource FASolid}"
+                               FontSize="14"
+                               HorizontalOptions="End"
+                               Text="{Static constants:FontAwesomeIcons.ChevronRight}"
+                               TextColor="{StaticResource RegBlack}"
+                               VerticalOptions="Center" />
+
                     </Grid>
                 </VerticalStackLayout>
             </Border>

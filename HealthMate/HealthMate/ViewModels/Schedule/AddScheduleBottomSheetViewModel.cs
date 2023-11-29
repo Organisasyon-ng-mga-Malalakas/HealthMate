@@ -104,7 +104,8 @@ public partial class AddScheduleBottomSheetViewModel(IAlarmScheduler alarmSchedu
 			if (!string.IsNullOrWhiteSpace(Notes))
 				selectedDescription += $"\n\nAdditional notes: {Notes}";
 
-			await notificationService.ScheduleNotification(selectedDescription, DateTime.Now.AddSeconds(5));
+			//await notificationService.ScheduleNotification(selectedDescription, DateTime.Now.AddSeconds(5));
+			await notificationService.ScheduleNotification(selectedDescription, cleanDateAndTime);
 		}
 
 		await CloseBottomSheet();
