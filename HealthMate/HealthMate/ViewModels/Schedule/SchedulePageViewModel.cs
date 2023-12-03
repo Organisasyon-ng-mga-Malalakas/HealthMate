@@ -128,6 +128,9 @@ public partial class SchedulePageViewModel(BottomSheetService bottomSheetService
 		if (changes.InsertedIndices.Length != 0)
 			foreach (var item in changes.InsertedIndices)
 			{
+				if (sender.ElementAt(item).TimeToTake.ToLocalTime().Date != SelectedDate.ToLocalTime().Date)
+					return;
+
 				var scheduleHeader = sender.ElementAt(item).TimeToTake.GetCorrectTimeStringFromUtc();
 				var correctGroup = Schedules.FirstOrDefault(_ => _.ScheduleHeader == scheduleHeader);
 				if (correctGroup is not ScheduleGroup unwrappedGroup)

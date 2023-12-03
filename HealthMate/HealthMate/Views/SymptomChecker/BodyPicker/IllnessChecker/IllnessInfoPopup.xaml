@@ -74,21 +74,6 @@
                     <Label Margin="0,-30,0,0"
                            FontFamily="{StaticResource Regular}"
                            HorizontalOptions="Center"
-                           Text="Loading possible illness..."
-                           TextColor="{StaticResource Pink}" />
-                </VerticalStackLayout>
-
-                <VerticalStackLayout Grid.RowSpan="3"
-                                     HorizontalOptions="Center"
-                                     IsVisible="{Binding IsLoading}"
-                                     VerticalOptions="Center">
-                    <Image IsAnimationPlaying="True"
-                           Scale="0.5"
-                           Source="loading" />
-
-                    <Label Margin="0,-30,0,0"
-                           FontFamily="{StaticResource Regular}"
-                           HorizontalOptions="Center"
                            Text="Loading illness info..."
                            TextColor="{StaticResource Pink}" />
                 </VerticalStackLayout>

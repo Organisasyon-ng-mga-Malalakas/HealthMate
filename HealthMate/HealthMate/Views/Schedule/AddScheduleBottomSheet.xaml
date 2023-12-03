@@ -19,7 +19,7 @@
             StrokeShape="RoundRectangle 20,20,0,0">
         <FlexLayout Direction="Column"
                     JustifyContent="Start">
-            <Label Margin="0,10,0,0"
+            <Label Margin="0,5,0,0"
                    FontFamily="{StaticResource Bold}"
                    FontSize="18"
                    HorizontalOptions="Center"
@@ -29,7 +29,7 @@
             <Grid Margin="0,10"
                   ColumnDefinitions="3*,7*"
                   ColumnSpacing="10"
-                  RowDefinitions="*,30,*,*,60"
+                  RowDefinitions="*,30,*,*,*,*,60"
                   RowSpacing="10"
                   VerticalOptions="StartAndExpand">
                 <Grid.Resources>
@@ -62,12 +62,12 @@
                         <Setter Property="Padding" Value="5,0" />
                     </Style>
 
-                    <Style x:Key="FontIcon"
+                    <Style x:Key="Labels"
                            TargetType="Label">
-                        <Setter Property="FontFamily" Value="{StaticResource FASolid}" />
+                        <Setter Property="Grid.Column" Value="1" />
                         <Setter Property="FontSize" Value="12" />
-                        <Setter Property="HorizontalOptions" Value="EndAndExpand" />
-                        <Setter Property="VerticalOptions" Value="CenterAndExpand" />
+                        <Setter Property="HorizontalOptions" Value="End" />
+                        <Setter Property="VerticalOptions" Value="Center" />
                     </Style>
                 </Grid.Resources>
 
@@ -80,8 +80,8 @@
                                                    ItemsSource="{Binding Medicines}"
                                                    SelectedItem="{Binding SelectedMedicine}" />
 
-                        <Label Grid.Column="1"
-                               Style="{StaticResource FontIcon}"
+                        <Label FontFamily="{StaticResource FASolid}"
+                               Style="{StaticResource Labels}"
                                Text="{Static constants:FontAwesomeIcons.ChevronDown}" />
                     </Grid>
                 </Border>
@@ -119,22 +119,21 @@
 
                 <Label Grid.Row="3"
                        Style="{StaticResource Header}"
-                       Text="Date and time" />
+                       Text="When to start" />
                 <Grid Grid.Row="3"
                       Grid.Column="1"
                       ColumnDefinitions="*,*"
                       ColumnSpacing="5">
                     <Border>
                         <Grid ColumnDefinitions="*, 25">
-                            <DatePicker Date="{Binding NotificationDate}"
+                            <DatePicker Date="{Binding StartDate}"
                                         FontFamily="{StaticResource Regular}"
                                         FontSize="12"
                                         Format="MMM d, yyyy"
                                         MinimumDate="{Binding MinimumDate}" />
 
-                            <Label Grid.Column="1"
-                                   FontFamily="{StaticResource FARegular}"
-                                   Style="{StaticResource FontIcon}"
+                            <Label FontFamily="{StaticResource FARegular}"
+                                   Style="{StaticResource Labels}"
                                    Text="{Static constants:FontAwesomeIcons.Calendar}" />
                         </Grid>
                     </Border>
@@ -144,11 +143,10 @@
                             <TimePicker FontFamily="{StaticResource Regular}"
                                         FontSize="12"
                                         Format="hh:mm tt"
-                                        Time="{Binding NotificationTime}" />
+                                        Time="{Binding StartTime}" />
 
-                            <Label Grid.Column="1"
-                                   FontFamily="{StaticResource FARegular}"
-                                   Style="{StaticResource FontIcon}"
+                            <Label FontFamily="{StaticResource FARegular}"
+                                   Style="{StaticResource Labels}"
                                    Text="{Static constants:FontAwesomeIcons.Clock}" />
                         </Grid>
                     </Border>
@@ -156,9 +154,78 @@
 
                 <Label Grid.Row="4"
                        Style="{StaticResource Header}"
+                       Text="Taken every" />
+                <Grid Grid.Row="4"
+                      Grid.Column="1"
+                      ColumnDefinitions="*,*"
+                      ColumnSpacing="5">
+                    <Border>
+                        <Grid ColumnDefinitions="*, 25">
+                            <controls:BorderlessEntry FontFamily="{StaticResource Regular}"
+                                                      FontSize="12"
+                                                      Keyboard="Numeric"
+                                                      Text="{Binding TakeEveryHr}" />
+
+                            <Label FontFamily="{StaticResource Regular}"
+                                   Style="{StaticResource Labels}"
+                                   Text="hr" />
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Column="1">
+                        <Grid ColumnDefinitions="*, 25">
+                            <controls:BorderlessEntry FontFamily="{StaticResource Regular}"
+                                                      FontSize="12"
+                                                      Keyboard="Numeric"
+                                                      Text="{Binding TakeEveryMin}" />
+
+                            <Label FontFamily="{StaticResource Regular}"
+                                   Style="{StaticResource Labels}"
+                                   Text="min" />
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <Label Grid.Row="5"
+                       Style="{StaticResource Header}"
+                       Text="When to end" />
+                <Grid Grid.Row="5"
+                      Grid.Column="1"
+                      ColumnDefinitions="*,*"
+                      ColumnSpacing="5">
+                    <Border>
+                        <Grid ColumnDefinitions="*, 25">
+                            <DatePicker Date="{Binding EndDate}"
+                                        FontFamily="{StaticResource Regular}"
+                                        FontSize="12"
+                                        Format="MMM d, yyyy"
+                                        MinimumDate="{Binding MinimumDate}" />
+
+                            <Label FontFamily="{StaticResource FARegular}"
+                                   Style="{StaticResource Labels}"
+                                   Text="{Static constants:FontAwesomeIcons.Calendar}" />
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Column="1">
+                        <Grid ColumnDefinitions="*, 25">
+                            <TimePicker FontFamily="{StaticResource Regular}"
+                                        FontSize="12"
+                                        Format="hh:mm tt"
+                                        Time="{Binding EndTime}" />
+
+                            <Label FontFamily="{StaticResource FARegular}"
+                                   Style="{StaticResource Labels}"
+                                   Text="{Static constants:FontAwesomeIcons.Clock}" />
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <Label Grid.Row="6"
+                       Style="{StaticResource Header}"
                        Text="Notes"
                        VerticalOptions="StartAndExpand" />
-                <Border Grid.Row="4"
+                <Border Grid.Row="6"
                         Grid.Column="1"
                         Padding="5,0">
                     <controls:BorderlessEditor FontFamily="{StaticResource Regular}"

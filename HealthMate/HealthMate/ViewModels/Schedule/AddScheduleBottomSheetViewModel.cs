@@ -21,6 +21,12 @@ public partial class AddScheduleBottomSheetViewModel(IAlarmScheduler alarmSchedu
 	RealmService realmService) : BaseViewModel(navigationService)
 {
 	[ObservableProperty]
+	private DateTime endDate = DateTime.Now.AddDays(1);
+
+	[ObservableProperty]
+	private TimeSpan endTime = DateTime.Now.TimeOfDay.Add(TimeSpan.FromHours(1));
+
+	[ObservableProperty]
 	private ObservableCollection<InventoryTable> medicines;
 
 	[ObservableProperty]
@@ -30,10 +36,20 @@ public partial class AddScheduleBottomSheetViewModel(IAlarmScheduler alarmSchedu
 	private string notes;
 
 	[ObservableProperty]
-	private DateTime notificationDate = DateTime.Now;
+	private DateTime startDate = DateTime.Now;
 
 	[ObservableProperty]
-	private TimeSpan notificationTime = DateTime.Now.TimeOfDay.Add(TimeSpan.FromMinutes(1));
+	private TimeSpan startTime = DateTime.Now.TimeOfDay.Add(TimeSpan.FromHours(1));
+
+	[ObservableProperty]
+	[Required]
+	[Range(1, int.MaxValue)]
+	private int takeEveryHr;
+
+	[ObservableProperty]
+	[Required]
+	[Range(1, int.MaxValue)]
+	private int takeEveryMin;
 
 	[ObservableProperty]
 	[Required]
@@ -58,21 +74,31 @@ public partial class AddScheduleBottomSheetViewModel(IAlarmScheduler alarmSchedu
 		if (HasErrors)
 			return;
 
-		var cleanDateAndTime = new DateTime(NotificationDate.Year,
-			NotificationDate.Month,
-			NotificationDate.Day,
-			NotificationTime.Hours,
-			NotificationTime.Minutes,
-			NotificationTime.Seconds);
+		var startDateAndTime = new DateTime(StartDate.Year, StartDate.Month, StartDate.Day,
+			StartTime.Hours, StartTime.Minutes, StartTime.Seconds);
 
-		await realmService.Upsert(new ScheduleTable
+		var interval = new TimeSpan(TakeEveryHr, TakeEveryMin, 0);
+
+		var endDateAndTime = new DateTime(EndDate.Year, EndDate.Month, EndDate.Day,
+			EndTime.Hours, EndTime.Minutes, EndTime.Seconds);
+
+		var dates = new List<DateTime>();
+		var currentDateandTime = startDateAndTime;
+		while (currentDateandTime < endDateAndTime)
 		{
-			ScheduleId = ObjectId.GenerateNewId(),
-			ScheduleState = (int)ScheduleState.Pending,
-			Inventory = SelectedMedicine,
-			Quantity = Quantity,
-			TimeToTake = new DateTimeOffset(cleanDateAndTime)
-		});
+			dates.Add(currentDateandTime);
+			currentDateandTime = currentDateandTime.Add(interval);
+		}
+
+		foreach (var date in dates)
+			await realmService.Upsert(new ScheduleTable
+			{
+				ScheduleId = ObjectId.GenerateNewId(),
+				ScheduleState = (int)ScheduleState.Pending,
+				Inventory = SelectedMedicine,
+				Quantity = Quantity,
+				TimeToTake = new DateTimeOffset(date)
+			});
 
 		var isNotificationEnabled = await notificationService.AskNotificationPermissionAsync();
 		if (isNotificationEnabled)
@@ -100,12 +126,15 @@ public partial class AddScheduleBottomSheetViewModel(IAlarmScheduler alarmSchedu
 				$"Your prescription awaits 📜: Time for {numberOfDose} {dosageType} of {brandName} - {medicineName}."
 			};
 
-			var selectedDescription = medicationReminders[Random.Shared.Next(14)];
-			if (!string.IsNullOrWhiteSpace(Notes))
-				selectedDescription += $"\n\nAdditional notes: {Notes}";
+			foreach (var date in dates)
+			{
+				var selectedDescription = medicationReminders[Random.Shared.Next(14)];
+				if (!string.IsNullOrWhiteSpace(Notes))
+					selectedDescription += $"\n\nAdditional notes: {Notes}";
 
-			//await notificationService.ScheduleNotification(selectedDescription, DateTime.Now.AddSeconds(5));
-			await notificationService.ScheduleNotification(selectedDescription, cleanDateAndTime);
+				//await notificationService.ScheduleNotification(selectedDescription, DateTime.Now.AddSeconds(5));
+				await notificationService.ScheduleNotification(selectedDescription, date);
+			}
 		}
 
 		await CloseBottomSheet();
