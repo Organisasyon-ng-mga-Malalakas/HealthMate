@@ -1,13 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HealthMate.Constants;
+using HealthMate.Models.Schemas;
 using HealthMate.Services;
 using HealthMate.Services.HttpServices;
 using System.ComponentModel.DataAnnotations;
 
 namespace HealthMate.ViewModels.Accounts;
 
-public partial class AccountPageViewModel(NavigationService navigationService, HttpService httpService) : BaseViewModel(navigationService)
+public partial class AccountPageViewModel(NavigationService navigationService, HttpService httpService, UserService userService) : BaseViewModel(navigationService)
 {
 	[ObservableProperty]
 	private bool isSignup;
@@ -34,6 +35,15 @@ public partial class AccountPageViewModel(NavigationService navigationService, H
 	[ObservableProperty]
 	[EmailAddress]
 	private string signUpEmail;
+
+	[ObservableProperty]
+	private DateTime signUpBirthdate = DateTime.Now;
+
+	[ObservableProperty]
+	private string signUpSelectedGender = "Male";
+
+	[ObservableProperty]
+	private List<string> signUpGenders = new List<string> { "Male", "Female"};
 
 	[ObservableProperty]
 	[MinLength(8)]
@@ -87,18 +97,27 @@ public partial class AccountPageViewModel(NavigationService navigationService, H
 	{
 		var isValidSignup = !string.IsNullOrWhiteSpace(SignUpUsername)
 			&& !string.IsNullOrWhiteSpace(SignUpEmail)
-			&& !string.IsNullOrWhiteSpace(SignUpPassword) && SignUpPassword.Length > 7
+			&& IsBirthdateValid(SignUpBirthdate)
+			&& !string.IsNullOrWhiteSpace(SignUpPassword) && SignUpPassword.Length > 5
 			&& SignUpPassword == SignUpConfirmPassword;
-
-		if (isValidSignup)
-		{
-			var test = await httpService.Signup(SignUpEmail, SignUpUsername, SignUpPassword);
-		}
-		else
+		
+		if (!isValidSignup)
 		{
 			await Application.Current.MainPage.DisplayAlert("Couldn't sign up", "Please fill all the necessary fields in order to proceed.", "OK");
-			;
+			return;
 		}
+
+		var userDetails = new UserCreate(SignUpUsername, SignUpEmail, SignUpPassword, SignUpBirthdate, SignUpSelectedGender);
+		var result = await userService.Signup(userDetails);
+
+		if (result != "success")
+		{
+			await Application.Current.MainPage.DisplayAlert("Couldn't sign up", result, "OK");
+			return;
+		}
+
+		await Application.Current.MainPage.DisplayAlert("Success", "You have successfuly created a account!\nYou may login now to proceed.", "OK");
+		return;
 
 		//return isValidSignup
 		//	? httpService.Signup(SignUpEmail, SignUpUsername, SignUpPassword)
@@ -113,5 +132,35 @@ public partial class AccountPageViewModel(NavigationService navigationService, H
 		return isValidLogin
 			? httpService.Login(LoginUsername, LoginPassword)
 			: Application.Current.MainPage.DisplayAlert("Couldn't log in", "Please fill all the necessary fields in order to proceed.", "OK");
+	}
+	private bool IsBirthdateValid(DateTime birthdate)
+	{
+		if (birthdate > DateTime.Now || birthdate.Year < 1900)
+		{
+			return false;
+		}
+
+		int age = DateTime.Now.Year - birthdate.Year;
+		if (birthdate > DateTime.Now.AddYears(-age))
+		{
+			age--;
+		}
+		if (age > 150)
+		{
+			return false;
+		}
+
+		// Check for specific invalid dates (e.g., February 31st)
+		try
+		{
+			DateTime dt = new DateTime(birthdate.Year, birthdate.Month, birthdate.Day);
+		}
+		catch (ArgumentOutOfRangeException)
+		{
+			return false;
+		}
+
+		// If all checks pass, consider it a valid birthdate
+		return true;
 	}
 }

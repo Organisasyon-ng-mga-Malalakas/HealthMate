@@ -86,6 +86,10 @@ public static class MauiProgram
 
 	private static MauiAppBuilder RegisterServices(this MauiAppBuilder builder)
 	{
+		builder.Services.AddHttpClient("fastapi", c =>
+		{
+			c.BaseAddress = new Uri("https://healthmate-api.mangobeach-087ac216.eastasia.azurecontainerapps.io");
+		});
 		builder.Services
 			.AddSingleton<IPopupNavigation, PopupNavigation>()
 			.AddSingleton<Services.PopupService>()
@@ -98,6 +102,7 @@ public static class MauiProgram
 			.AddSingleton<NotificationService>()
 			.AddSingleton<IAlarmScheduler, AlarmScheduler>()
 			.AddSingleton<HttpService>()
+			.AddSingleton<UserService>()
 			.AddSingleton<NavigationService>()
 			//.AddSingleton(_ =>
 			//{

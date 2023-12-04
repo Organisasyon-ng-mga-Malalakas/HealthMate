@@ -50,6 +50,24 @@
                                        Text="{Binding SignUpEmail}"
                                        TextColor="{StaticResource RegBlack}" />
 
+                                <Label Margin="3,0"
+                                       FontFamily="{StaticResource Regular}"
+                                       Text="Birthdate" />
+
+                                <DatePicker  FontFamily="{StaticResource Regular}"
+                                       Date="{Binding SignUpBirthdate}"
+                                       TextColor="{StaticResource RegBlack}" />
+
+                                <Label Margin="3,0"
+                                   FontFamily="{StaticResource Regular}"
+                                   Text="Gender" />
+
+                                <Picker FontFamily="{StaticResource Regular}"
+                                    Title="Select Gender"
+                                    ItemsSource="{Binding SignUpGenders}"
+                                    SelectedItem="{Binding SignUpSelectedGender}"
+                                    TextColor="{StaticResource RegBlack}" />
+
                                 <Grid ColumnDefinitions="*,*"
                                       RowDefinitions="*,*">
                                     <Label Margin="3,0"
