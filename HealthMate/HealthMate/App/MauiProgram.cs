@@ -7,9 +7,11 @@ using HealthMate.Platforms.Android.Services;
 using HealthMate.Platforms.Android.Services.AlarmServices;
 using HealthMate.Services;
 using HealthMate.Services.HttpServices;
+using HealthMate.Services.QuestionServices;
 using HealthMate.ViewModels.Accounts;
 using HealthMate.ViewModels.Inventory;
 using HealthMate.ViewModels.Onboarding;
+using HealthMate.ViewModels.Questions;
 using HealthMate.ViewModels.Schedule;
 using HealthMate.ViewModels.Settings;
 using HealthMate.ViewModels.SymptomChecker;
@@ -18,6 +20,7 @@ using HealthMate.ViewModels.SymptomChecker.BodyPicker.IllnessChecker;
 using HealthMate.Views.Accounts;
 using HealthMate.Views.Inventory;
 using HealthMate.Views.Onboarding;
+using HealthMate.Views.Questions;
 using HealthMate.Views.Schedule;
 using HealthMate.Views.Settings;
 using HealthMate.Views.SymptomChecker;
@@ -114,6 +117,7 @@ public static class MauiProgram
 				return new ApiClient(requestAdapter);
 			})
 			.AddSingleton<IBiometricService, BiometricService>()
+			.AddSingleton<QuestionService>()
 			;
 
 		return builder;
@@ -138,7 +142,8 @@ public static class MauiProgram
 			.AddTransientWithShellRoute<IllnessCheckerPage, IllnessCheckerPageViewModel>(nameof(IllnessCheckerPage))
 			.AddTransient<IllnessInfoPopupViewModel>()
 			.AddTransientWithShellRoute<SettingsPage, SettingsPageViewModel>(nameof(SettingsPage))
-			.AddTransientWithShellRoute<AccountPage, AccountPageViewModel>(nameof(AccountPage));
+			.AddTransientWithShellRoute<AccountPage, AccountPageViewModel>(nameof(AccountPage))
+			.AddTransientWithShellRoute<QuestionPage, QuestionsPageViewModel>(nameof(QuestionPage));
 
 		return builder;
 	}

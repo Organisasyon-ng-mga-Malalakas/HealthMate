@@ -6,6 +6,7 @@
        xmlns:constants="clr-namespace:HealthMate.Constants"
        xmlns:inventory="clr-namespace:HealthMate.Views.Inventory"
        xmlns:onboarding="clr-namespace:HealthMate.Views.Onboarding"
+       xmlns:question="clr-namespace:HealthMate.Views.Questions"
        xmlns:schedule="clr-namespace:HealthMate.Views.Schedule"
        xmlns:settings="clr-namespace:HealthMate.Views.Settings"
        xmlns:symptomChecker="clr-namespace:HealthMate.Views.SymptomChecker"
@@ -24,6 +25,10 @@
 
     <ShellItem x:Name="AccountPage">
         <ShellContent ContentTemplate="{DataTemplate accounts:AccountPage}" />
+    </ShellItem>
+
+    <ShellItem x:Name="QuestionPage">
+        <ShellContent ContentTemplate="{DataTemplate question:QuestionPage}" />
     </ShellItem>
 
     <TabBar x:Name="Tabs"

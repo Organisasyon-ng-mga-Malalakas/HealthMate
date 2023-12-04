@@ -107,6 +107,7 @@
     <None Remove="Resources\Images\Tablet.svg" />
     <None Remove="Resources\Images\UpperBody.svg" />
     <None Remove="Services\HttpServices\symptoms.json" />
+    <None Remove="Services\QuestionServices\Questions.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -116,6 +117,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\DaysIn2023.json" />
     <EmbeddedResource Include="Services\HttpServices\symptoms.json" />
+    <EmbeddedResource Include="Services\QuestionServices\Questions.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -173,6 +175,9 @@
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Update="Views\Inventory\InventoryPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\Questions\QuestionPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Update="Views\Schedule\AddScheduleBottomSheet.xaml">
