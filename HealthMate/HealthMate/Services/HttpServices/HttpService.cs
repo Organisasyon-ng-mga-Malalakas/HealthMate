@@ -91,26 +91,6 @@ public class HttpService
 		return response.DeserializeStream<DiagnosisInfo>();
 	}
 
-	public async Task<Models.User> Signup(string email, string username, string password)
-	{
-		try
-		{
-			var response = await _client.User.PostAsync(new Models.UserCreate
-			{
-				Email = email,
-				Username = username,
-				Password = password
-			});
-
-			return response;
-		}
-		catch (Exception ex)
-		{
-
-			throw;
-		}
-	}
-
 	public async Task<Models.Token> Login(string username, string password)
 	{
 		var response = await _client.User.Login.PostAsync(new Models.Body_login_access_token_route_user_login_post
