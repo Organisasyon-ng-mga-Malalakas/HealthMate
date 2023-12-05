@@ -56,8 +56,10 @@
     </ContentPage.Resources>
 
     <Grid Padding="16,0"
-          RowDefinitions="*,60">
-        <ScrollView>
+          RowDefinitions="Auto,*,60">
+        <templates:BackButton Margin="-16,0" />
+
+        <ScrollView Grid.Row="1">
             <VerticalStackLayout BindableLayout.ItemsSource="{Binding Questions}">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate x:DataType="models:QuestionGroup">
@@ -98,8 +100,8 @@
             </VerticalStackLayout>
         </ScrollView>
 
-        <Button Grid.Row="1"
-                Command="{Binding GetAnswersCommand}"
+        <Button Grid.Row="2"
+                Command="{Binding GetAnswersAndProceedCommand}"
                 FontFamily="{StaticResource Medium}"
                 Text="Proceed"
                 TextColor="White"
