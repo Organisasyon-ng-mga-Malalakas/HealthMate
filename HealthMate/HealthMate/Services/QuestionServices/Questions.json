@@ -4515,118 +4515,6 @@
     "category": "Constitutional & General review of system",
     "questions": [
       {
-        "text": "Systolic blood pressure 130mmHg or above (when blood pressure is correctly checked: unclothed arm, after sitting still for 5 minutes with the blood pressure cuff already on the arm, feet on the ground and back against the chair, without talking, or watching TV, and at least 30 minutes after exertion, cigarette or coffee).",
-        "laytext": "When you check your blood pressure correctly, meaning: on the unclothed arm (not wrist), after sitting still for 5 minutes with the blood pressure cuff already on the arm, with feet on the ground and back against the chair, in peace, without talking, or watching TV, and at least 30 minutes after exertion, cigarette or coffee, have you noticed your \"systolic blood pressure\" (hint: \"systolic\" is the first, the higher number of the two first numbers shown by automatic blood pressure monitor) being 130mmHg or above?",
-        "name": "ElevatedSystolicBp",
-        "type": 0,
-        "default": 2.0,
-        "category": "Constitutional & General review of system",
-        "choices": [
-          {
-            "text": "Data unavailable (i.e. unable to assess).",
-            "laytext": "Skip this question.",
-            "value": 1,
-            "relatedanswertag": null
-          },
-          {
-            "text": "No. ",
-            "laytext": "No.",
-            "value": 2,
-            "relatedanswertag": "properly checked systolic blood pressure of less than 130mmHg"
-          },
-          {
-            "text": "Yes.",
-            "laytext": "Yes.",
-            "value": 3,
-            "relatedanswertag": null
-          }
-        ]
-      },
-      {
-        "text": "Diastolic blood pressure 80mmHg or above (when blood pressure is correctly checked: unclothed arm, after sitting still for 5 minutes with the blood pressure cuff already on the arm, feet on the ground and back against the chair, without talking, or watching TV, and at least 30 minutes after exertion, cigarette or coffee).",
-        "laytext": "When you check your blood pressure correctly, meaning: on the unclothed arm (not wrist), after being sitting still for 5 minutes with the blood pressure cuff already on the arm, with feet on the ground and back against the chair, in peace, without talking, or watching TV, and at least 30 minutes after exertion, cigarette or coffee, have you noticed your \"diastolic blood pressure\" (hint: \"diastolic\" is the second, the lower number of the two first numbers shown by automatic blood pressure monitor) being 80 mHg or above?",
-        "name": "ElevatedDiastolicBp",
-        "type": 0,
-        "default": 2.0,
-        "category": "Constitutional & General review of system",
-        "choices": [
-          {
-            "text": "Data unavailable (i.e. unable to assess).",
-            "laytext": "Skip this question.",
-            "value": 1,
-            "relatedanswertag": null
-          },
-          {
-            "text": "No. ",
-            "laytext": "No.",
-            "value": 2,
-            "relatedanswertag": "properly checked diastolic blood pressure of less than 80mmHg "
-          },
-          {
-            "text": "Yes.",
-            "laytext": "Yes.",
-            "value": 3,
-            "relatedanswertag": null
-          }
-        ]
-      },
-      {
-        "text": "Systolic blood pressure 180mmHg or above (when blood pressure is correctly checked: unclothed arm, after sitting still for 5 minutes with the blood pressure cuff already on the arm, feet on the ground and back against the chair, without talking, or watching TV, and at least 30 minutes after exertion, cigarette or coffee).",
-        "laytext": "When you check your blood pressure correctly, meaning: on the unclothed arm (not wrist), after sitting still for 5 minutes with the blood pressure cuff already on the arm, with feet on the ground and back against the chair, in peace, without talking, or watching TV, and at least 30 minutes after exertion, cigarette or coffee, have you noticed your \"systolic blood pressure\" (hint: \"systolic\" is the first, the higher number of the two first numbers shown by automatic blood pressure monitor) being 180mmHg or above?",
-        "name": "VeryElevatedSystolicBp",
-        "type": 0,
-        "default": 2.0,
-        "category": "Constitutional & General review of system",
-        "choices": [
-          {
-            "text": "Data unavailable (i.e. unable to assess).",
-            "laytext": "Skip this question.",
-            "value": 1,
-            "relatedanswertag": null
-          },
-          {
-            "text": "No. ",
-            "laytext": "No.",
-            "value": 2,
-            "relatedanswertag": "properly checked systolic blood pressure of less than 180mmHg"
-          },
-          {
-            "text": "Yes.",
-            "laytext": "Yes.",
-            "value": 3,
-            "relatedanswertag": null
-          }
-        ]
-      },
-      {
-        "text": "Diastolic blood pressure 110mmHg or above (when blood pressure is correctly checked: unclothed arm, after sitting still for 5 minutes with the blood pressure cuff already on the arm, feet on the ground and back against the chair, without talking, or watching TV, and at least 30 minutes after exertion, cigarette or coffee).",
-        "laytext": "When you check your blood pressure correctly, meaning: on the unclothed arm (not wrist), after being sitting still for 5 minutes with the blood pressure cuff already on the arm, with feet on the ground and back against the chair, in peace, without talking, or watching TV, and at least 30 minutes after exertion, cigarette or coffee, have you noticed your \"diastolic blood pressure\" (hint: \"diastolic\" is the second, the lower number of the two first numbers shown by automatic blood pressure monitor) being 80 mHg or above?",
-        "name": "VeryElevatedDiastolicBp",
-        "type": 0,
-        "default": 2.0,
-        "category": "Constitutional & General review of system",
-        "choices": [
-          {
-            "text": "Data unavailable (i.e. unable to assess).",
-            "laytext": "Skip this question.",
-            "value": 1,
-            "relatedanswertag": null
-          },
-          {
-            "text": "No. ",
-            "laytext": "No.",
-            "value": 2,
-            "relatedanswertag": "properly checked diastolic blood pressure of less than 110mmHg "
-          },
-          {
-            "text": "Yes.",
-            "laytext": "Yes.",
-            "value": 3,
-            "relatedanswertag": null
-          }
-        ]
-      },
-      {
         "text": "Any unplanned, unwanted or unexplained weight loss?",
         "laytext": "Tell me more about your weight. ",
         "name": "WeightLoss",
@@ -4723,7 +4611,7 @@
         ]
       },
       {
-        "text": "Any fevers as temporal artery or ear tempmore than 100.4 F ?",
+        "text": "Have you had temperature of more than 38 degrees celcius (C)?",
         "laytext": "Have you had ear temperature of more than 100.4 degrees Fahrenheit  (F) or armpit or forehead temperature of more than 101.4 degrees Fahrenheit  (F) ?",
         "name": "HistoryFever",
         "type": 0,
@@ -4807,7 +4695,7 @@
         ]
       },
       {
-        "text": "Is patient able to walk (ambulate) by himself?",
+        "text": "Is patient able to walk (ambulate) by him/herself?",
         "laytext": "Tell me more please...",
         "name": "Ambulation",
         "type": 0,
@@ -4841,7 +4729,7 @@
         ]
       },
       {
-        "text": "Is patient fasting (at least 6 hours NPO)?",
+        "text": "Is patient fasting (at least 6 hours)?",
         "laytext": "How about recent food intake.",
         "name": "Fasting",
         "type": 0,
@@ -4897,7 +4785,7 @@
         ]
       },
       {
-        "text": "Has patient had recent respiratory or cardiac arrest?",
+        "text": "Has patient had recent history of respiratory or cardiac arrest?",
         "laytext": "Thanks, tell me more, please. Which of these applies the most? ",
         "name": "Arrest",
         "type": 0,
@@ -4982,7 +4870,7 @@
       },
       {
         "text": "Has patient had traveled to malaria-endemic region?",
-        "laytext": "Have you recently traveled to malaria-endemic region (Hint: malaria-endemic regions include very ram countries, most of Africa,  mostly South of the Sahara, Oceania. such as Papua New Guinea, northern South America, southern North America, some regions of: India, Middle-east, India, China and many other warm countries)?",
+        "laytext": "Have you recently traveled to malaria-endemic region (Hint: malaria-endemic regions include very ram countries, most of Africa, mostly South of the Sahara, Oceania. such as Papua New Guinea, northern South America, southern North America, some regions of: India, Middle-east, India, China and many other warm countries)?",
         "name": "MalariaTravel",
         "type": 0,
         "default": 2.0,
@@ -5109,7 +4997,7 @@
       },
       {
         "text": "What is the BMI?",
-        "laytext": "What is your BMI  (body mass index, calculate by either of these formulas  BMI = 703 ? weight (lbs) / [height (in)]2 or  BMI = weight (kg) / [height (m)]2)",
+        "laytext": "What is your BMI (body mass index, calculate by either of these formulas  BMI = 703 * weight (lbs) / [height (inches)]^2 or  BMI = weight (kg) / [height (meter)]^2)",
         "name": "BMI",
         "type": 1,
         "min": 11.0,
@@ -5118,23 +5006,13 @@
         "category": "Constitutional and vital signs physical examination"
       },
       {
-        "text": "What is the highest tympanic (ear) temperature measured (Fahrenheit), which is usually higher by 1F than axilar or forehead temperature?",
+        "text": "What is the highest forehead temperature?",
         "laytext": "What is the highest recorded temperature (using the ear thermometer)? Hint: the ear temperature is usually 1F higher than temperature measured on forehead or armpit temperature, so to calculate the ear temperature add 1F to the temperature measured on forehead or in armpit)",
         "name": "Temp",
         "type": 1,
         "min": 95.0,
         "max": 109.0,
         "default": 98.0,
-        "category": "Constitutional and vital signs physical examination"
-      },
-      {
-        "text": "What is the pulse rate (not always equals the heart rate)?",
-        "laytext": "What is your current pulse rate (Hint: the pulse rate is the count of pulse beats within the minute)?",
-        "name": "HeartRate",
-        "type": 2,
-        "min": 0.0,
-        "max": 220.0,
-        "default": 70.0,
         "category": "Constitutional and vital signs physical examination"
       },
       {
@@ -5155,36 +5033,6 @@
         "min": 0.0,
         "max": 180.0,
         "default": 70.0,
-        "category": "Constitutional and vital signs physical examination"
-      },
-      {
-        "text": "What is the respiratory rate?",
-        "laytext": "What is your current respiratory rate? (Hint: the respiratory rate is the count of breaths within the minute)",
-        "name": "RR",
-        "type": 2,
-        "min": 0.0,
-        "max": 60.0,
-        "default": 15.0,
-        "category": "Constitutional and vital signs physical examination"
-      },
-      {
-        "text": "Room air (RA) arterial O2 (oxygen) saturation (SaO2 %)",
-        "laytext": "Room air (RA) arterial O2 (oxygen) saturation (SaO2 %)",
-        "name": "O2Sats",
-        "type": 2,
-        "min": 0.0,
-        "max": 100.0,
-        "default": 96.0,
-        "category": "Constitutional and vital signs physical examination"
-      },
-      {
-        "text": "What is the ammount of supplied air O2 % (FiO2 %), Room air: 21%, Nasal cannula: 1L/min 24%, 2L/min 28%, 3L/min 32%, 4L/min 36%, 5L/min 40%, 6L/min 44%?",
-        "laytext": "What is the ammount of supplied air O2 % (FiO2 %), Room air: 21%, Nasal cannula: 1L/min 24%, 2L/min 28%, 3L/min 32%, 4L/min 36%, 5L/min 40%, 6L/min 44%?",
-        "name": "Fio2",
-        "type": 2,
-        "min": 21.0,
-        "max": 100.0,
-        "default": 21.0,
         "category": "Constitutional and vital signs physical examination"
       },
       {
@@ -6257,7 +6105,7 @@
     "category": "Family history",
     "questions": [
       {
-        "text": "Family history of COPD in 1st-degree relatives?",
+        "text": "Family history of chronic obstructive pulmonary disease (COPD) in 1st-degree relatives?",
         "laytext": "Any of your 1st-degree relatives (parents, siblings, children) have been diagnosed with chronic obstructive pulmonary disease (also known as \"COPD\")?",
         "name": "FHCOPD",
         "type": 0,
@@ -6319,7 +6167,7 @@
         ]
       },
       {
-        "text": "Any family history atopic dermatitis in 1st degree relatives?",
+        "text": "Any family history eczema in 1st degree relatives?",
         "laytext": "How many of your 1st-degree relatives (parents, siblings, children) have been diagnosed with eczema (or atopic dermatitis)?",
         "name": "FHAtopicDermatitis",
         "type": 0,
@@ -6437,7 +6285,7 @@
         ]
       },
       {
-        "text": "Is there a family history of blood clots (SVT/DVT/PE) in 1st degree relatives?",
+        "text": "Have any of your 1st-degree relatives (parents, siblings, children) been diagnosed with blood clots in legs, arms or lungs?",
         "laytext": "Have any of your 1st-degree relatives (parents, siblings, children) been diagnosed with blood clots in legs, arms or lungs?",
         "name": "FHDVTPEParent",
         "type": 0,
@@ -19949,7 +19797,7 @@
         ]
       },
       {
-        "text": "Is there history of atopic dermatitis?",
+        "text": "Is there history of eczema?",
         "laytext": "Have you ever been diagnosed with eczema (or otherwise known as atopic dermatitis)? If so, how severe it has been?",
         "name": "PMHXAtopicDermatitis",
         "type": 0,
@@ -20423,7 +20271,7 @@
         ]
       },
       {
-        "text": "Is the onset of hypertension abrupt (within weeks to months ) rise in blood pressure?",
+        "text": "Is the onset of hypertension abrupt (within weeks to months) rise in blood pressure?",
         "laytext": "Hmm... Tell me more please.",
         "name": "AbruptOnsetOfHypertension",
         "type": 0,
@@ -20559,7 +20407,7 @@
         ]
       },
       {
-        "text": "Is there a history of hyperlipidemia?",
+        "text": "Is there a history of high lipids or high cholesterol?",
         "laytext": "Have you ever had high lipids or high cholesterol?",
         "name": "PMHXHyperlipidemia",
         "type": 0,
@@ -21059,7 +20907,7 @@
         ]
       },
       {
-        "text": "Is there a personal history of adenomatous polyp?",
+        "text": "Have you ever had adenomatous polyp or \"pre-malignant\" or \"pre-cancerous\" polyp on a colonoscopy??",
         "laytext": "Have you ever had adenomatous polyp or \"pre-malignant\" or \"pre-cancerous\" polyp on a colonoscopy?",
         "name": "PMHXColonPolyp",
         "type": 0,
@@ -21087,7 +20935,7 @@
         ]
       },
       {
-        "text": "Is there a personal history of abdominal or pelvis irradiation?",
+        "text": "Have you ever had abdominal irradiation, or \"radiation therapy\" as treatment of cancer, or other malignancy, applied to your belly or pelvis?",
         "laytext": "Have you ever had abdominal irradiation, or \"radiation therapy\" as treatment of cancer, or other malignancy, applied to your belly or pelvis?",
         "name": "PMHXAbdominalRadiation",
         "type": 0,
@@ -21143,7 +20991,7 @@
         ]
       },
       {
-        "text": "Is there a personal history of atypical ductal or lobular hyperplasia or lobular carcinoma on prior breast biopsy (pick the most advanced finding, and if equal type, the most prevalent)?",
+        "text": "Have you ever had atypical ductal or lobular hyperplasia or lobular carcinoma on prior breast biopsy (pick the most advanced finding, and if equal, the most prevalent)?",
         "laytext": "Have you ever had atypical ductal or lobular hyperplasia or lobular carcinoma on prior breast biopsy (pick the most advanced finding, and if equal, the most prevalent)?",
         "name": "PMHXAtypicalDuctalorLobularHyperplasiaOrLobularCarcinomaOnPriorBreastBiopsy",
         "type": 0,
@@ -21211,7 +21059,7 @@
         ]
       },
       {
-        "text": "If patient already had menarche, what was the patient's age at menarche?",
+        "text": "When you are 12 or oldeer, when did you have your first period?",
         "laytext": "Where you 12 or older when you had your first period?",
         "name": "AgeAtMenarche",
         "type": 0,
@@ -21279,7 +21127,7 @@
         ]
       },
       {
-        "text": "If patient already had a baby birth, what was the patient's age the time when the 1st baby was born?",
+        "text": "If you already had a baby, what was your age, but the time the first baby was born?",
         "laytext": "If you already had a baby, what was your age, but the time the first baby was born?",
         "name": "AgeAtFirstBirth",
         "type": 0,
@@ -21387,7 +21235,7 @@
         ]
       },
       {
-        "text": "Does patient have history of esophageal varices or other symptoms of portal hypertension?",
+        "text": "Have you ever had esophageal varices or \"variceal bleeding\" in your food pipe?",
         "laytext": "Have you ever had esophageal varices or \"variceal bleeding\" in your food pipe?",
         "name": "PMHXVarices",
         "type": 0,
@@ -21729,7 +21577,7 @@
         ]
       },
       {
-        "text": "Does patient have history of tonsillectomy?",
+        "text": "Have you had removal of tonsils, or otherwise known as tonsillectomy?",
         "laytext": "Have you had removal of tonsils, or otherwise known as tonsillectomy?",
         "name": "PMHXTonsillectomy",
         "type": 0,
@@ -21813,7 +21661,7 @@
         ]
       },
       {
-        "text": "Does patient have history of autoimmune disease?",
+        "text": "Does patient have history of autoimmune disease like lupus, rheumatoid arthritis, psoriasis, Hashimoto's thyroiditis, diabetes type 1, or other?",
         "laytext": "Do you have \"autoimmune disease\" like lupus, rheumatoid arthritis, psoriasis, Hashimoto's, diabetes type 1, or other?",
         "name": "PMHXAutoimmune",
         "type": 0,

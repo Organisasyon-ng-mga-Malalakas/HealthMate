@@ -1,10 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Newtonsoft.Json;
 
 namespace HealthMate.Models;
 
-public class TestGroup(string name, List<ActualQuestion> questions) : List<ActualQuestion>(questions)
+public class QuestionGroup(string name, IEnumerable<ActualQuestion> questions) : List<ActualQuestion>(questions)
 {
 	public string Name { get; set; } = name;
+	public IEnumerable<ActualQuestion> Questions { get; set; } = questions;
 }
 
 public class CategoryAndQuestion
@@ -15,7 +17,7 @@ public class CategoryAndQuestion
 	public IEnumerable<ActualQuestion> Questions { get; set; }
 }
 
-public class ActualQuestion
+public class ActualQuestion : ObservableObject
 {
 	[JsonProperty("text")]
 	public string Text { get; set; }
@@ -43,6 +45,13 @@ public class ActualQuestion
 
 	[JsonProperty("choices", NullValueHandling = NullValueHandling.Ignore)]
 	public List<Choice> Choices { get; set; }
+
+	//#nullable enable
+	[JsonIgnore]
+	public Choice? SelectedChoice { get; set; }
+	[JsonIgnore]
+	public double? NumericAnswer { get; set; }
+	//#nullable restore
 }
 
 public class Choice

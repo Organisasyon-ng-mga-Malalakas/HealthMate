@@ -285,4 +285,6 @@
     <Folder Include="Effects\" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionHealthMateHideInfoBar="True" /></VisualStudio></ProjectExtensions>
+
 </Project>
