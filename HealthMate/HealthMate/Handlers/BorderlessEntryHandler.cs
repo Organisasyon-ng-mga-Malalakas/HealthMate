@@ -19,10 +19,10 @@ public partial class BorderlessEntryHandler : EntryHandler
 
 	public BorderlessEntryHandler() : base(PropertyMapper) { }
 
-	protected override AppCompatEditText CreatePlatformView()
-	{
-		return new AppCompatEditText(Context);
-	}
+	//protected override AppCompatEditText CreatePlatformView()
+	//{
+	//	return new AppCompatEditText(Context);
+	//}
 
 	protected override void ConnectHandler(AppCompatEditText platformView)
 	{
@@ -32,9 +32,9 @@ public partial class BorderlessEntryHandler : EntryHandler
 		platformView.SetPadding(0, 0, 0, 0);
 	}
 
-	protected override void DisconnectHandler(AppCompatEditText platformView)
-	{
-		platformView?.Dispose();
-		base.DisconnectHandler(platformView);
-	}
+	//protected override void DisconnectHandler(AppCompatEditText platformView)
+	//{
+	//	platformView?.Dispose();
+	//	base.DisconnectHandler(platformView);
+	//}
 }

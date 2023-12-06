@@ -1,13 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HealthMate.Models;
+using HealthMate.Models.Tables;
 using HealthMate.Services;
-using HealthMate.Views.SymptomChecker.BodyPicker;
+using HealthMate.Views.Questions;
 using System.Collections.ObjectModel;
 
 namespace HealthMate.ViewModels.SymptomChecker;
 
-public partial class DisclaimerPopupViewModel(NavigationService navigationService, PopupService popupService) : BaseViewModel(navigationService)
+public partial class DisclaimerPopupViewModel(NavigationService navigationService, PopupService popupService, RealmService realmService) : BaseViewModel(navigationService)
 {
 	[ObservableProperty]
 	private ObservableCollection<Disclaimer> disclaimers;
@@ -16,7 +17,14 @@ public partial class DisclaimerPopupViewModel(NavigationService navigationServic
 	public async Task ClosePopup()
 	{
 		await popupService.ClosePopup();
-		await NavigationService.PushAsync(nameof(BodyPickerPage));
+		//await NavigationService.PushAsync(nameof(BodyPickerPage));
+
+		var currentUser = await realmService.FindAll<UserTable>();
+		await NavigationService.PushAsync(nameof(QuestionPage), new Dictionary<string, object>
+		{
+			{ "isGeneralQuestionnaires", false },
+			{ "passedUser", currentUser.First() }
+		});
 	}
 
 	public override void OnNavigatedTo()

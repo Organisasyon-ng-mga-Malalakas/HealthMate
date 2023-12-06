@@ -80,6 +80,30 @@ public partial class QuestionsPageViewModel(NavigationService navigationService,
 		var questions = _isGeneralQuestionnaires ? questionService.GeneralQuestions : questionService.CategoryAndQuestion;
 		var groupedQuestions = questions.Select(_ => new QuestionGroup(_.Category, _.Questions));
 		Questions = new ObservableCollection<QuestionGroup>(groupedQuestions);
+
+		//foreach (var item in Questions.SelectMany(x => x.Questions))
+		//{
+
+		//}
+		if (PassedUser is UserTable user && user.Questionnaires is List<ActualQuestion> questionnaire && questionnaire.Count != 0)
+		{
+			// Get questions with answer already
+			var questionsWithAnswer = questionnaire.Where(_ => _.NumericAnswer != null || _.SelectedChoice != null);
+
+			// Turn the Questions into a dictionary for faster lookup
+			//var questionDict = Questions.SelectMany(_ => _.Questions).ToDictionary(_ => _.Name, _ => _);
+
+			// Pre-fill the answers
+			foreach (var item in questionnaire)
+			{
+				var correctGroup = Questions.First(_ => _.Name == item.Category);
+
+				if (item.NumericAnswer is double numericAnswer)
+					correctGroup.Questions.First(_ => _.Name == item.Name).NumericAnswer = numericAnswer;
+				else if (item.SelectedChoice is Choice choice)
+					correctGroup.Questions.First(_ => _.Name == item.Name).SelectedChoice = choice;
+			}
+		}
 	}
 
 	protected override void ReceiveParameters(IDictionary<string, object> query)

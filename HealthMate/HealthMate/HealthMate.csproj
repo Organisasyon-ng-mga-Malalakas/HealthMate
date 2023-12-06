@@ -56,7 +56,8 @@
   <ItemGroup>
     <None Remove="Platforms\Android\env.conf" />
     <None Remove="Platforms\Android\Resources\values\themes.xml" />
-    <None Remove="Resources\AppIcon\healthmate.svg" />
+    <None Remove="Resources\AppIcon\ic_launcher.png" />
+    <None Remove="Resources\AppIcon\ic_launcher_round.png" />
     <None Remove="Resources\DaysIn2023.json" />
     <None Remove="Resources\Fonts\Avenir-Black.ttf" />
     <None Remove="Resources\Fonts\Avenir-Heavy.ttf" />
@@ -118,10 +119,6 @@
     <EmbeddedResource Include="Resources\DaysIn2023.json" />
     <EmbeddedResource Include="Services\HttpServices\symptoms.json" />
     <EmbeddedResource Include="Services\QuestionServices\Questions.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <MauiIcon Include="Resources\AppIcon\healthmate.svg" BaseSize="1520,1520" Color="#FFFFFF" />
   </ItemGroup>
 
   <ItemGroup>
@@ -283,6 +280,11 @@
 
   <ItemGroup>
     <Folder Include="Effects\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <MauiIcon Include="Resources\AppIcon\ic_launcher.png" BaseSize="192,192" Color="#FFFFFF" />
+    <MauiIcon Include="Resources\AppIcon\ic_launcher_round.png" BaseSize="192,192" Color="#FFFFFF" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionHealthMateHideInfoBar="True" /></VisualStudio></ProjectExtensions>
