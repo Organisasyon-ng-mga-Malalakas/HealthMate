@@ -23,12 +23,8 @@
         <ShellContent ContentTemplate="{DataTemplate onboarding:OnboardingPage}" />
     </ShellItem>
 
-    <ShellItem x:Name="AccountPage">
+    <ShellItem>
         <ShellContent ContentTemplate="{DataTemplate accounts:AccountPage}" />
-    </ShellItem>
-
-    <ShellItem x:Name="QuestionPage">
-        <ShellContent ContentTemplate="{DataTemplate question:QuestionPage}" />
     </ShellItem>
 
     <TabBar x:Name="Tabs"

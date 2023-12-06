@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HealthMate.Constants;
-using HealthMate.Models.Schemas;
 using HealthMate.Services;
 using HealthMate.Services.HttpServices;
+using HealthMate.Views.Questions;
 using System.ComponentModel.DataAnnotations;
 
 namespace HealthMate.ViewModels.Accounts;
@@ -11,7 +11,7 @@ namespace HealthMate.ViewModels.Accounts;
 public partial class AccountPageViewModel(NavigationService navigationService, HttpService httpService, UserService userService) : BaseViewModel(navigationService)
 {
 	[ObservableProperty]
-	private bool isSignup;
+	private bool isSignup = true;
 
 	#region Login
 	[ObservableProperty]
@@ -43,7 +43,7 @@ public partial class AccountPageViewModel(NavigationService navigationService, H
 	private string signUpSelectedGender = "Male";
 
 	[ObservableProperty]
-	private List<string> signUpGenders = new List<string> { "Male", "Female"};
+	private List<string> signUpGenders = ["Male", "Female"];
 
 	[ObservableProperty]
 	[MinLength(8)]
@@ -95,29 +95,47 @@ public partial class AccountPageViewModel(NavigationService navigationService, H
 	[RelayCommand]
 	private async Task Signup()
 	{
-		var isValidSignup = !string.IsNullOrWhiteSpace(SignUpUsername)
-			&& !string.IsNullOrWhiteSpace(SignUpEmail)
-			&& IsBirthdateValid(SignUpBirthdate)
-			&& !string.IsNullOrWhiteSpace(SignUpPassword) && SignUpPassword.Length > 5
-			&& SignUpPassword == SignUpConfirmPassword;
-		
-		if (!isValidSignup)
+		await NavigationService.PushAsync(nameof(QuestionPage), new Dictionary<string, object>
 		{
-			await Application.Current.MainPage.DisplayAlert("Couldn't sign up", "Please fill all the necessary fields in order to proceed.", "OK");
-			return;
-		}
+			{ "isGeneralQuestionnaires", true },
+			{ "birthDate", SignUpBirthdate },
+			{ "email", SignUpEmail },
+			{ "gender", SignUpSelectedGender },
+			{ "username", SignUpUsername }
+		});
 
-		var userDetails = new UserCreate(SignUpUsername, SignUpEmail, SignUpPassword, SignUpBirthdate, SignUpSelectedGender);
-		var result = await userService.Signup(userDetails);
+		/*
+		 Birthdate = DateTime.Now,
+		 Email = "",
+		 Gender = "",
+		 RealmUserId = ObjectId.GenerateNewId(),
+		 UserId = "",
+		 Username = ""
+		 */
 
-		if (result != "success")
-		{
-			await Application.Current.MainPage.DisplayAlert("Couldn't sign up", result, "OK");
-			return;
-		}
+		//var isValidSignup = !string.IsNullOrWhiteSpace(SignUpUsername)
+		//	&& !string.IsNullOrWhiteSpace(SignUpEmail)
+		//	&& IsBirthdateValid(SignUpBirthdate)
+		//	&& !string.IsNullOrWhiteSpace(SignUpPassword) && SignUpPassword.Length > 5
+		//	&& SignUpPassword == SignUpConfirmPassword;
 
-		await Application.Current.MainPage.DisplayAlert("Success", "You have successfuly created a account!\nYou may login now to proceed.", "OK");
-		return;
+		//if (!isValidSignup)
+		//{
+		//	await Application.Current.MainPage.DisplayAlert("Couldn't sign up", "Please fill all the necessary fields in order to proceed.", "OK");
+		//	return;
+		//}
+
+		//var userDetails = new UserCreate(SignUpUsername, SignUpEmail, SignUpPassword, SignUpBirthdate, SignUpSelectedGender);
+		//var result = await userService.Signup(userDetails);
+
+		//if (result != "success")
+		//{
+		//	await Application.Current.MainPage.DisplayAlert("Couldn't sign up", result, "OK");
+		//	return;
+		//}
+
+		//await Application.Current.MainPage.DisplayAlert("Success", "You have successfuly created a account!\nYou may login now to proceed.", "OK");
+		//return;
 
 		//return isValidSignup
 		//	? httpService.Signup(SignUpEmail, SignUpUsername, SignUpPassword)
@@ -140,11 +158,12 @@ public partial class AccountPageViewModel(NavigationService navigationService, H
 			return false;
 		}
 
-		int age = DateTime.Now.Year - birthdate.Year;
+		var age = DateTime.Now.Year - birthdate.Year;
 		if (birthdate > DateTime.Now.AddYears(-age))
 		{
 			age--;
 		}
+
 		if (age > 150)
 		{
 			return false;
@@ -153,7 +172,7 @@ public partial class AccountPageViewModel(NavigationService navigationService, H
 		// Check for specific invalid dates (e.g., February 31st)
 		try
 		{
-			DateTime dt = new DateTime(birthdate.Year, birthdate.Month, birthdate.Day);
+			var dt = new DateTime(birthdate.Year, birthdate.Month, birthdate.Day);
 		}
 		catch (ArgumentOutOfRangeException)
 		{

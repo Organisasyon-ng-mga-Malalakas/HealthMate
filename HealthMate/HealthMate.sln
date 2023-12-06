@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMateBackend", "HealthMateBackend\HealthMateBackend.csproj", "{10DB611D-C1AB-41B0-848D-4FA564BCB3FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthMateBackend", "HealthMateBackend\HealthMateBackend.csproj", "{10DB611D-C1AB-41B0-848D-4FA564BCB3FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,7 +25,6 @@ Global
 		{B8BBFA70-5F94-488F-BC80-99FFA266C483}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B8BBFA70-5F94-488F-BC80-99FFA266C483}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{10DB611D-C1AB-41B0-848D-4FA564BCB3FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{10DB611D-C1AB-41B0-848D-4FA564BCB3FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10DB611D-C1AB-41B0-848D-4FA564BCB3FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10DB611D-C1AB-41B0-848D-4FA564BCB3FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using HealthMate.Services;
+using HealthMate.Views.Accounts;
 
 namespace HealthMate.ViewModels.Onboarding;
 public partial class TermsAndConditionPopupViewModel(NavigationService navigationService, PopupService popupService) : BaseViewModel(navigationService)
@@ -8,7 +9,8 @@ public partial class TermsAndConditionPopupViewModel(NavigationService navigatio
 	private async Task Agreed()
 	{
 		await ClosePopup();
-		await NavigationService.PushAsync("//Tabs");
+		//NavigationService.ChangeShellItem(2);
+		await NavigationService.PushAsync(nameof(AccountPage));
 	}
 
 	[RelayCommand]

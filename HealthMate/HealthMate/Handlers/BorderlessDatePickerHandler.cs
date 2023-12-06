@@ -12,15 +12,11 @@ public partial class BorderlessDatePickerHandler : DatePickerHandler
 		[nameof(BorderlessDatePicker.FontFamily)] = MapFont,
 		[nameof(BorderlessDatePicker.FontSize)] = MapFont,
 		[nameof(BorderlessDatePicker.TextColor)] = MapTextColor,
-		[nameof(BorderlessDatePicker.Date)] = MapDate
+		[nameof(BorderlessDatePicker.Date)] = MapDate,
+		[nameof(BorderlessDatePicker.Format)] = MapFormat
 	};
 
 	public BorderlessDatePickerHandler() : base(PropertyMapper) { }
-
-	protected override MauiDatePicker CreatePlatformView()
-	{
-		return new MauiDatePicker(Context);
-	}
 
 	protected override void ConnectHandler(MauiDatePicker platformView)
 	{
@@ -31,11 +27,6 @@ public partial class BorderlessDatePickerHandler : DatePickerHandler
 		var gd = new GradientDrawable();
 		gd.SetColor(Android.Graphics.Color.Transparent);
 		platformView.SetBackground(gd);
-	}
 
-	protected override void DisconnectHandler(MauiDatePicker platformView)
-	{
-		platformView?.Dispose();
-		base.DisconnectHandler(platformView);
 	}
 }

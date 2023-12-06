@@ -57,7 +57,15 @@
 
     <Grid Padding="16,0"
           RowDefinitions="Auto,*,60">
-        <templates:BackButton Margin="-16,0" />
+        <HorizontalStackLayout Margin="-16,0">
+            <templates:BackButton VerticalOptions="Center" />
+
+            <Label FontFamily="{StaticResource Regular}"
+                   FontSize="20"
+                   Text="User medical information"
+                   TextColor="{StaticResource RegBlack}"
+                   VerticalOptions="Center" />
+        </HorizontalStackLayout>
 
         <ScrollView Grid.Row="1">
             <VerticalStackLayout BindableLayout.ItemsSource="{Binding Questions}">
