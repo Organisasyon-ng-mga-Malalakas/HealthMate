@@ -29,8 +29,8 @@ public partial class SettingsPageViewModel(NavigationService navigationService, 
 	{
 		Genders = ["Male", "Female"];
 
-		var userData = await realmService.FindAll<UserTable>();
-		if (userData.Any() && userData.First() is UserTable firstUserData)
+		var userData = await realmService.FindAll<User>();
+		if (userData.Any() && userData.First() is User firstUserData)
 		{
 			EmailAddress = firstUserData.Email;
 			Username = firstUserData.Username;
@@ -42,12 +42,12 @@ public partial class SettingsPageViewModel(NavigationService navigationService, 
 	[RelayCommand]
 	private async void UpdateUserInfo()
 	{
-		var userInfo = new UserTable
+		var userInfo = new User
 		{
 			Birthdate = new DateTimeOffset(BirthDate),
 			Email = EmailAddress,
 			Gender = SelectedGender,
-			RealmUserId = ObjectId.GenerateNewId(),
+			LocalUserId = ObjectId.GenerateNewId(),
 			Username = Username
 		};
 		await realmService.Upsert(userInfo);

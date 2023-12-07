@@ -1,7 +1,6 @@
 ﻿using Fody;
 using HealthMate.Extensions;
 using HealthMate.Models;
-using HealthMate.Models.Tables;
 using HealthMate.Services.HttpServices.Symptoms;
 using System.Reflection;
 using HealthMateSymptoms = HealthMate.Models.Symptoms;
@@ -21,23 +20,23 @@ public class HttpService
 	private readonly ApiClient _client;
 	private readonly Dictionary<Symptoms.BodyPart, IEnumerable<HealthMateSymptoms>[]> _bodyPartSymptoms;
 	private readonly RealmService _realmService;
-	private UserTable _userInfo;
+	//private User _userInfo;
 
 	public HttpService(ApiClient client, RealmService realmService)
 	{
 		_client = client;
 		_realmService = realmService;
-		Task.Run(async () =>
-		{
-			var userData = await realmService.FindAll<UserTable>();
-			_userInfo = userData.Any() && userData.First() is UserTable firstUserData
-				? firstUserData
-				: new UserTable
-				{
-					Gender = "Male",
-					Birthdate = new DateTime(2001, 1, 1)
-				};
-		});
+		//Task.Run(async () =>
+		//{
+		//	var userData = await realmService.FindAll<UserTable>();
+		//	_userInfo = userData.Any() && userData.First() is UserTable firstUserData
+		//		? firstUserData
+		//		: new UserTable
+		//		{
+		//			Gender = "Male",
+		//			Birthdate = new DateTime(2001, 1, 1)
+		//		};
+		//});
 
 		using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("HealthMate.Services.HttpServices.symptoms.json") ?? throw new FileNotFoundException("Embedded resource not found");
 		var bodyParts = stream.DeserializeStream<LocalBodyPartJSON>();
@@ -66,9 +65,9 @@ public class HttpService
 		{
 			parameter.QueryParameters = new Symptoms.Result.ResultRequestBuilder.ResultRequestBuilderGetQueryParameters
 			{
-				BirthYear = _userInfo.Birthdate.Year,
+				BirthYear = 2001,
 				BodyPartAsBodyPart = bodyPart,
-				GenderAsGender = _userInfo.Gender == "Male" ? Gender.Male : Gender.Female,
+				GenderAsGender = Gender.Male,
 				SymptomIds = symptomIds
 			};
 		});
@@ -82,9 +81,9 @@ public class HttpService
 		{
 			parameter.QueryParameters = new Symptoms.Details.Item.WithDiagnosis_ItemRequestBuilder.WithDiagnosis_ItemRequestBuilderGetQueryParameters
 			{
-				BirthYear = _userInfo.Birthdate.Year,
+				BirthYear = 2001,
 				BodyPartAsBodyPart = bodyPart,
-				GenderAsGender = _userInfo.Gender == "Male" ? Gender.Male : Gender.Female
+				GenderAsGender = Gender.Male
 			};
 		});
 

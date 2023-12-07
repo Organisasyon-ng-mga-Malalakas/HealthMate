@@ -1,24 +1,37 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HealthMate.Constants;
+using HealthMate.Models.Tables;
 using HealthMate.Services;
 using HealthMate.Services.HttpServices;
 using HealthMate.Views.Questions;
+using MongoDB.Bson;
 using System.ComponentModel.DataAnnotations;
+using ValidationResult = System.ComponentModel.DataAnnotations.ValidationResult;
 
 namespace HealthMate.ViewModels.Accounts;
 
 public partial class AccountPageViewModel(NavigationService navigationService, HttpService httpService, UserService userService) : BaseViewModel(navigationService)
 {
 	[ObservableProperty]
+	private bool isLoading = false;
+
+	[ObservableProperty]
 	private bool isSignup = true;
+
+	[ObservableProperty]
+	private DateTime maxDate = DateTime.Now;
+
+	[ObservableProperty]
+	private DateTime minDate = new(1900, 1, 1);
 
 	#region Login
 	[ObservableProperty]
-	[EmailAddress]
+	[CustomValidation(typeof(AccountPageViewModel), nameof(ValidateLoginCredentials))]
 	private string loginUsername;
 
 	[ObservableProperty]
+	[CustomValidation(typeof(AccountPageViewModel), nameof(ValidateLoginCredentials))]
 	private string loginPassword;
 
 	[ObservableProperty]
@@ -30,16 +43,21 @@ public partial class AccountPageViewModel(NavigationService navigationService, H
 
 	#region Signup
 	[ObservableProperty]
+	[Required]
 	private string signUpUsername;
 
 	[ObservableProperty]
-	[EmailAddress]
+	[Required]
+	//[GeneratedRegex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.IgnoreCase, 250)]
+	[RegularExpression(@"^[^@\s]+@[^@\s]+\.[^@\s]+$")]
 	private string signUpEmail;
 
 	[ObservableProperty]
+	[Required]
 	private DateTime signUpBirthdate = DateTime.Now;
 
 	[ObservableProperty]
+	[Required]
 	private string signUpSelectedGender = "Male";
 
 	[ObservableProperty]
@@ -47,9 +65,12 @@ public partial class AccountPageViewModel(NavigationService navigationService, H
 
 	[ObservableProperty]
 	[MinLength(8)]
+	[Required]
 	private string signUpPassword;
 
 	[ObservableProperty]
+	[MinLength(8)]
+	[Required]
 	private string signUpConfirmPassword;
 
 	[ObservableProperty]
@@ -95,51 +116,43 @@ public partial class AccountPageViewModel(NavigationService navigationService, H
 	[RelayCommand]
 	private async Task Signup()
 	{
-		await NavigationService.PushAsync(nameof(QuestionPage), new Dictionary<string, object>
+		IsLoading = true;
+		//var faker = new Faker<User>()
+		//	.RuleFor(p => p.Birthdate, v => v.Date.Past())
+		//	.RuleFor(p => p.Email, v => v.Internet.Email())
+		//	.RuleFor(p => p.Gender, v => v.PickRandom("Male", "Female"))
+		//	.RuleFor(p => p.Password, v => v.Internet.Password())
+		//	.RuleFor(p => p.Username, v => v.Internet.UserName())
+		//	.RuleFor(p => p.LocalUserId, v => ObjectId.GenerateNewId())
+		//	.Generate(1)[0];
+		//var signupStatus = await userService.Signup(faker);
+
+		// TODO: Uncomment this on production code
+		var signupStatus = await userService.Signup(new User
 		{
-			{ "isGeneralQuestionnaires", true },
-			{ "birthDate", SignUpBirthdate },
-			{ "email", SignUpEmail },
-			{ "gender", SignUpSelectedGender },
-			{ "username", SignUpUsername }
+			Birthdate = DateTime.Now,
+			Email = SignUpEmail,
+			Gender = SignUpSelectedGender,
+			Password = SignUpPassword,
+			Username = SignUpUsername,
+			LocalUserId = ObjectId.GenerateNewId()
 		});
+		IsLoading = false;
 
-		/*
-		 Birthdate = DateTime.Now,
-		 Email = "",
-		 Gender = "",
-		 RealmUserId = ObjectId.GenerateNewId(),
-		 UserId = "",
-		 Username = ""
-		 */
+		if (signupStatus != "Success")
+		{
+			await Application.Current.MainPage.DisplayAlert("Couldn't sign up", $"An internal error has occured: {signupStatus}", "OK");
+			return;
+		}
 
-		//var isValidSignup = !string.IsNullOrWhiteSpace(SignUpUsername)
-		//	&& !string.IsNullOrWhiteSpace(SignUpEmail)
-		//	&& IsBirthdateValid(SignUpBirthdate)
-		//	&& !string.IsNullOrWhiteSpace(SignUpPassword) && SignUpPassword.Length > 5
-		//	&& SignUpPassword == SignUpConfirmPassword;
-
-		//if (!isValidSignup)
-		//{
-		//	await Application.Current.MainPage.DisplayAlert("Couldn't sign up", "Please fill all the necessary fields in order to proceed.", "OK");
-		//	return;
-		//}
-
-		//var userDetails = new UserCreate(SignUpUsername, SignUpEmail, SignUpPassword, SignUpBirthdate, SignUpSelectedGender);
-		//var result = await userService.Signup(userDetails);
-
-		//if (result != "success")
-		//{
-		//	await Application.Current.MainPage.DisplayAlert("Couldn't sign up", result, "OK");
-		//	return;
-		//}
-
-		//await Application.Current.MainPage.DisplayAlert("Success", "You have successfuly created a account!\nYou may login now to proceed.", "OK");
-		//return;
-
-		//return isValidSignup
-		//	? httpService.Signup(SignUpEmail, SignUpUsername, SignUpPassword)
-		//	: Application.Current.MainPage.DisplayAlert("Couldn't sign up", "Please fill all the necessary fields in order to proceed.", "OK");
+		var successAlertAccepted = await Application.Current.MainPage.DisplayAlert("Success", "You have successfuly created an account! You may answer the following questions now or later.", "OK", "Later");
+		if (successAlertAccepted)
+			await NavigationService.PushAsync(nameof(QuestionPage), new Dictionary<string, object>
+			{
+				{ "isGeneralQuestionnaires", true }
+			});
+		else
+			NavigationService.ChangeShellItem(3);
 	}
 
 	[RelayCommand]
@@ -151,35 +164,12 @@ public partial class AccountPageViewModel(NavigationService navigationService, H
 			? httpService.Login(LoginUsername, LoginPassword)
 			: Application.Current.MainPage.DisplayAlert("Couldn't log in", "Please fill all the necessary fields in order to proceed.", "OK");
 	}
-	private bool IsBirthdateValid(DateTime birthdate)
+
+	public static ValidationResult ValidateLoginCredentials(string entity, ValidationContext context)
 	{
-		if (birthdate > DateTime.Now || birthdate.Year < 1900)
-		{
-			return false;
-		}
+		var instance = (AccountPageViewModel)context.ObjectInstance;
+		var isSignup = instance.IsSignup;
 
-		var age = DateTime.Now.Year - birthdate.Year;
-		if (birthdate > DateTime.Now.AddYears(-age))
-		{
-			age--;
-		}
-
-		if (age > 150)
-		{
-			return false;
-		}
-
-		// Check for specific invalid dates (e.g., February 31st)
-		try
-		{
-			var dt = new DateTime(birthdate.Year, birthdate.Month, birthdate.Day);
-		}
-		catch (ArgumentOutOfRangeException)
-		{
-			return false;
-		}
-
-		// If all checks pass, consider it a valid birthdate
-		return true;
+		return isSignup ? ValidationResult.Success : !string.IsNullOrWhiteSpace(entity) ? ValidationResult.Success : new("Validation error");
 	}
 }

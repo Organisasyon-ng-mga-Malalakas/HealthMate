@@ -23,7 +23,7 @@
         <ShellContent ContentTemplate="{DataTemplate onboarding:OnboardingPage}" />
     </ShellItem>
 
-    <ShellItem>
+    <ShellItem x:Name="AccountPage">
         <ShellContent ContentTemplate="{DataTemplate accounts:AccountPage}" />
     </ShellItem>
 

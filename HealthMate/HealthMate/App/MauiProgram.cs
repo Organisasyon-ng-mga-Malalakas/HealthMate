@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui;
+using FFImageLoading.Maui;
 using HealthMate.Controls;
 using HealthMate.Handlers;
 using HealthMate.Interfaces;
@@ -32,8 +33,12 @@ using Mopups.Hosting;
 using Mopups.Interfaces;
 using Mopups.Services;
 using Plugin.LocalNotification;
+using Polly;
+using Polly.Extensions.Http;
 using Sharpnado.CollectionView;
 using Syncfusion.Maui.Core.Hosting;
+using System.Net;
+using System.Net.Http.Headers;
 using The49.Maui.BottomSheet;
 
 namespace HealthMate;
@@ -73,26 +78,15 @@ public static class MauiProgram
 			.ConfigureMopups()
 			.UseLocalNotification()
 			.RegisterServices()
-			.RegisterViewsAndViewModel()
-			.RegisterRefit();
+			.RegisterHttpClients()
+			.UseFFImageLoading()
+			.RegisterViewsAndViewModel();
 
 		return builder.Build();
 	}
 
-	private static MauiAppBuilder RegisterRefit(this MauiAppBuilder builder)
-	{
-		//builder.Services.AddRefitClient<ISymptomChecker>()
-		//    .ConfigureHttpClient(client => client.BaseAddress = new Uri("https://healthmate-api.mangobeach-087ac216.eastasia.azurecontainerapps.io"));
-
-		return builder;
-	}
-
 	private static MauiAppBuilder RegisterServices(this MauiAppBuilder builder)
 	{
-		builder.Services.AddHttpClient("fastapi", c =>
-		{
-			c.BaseAddress = new Uri("https://healthmate-api.mangobeach-087ac216.eastasia.azurecontainerapps.io");
-		});
 		builder.Services
 			.AddSingleton<IPopupNavigation, PopupNavigation>()
 			.AddSingleton<Services.PopupService>()
@@ -122,8 +116,32 @@ public static class MauiProgram
 				return new ApiClient(requestAdapter);
 			})
 			.AddSingleton<IBiometricService, BiometricService>()
-			.AddSingleton<QuestionService>()
-			;
+			.AddSingleton<QuestionService>();
+
+		return builder;
+	}
+
+	private static MauiAppBuilder RegisterHttpClients(this MauiAppBuilder builder)
+	{
+		builder.Services
+			.AddHttpClient<UserService>(client =>
+			{
+				client.BaseAddress = new Uri("https://healthmate-api.mangobeach-087ac216.eastasia.azurecontainerapps.io");
+				client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+				client.DefaultRequestVersion = HttpVersion.Version20;
+			})
+			.AddPolicyHandler(HttpPolicyExtensions
+			.HandleTransientHttpError()
+			.OrResult(msg => msg.StatusCode == HttpStatusCode.NotFound)
+			.WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))))
+			.ConfigurePrimaryHttpMessageHandler(() =>
+			{
+				return new SocketsHttpHandler
+				{
+					PooledConnectionLifetime = TimeSpan.FromMinutes(15)
+				};
+			})
+			.SetHandlerLifetime(Timeout.InfiniteTimeSpan);
 
 		return builder;
 	}

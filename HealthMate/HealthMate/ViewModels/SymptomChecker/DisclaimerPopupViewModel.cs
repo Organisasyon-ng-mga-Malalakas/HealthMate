@@ -19,7 +19,7 @@ public partial class DisclaimerPopupViewModel(NavigationService navigationServic
 		await popupService.ClosePopup();
 		//await NavigationService.PushAsync(nameof(BodyPickerPage));
 
-		var currentUser = await realmService.FindAll<UserTable>();
+		var currentUser = await realmService.FindAll<User>();
 		await NavigationService.PushAsync(nameof(QuestionPage), new Dictionary<string, object>
 		{
 			{ "isGeneralQuestionnaires", false },

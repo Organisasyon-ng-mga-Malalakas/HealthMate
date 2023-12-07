@@ -4,7 +4,6 @@ using HealthMate.Enums;
 using HealthMate.Interfaces;
 using HealthMate.Platforms.Android.Services;
 using HealthMate.Services;
-using HealthMate.Services.HttpServices;
 using MongoDB.Bson;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
@@ -14,7 +13,6 @@ using ScheduleTable = HealthMate.Models.Tables.Schedule;
 namespace HealthMate.ViewModels.Schedule;
 public partial class AddScheduleBottomSheetViewModel(IAlarmScheduler alarmScheduler,
 	BottomSheetService bottomSheetService,
-	HttpService httpService,
 	KeyboardService keyboardService,
 	NavigationService navigationService,
 	NotificationService notificationService,

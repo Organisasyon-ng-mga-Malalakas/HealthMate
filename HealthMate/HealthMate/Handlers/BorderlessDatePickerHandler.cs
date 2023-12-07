@@ -13,7 +13,10 @@ public partial class BorderlessDatePickerHandler : DatePickerHandler
 		[nameof(BorderlessDatePicker.FontSize)] = MapFont,
 		[nameof(BorderlessDatePicker.TextColor)] = MapTextColor,
 		[nameof(BorderlessDatePicker.Date)] = MapDate,
-		[nameof(BorderlessDatePicker.Format)] = MapFormat
+		[nameof(BorderlessDatePicker.Format)] = MapFormat,
+		[nameof(BorderlessDatePicker.MaximumDate)] = MapMaximumDate,
+		[nameof(BorderlessDatePicker.MinimumDate)] = MapMinimumDate
+
 	};
 
 	public BorderlessDatePickerHandler() : base(PropertyMapper) { }

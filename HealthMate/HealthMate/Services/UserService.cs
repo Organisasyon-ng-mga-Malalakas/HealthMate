@@ -1,71 +1,58 @@
-﻿
-using Fody;
-using HealthMate.Models.Schemas;
+﻿using Fody;
+using HealthMate.Extensions;
 using HealthMate.Models.Tables;
-using Newtonsoft.Json;
-using System.Net.Http;
 
 namespace HealthMate.Services;
-[ConfigureAwait(false)]
-public class UserService
+
+public class UserService(HttpClient httpClient, RealmService realmService)
 {
-	private readonly IHttpClientFactory httpClient;
-	private readonly RealmService _realmService;
-	private UserTable _userInfo;
+	private User? _loggedUser;
 
-	public UserService(IHttpClientFactory _httpClient, RealmService realmService)
+	public async Task<User> GetLoggedUser()
 	{
-		_realmService = realmService;
-		httpClient = _httpClient; 
-
-		Task.Run(async () =>
-		{
-			var userData = await realmService.FindAll<UserTable>();
-			_userInfo = userData.Any() && userData.First() is UserTable firstUserData
-				? firstUserData
-			: null;
-		});
-		
+		return _loggedUser ??= (await realmService.FindAll<User>()).First();
 	}
 
-	public async Task<String> Signup(UserCreate userDetails)
+	[ConfigureAwait(false)]
+	public async Task<string> Signup(User user)
 	{
 		try
 		{
-			var json = JsonConvert.SerializeObject(userDetails);
-			var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
-			var client = httpClient.CreateClient("fastapi");
-			var response = await client.PostAsync("user/", content);
-
-			if (!response.IsSuccessStatusCode)
+			var userData = new
 			{
-				// Get the response content as a string
-				string responseContent = await response.Content.ReadAsStringAsync();
-
-				// Deserialize the JSON string to a dictionary
-				var res = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseContent);
-				if (res.TryGetValue("detail", out string value))
-				{
-					return value;
-				}
-				else
-				{
-					return "API Error";
-				}
-			}
-
-			_userInfo = new UserTable
-			{
-				Gender = char.ToUpper(userDetails.gender[0]) + userDetails.gender.Substring(1),
-				Birthdate = userDetails.birthdate
+				username = user.Username,
+				email = user.Email,
+				birthdate = user.Birthdate,
+				gender = user.Gender,
+				password = user.Password
 			};
 
-			return "success";
+			var response = await httpClient.SendAsync(new HttpRequestMessage
+			{
+				Content = userData.AsJSONSerializedObject(),
+				Method = HttpMethod.Post,
+				RequestUri = new Uri("/user/", UriKind.Relative)
+			}, HttpCompletionOption.ResponseHeadersRead);
 
+			if (response.IsSuccessStatusCode)
+			{
+				var responseStream = await response.Content.ReadAsStreamAsync();
+				var returnedUser = responseStream.DeserializeStream<User>();
+
+				_loggedUser = user;
+				_loggedUser.RemoteUserId = returnedUser.RemoteUserId;
+				await realmService.Upsert(user);
+
+				return "Success";
+			}
+			else
+				return await response.Content.ReadAsStringAsync();
 		}
 		catch (Exception ex)
 		{
-			return "Exception occured.";
+			return $"Exception occured. {ex}";
 		}
 	}
 }
+
+// Best practices for HttpClient: https://bytedev.medium.com/net-core-httpclient-best-practices-4c1b20e32c6
