@@ -130,7 +130,7 @@ public partial class AccountPageViewModel(NavigationService navigationService, H
 		// TODO: Uncomment this on production code
 		var signupStatus = await userService.Signup(new User
 		{
-			Birthdate = DateTime.Now,
+			Birthdate = SignUpBirthdate,
 			Email = SignUpEmail,
 			Gender = SignUpSelectedGender,
 			Password = SignUpPassword,
@@ -165,7 +165,7 @@ public partial class AccountPageViewModel(NavigationService navigationService, H
 			: Application.Current.MainPage.DisplayAlert("Couldn't log in", "Please fill all the necessary fields in order to proceed.", "OK");
 	}
 
-	public static ValidationResult ValidateLoginCredentials(string entity, ValidationContext context)
+	private static ValidationResult ValidateLoginCredentials(string entity, ValidationContext context)
 	{
 		var instance = (AccountPageViewModel)context.ObjectInstance;
 		var isSignup = instance.IsSignup;
