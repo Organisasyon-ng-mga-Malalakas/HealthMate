@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Bogus;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HealthMate.Constants;
 using HealthMate.Models.Tables;
@@ -117,26 +118,34 @@ public partial class AccountPageViewModel(NavigationService navigationService, H
 	private async Task Signup()
 	{
 		IsLoading = true;
-		//var faker = new Faker<User>()
-		//	.RuleFor(p => p.Birthdate, v => v.Date.Past())
-		//	.RuleFor(p => p.Email, v => v.Internet.Email())
-		//	.RuleFor(p => p.Gender, v => v.PickRandom("Male", "Female"))
-		//	.RuleFor(p => p.Password, v => v.Internet.Password())
-		//	.RuleFor(p => p.Username, v => v.Internet.UserName())
-		//	.RuleFor(p => p.LocalUserId, v => ObjectId.GenerateNewId())
-		//	.Generate(1)[0];
-		//var signupStatus = await userService.Signup(faker);
+
+		var localId = ObjectId.GenerateNewId();
+		var existingUser = await userService.GetLoggedUser();
+		if (existingUser != null)
+		{
+			// prevent creating multiple entry of User in Realm
+			localId = existingUser.LocalUserId;
+		}
 
 		// TODO: Uncomment this on production code
-		var signupStatus = await userService.Signup(new User
-		{
-			Birthdate = SignUpBirthdate,
-			Email = SignUpEmail,
-			Gender = SignUpSelectedGender,
-			Password = SignUpPassword,
-			Username = SignUpUsername,
-			LocalUserId = ObjectId.GenerateNewId()
-		});
+		//var signupstatus = await userservice.signup(new user
+		//{
+		//	birthdate = signupbirthdate,
+		//	email = signupemail,
+		//	gender = signupselectedgender,
+		//	password = signuppassword,
+		//	username = signupusername,
+		//	localuserid = localid
+		//});
+		var faker = new Faker<User>()
+			.RuleFor(p => p.Birthdate, v => v.Date.Past())
+			.RuleFor(p => p.Email, v => v.Internet.Email())
+			.RuleFor(p => p.Gender, v => v.PickRandom("Male", "Female"))
+			.RuleFor(p => p.Password, v => v.Internet.Password())
+			.RuleFor(p => p.Username, v => v.Internet.UserName())
+			.RuleFor(p => p.LocalUserId, v => localId)
+			.Generate(1)[0];
+		var signupStatus = await userService.Signup(faker);
 		IsLoading = false;
 
 		if (signupStatus != "Success")
@@ -165,7 +174,7 @@ public partial class AccountPageViewModel(NavigationService navigationService, H
 			: Application.Current.MainPage.DisplayAlert("Couldn't log in", "Please fill all the necessary fields in order to proceed.", "OK");
 	}
 
-	private static ValidationResult ValidateLoginCredentials(string entity, ValidationContext context)
+	public static ValidationResult ValidateLoginCredentials(string entity, ValidationContext context)
 	{
 		var instance = (AccountPageViewModel)context.ObjectInstance;
 		var isSignup = instance.IsSignup;

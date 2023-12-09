@@ -31,14 +31,28 @@ public partial class QuestionsPageViewModel(NavigationService navigationService,
 
 		var user = await userService.GetLoggedUser();
 		foreach (var item in answersDictionary)
-			await realmService.Upsert(new Questionnaires
+		{
+			Questionnaires q = new Questionnaires
 			{
 				IsGeneralQuestionnaire = _isGeneralQuestionnaires,
 				Key = item.Key,
+				Category = questionService.QuestionsLookup[item.Key].Category,
 				QuestionnaireId = ObjectId.GenerateNewId(),
 				User = user,
+				UserId = user.RemoteUserId,
 				Value = item.Value
-			});
+			};
+			await realmService.Upsert(q);
+		}
+
+		string status = await userService.SaveUserQuestions(user);
+		if (status != "Success")
+		{
+			await Application.Current.MainPage.DisplayAlert("Couldn't save questions", $"An internal error has occured: {status}", "OK");
+			return;
+		}
+
+		await Application.Current.MainPage.DisplayAlert("Sucess", "Questions saved.", "OK");
 
 		if (_isGeneralQuestionnaires)
 			NavigationService.ChangeShellItem(3);
