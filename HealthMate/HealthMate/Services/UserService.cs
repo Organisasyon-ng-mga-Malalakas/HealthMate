@@ -60,6 +60,44 @@ public class UserService(HttpClient httpClient, RealmService realmService)
 	}
 
 	[ConfigureAwait(false)]
+	public async Task<string> Login(string username, string password)
+	{
+		try
+		{ 
+			var userData = new { username, password };
+
+			var response = await httpClient.SendAsync(new HttpRequestMessage
+			{
+				Content = userData.AsJSONSerializedObject(),
+				Method = HttpMethod.Post,
+				RequestUri = new Uri("/user/login/", UriKind.Relative)
+			}, HttpCompletionOption.ResponseHeadersRead);
+
+			if (response.IsSuccessStatusCode)
+			{
+				var auth = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+				if (auth.TryGetValue("token", out string token))
+				{
+					// Load user data
+					// TODO: add user details on login response.
+				}
+
+				return "Unable to login.";
+			}
+			else
+			{
+				var errorDetails = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+				return errorDetails["detail"];
+			}
+
+		}	
+		catch (Exception ex)
+		{
+			return $"Exception occured. {ex}";
+		}
+	}
+
+	[ConfigureAwait(false)]
 	public async Task<string> SaveUserQuestions(User user)
 	{
 		if (user == null) return "No logged in user.";

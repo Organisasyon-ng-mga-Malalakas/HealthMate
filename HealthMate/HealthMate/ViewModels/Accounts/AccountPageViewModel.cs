@@ -170,7 +170,7 @@ public partial class AccountPageViewModel(NavigationService navigationService, H
 		var isValidLogin = !string.IsNullOrWhiteSpace(LoginUsername) && !string.IsNullOrWhiteSpace(LoginPassword);
 
 		return isValidLogin
-			? httpService.Login(LoginUsername, LoginPassword)
+			? userService.Login(LoginUsername, LoginPassword)
 			: Application.Current.MainPage.DisplayAlert("Couldn't log in", "Please fill all the necessary fields in order to proceed.", "OK");
 	}
 
