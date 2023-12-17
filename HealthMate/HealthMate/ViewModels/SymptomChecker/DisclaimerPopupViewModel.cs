@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using HealthMate.Models;
 using HealthMate.Models.Tables;
 using HealthMate.Services;
-using HealthMate.Views.Questions;
+using HealthMate.Views.SymptomChecker.BodyPicker;
 using System.Collections.ObjectModel;
 
 namespace HealthMate.ViewModels.SymptomChecker;
@@ -20,11 +20,12 @@ public partial class DisclaimerPopupViewModel(NavigationService navigationServic
 		//await NavigationService.PushAsync(nameof(BodyPickerPage));
 
 		var currentUser = await realmService.FindAll<User>();
-		await NavigationService.PushAsync(nameof(QuestionPage), new Dictionary<string, object>
-		{
-			{ "isGeneralQuestionnaires", false },
-			{ "passedUser", currentUser.First() }
-		});
+		//await NavigationService.PushAsync(nameof(QuestionPage), new Dictionary<string, object>
+		//{
+		//	{ "isGeneralQuestionnaires", false },
+		//	{ "passedUser", currentUser.First() }
+		//});
+		await NavigationService.PushAsync(nameof(BodyPickerPage));
 	}
 
 	public override void OnNavigatedTo()

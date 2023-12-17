@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HealthMate.Enums;
-using HealthMate.Interfaces;
 using HealthMate.Platforms.Android.Services;
 using HealthMate.Services;
 using MongoDB.Bson;
@@ -11,12 +10,12 @@ using InventoryTable = HealthMate.Models.Tables.Inventory;
 using ScheduleTable = HealthMate.Models.Tables.Schedule;
 
 namespace HealthMate.ViewModels.Schedule;
-public partial class AddScheduleBottomSheetViewModel(IAlarmScheduler alarmScheduler,
-	BottomSheetService bottomSheetService,
+public partial class AddScheduleBottomSheetViewModel(BottomSheetService bottomSheetService,
 	KeyboardService keyboardService,
 	NavigationService navigationService,
 	NotificationService notificationService,
-	RealmService realmService) : BaseViewModel(navigationService)
+	RealmService realmService,
+	UserService userService) : BaseViewModel(navigationService)
 {
 	[ObservableProperty]
 	private DateTime endDate = DateTime.Now.AddDays(1);

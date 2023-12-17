@@ -8,11 +8,9 @@ using HealthMate.Platforms.Android.Services;
 using HealthMate.Platforms.Android.Services.AlarmServices;
 using HealthMate.Services;
 using HealthMate.Services.HttpServices;
-using HealthMate.Services.QuestionServices;
 using HealthMate.ViewModels.Accounts;
 using HealthMate.ViewModels.Inventory;
 using HealthMate.ViewModels.Onboarding;
-using HealthMate.ViewModels.Questions;
 using HealthMate.ViewModels.Schedule;
 using HealthMate.ViewModels.Settings;
 using HealthMate.ViewModels.SymptomChecker;
@@ -21,24 +19,22 @@ using HealthMate.ViewModels.SymptomChecker.BodyPicker.IllnessChecker;
 using HealthMate.Views.Accounts;
 using HealthMate.Views.Inventory;
 using HealthMate.Views.Onboarding;
-using HealthMate.Views.Questions;
 using HealthMate.Views.Schedule;
 using HealthMate.Views.Settings;
 using HealthMate.Views.SymptomChecker;
 using HealthMate.Views.SymptomChecker.BodyPicker;
 using HealthMate.Views.SymptomChecker.BodyPicker.IllnessChecker;
-using Microsoft.Kiota.Abstractions.Authentication;
-using Microsoft.Kiota.Http.HttpClientLibrary;
 using Mopups.Hosting;
 using Mopups.Interfaces;
 using Mopups.Services;
 using Plugin.LocalNotification;
 using Polly;
 using Polly.Extensions.Http;
-using Sharpnado.CollectionView;
 using Syncfusion.Maui.Core.Hosting;
 using System.Net;
 using System.Net.Http.Headers;
+using System.Security.Cryptography;
+using System.Text;
 using The49.Maui.BottomSheet;
 
 namespace HealthMate;
@@ -51,7 +47,6 @@ public static class MauiProgram
 		builder
 			.UseMauiApp<App>()
 			.UseMauiCommunityToolkit()
-			.UseSharpnadoCollectionView(false)
 			.UseBottomSheet()
 			.ConfigureSyncfusionCore()
 			.ConfigureFonts(fonts =>
@@ -78,7 +73,9 @@ public static class MauiProgram
 			.ConfigureMopups()
 			.UseLocalNotification()
 			.RegisterServices()
-			.RegisterHttpClients()
+			.RegisterHttpClient<UserService>("https://healthmate-api.mangobeach-087ac216.eastasia.azurecontainerapps.io")
+			.RegisterHttpClient("health", "https://sandbox-healthservice.priaid.ch")
+			.RegisterHttpClient("auth", "https://sandbox-authservice.priaid.ch", true)
 			.UseFFImageLoading()
 			.RegisterViewsAndViewModel();
 
@@ -92,7 +89,6 @@ public static class MauiProgram
 			.AddSingleton<Services.PopupService>()
 			.AddSingleton(_ => VersionTracking.Default)
 			.AddSingleton(_ => Preferences.Default)
-			.AddSingleton<DatabaseService>()
 			.AddSingleton<BottomSheetService>()
 			.AddSingleton<RealmService>()
 			.AddSingleton<KeyboardService>()
@@ -101,47 +97,77 @@ public static class MauiProgram
 			.AddSingleton<HttpService>()
 			.AddSingleton<UserService>()
 			.AddSingleton<NavigationService>()
-			//.AddSingleton(_ =>
-			//{
-			//    var httpClient = new HttpClient();
-			//    return new HealtmateAPIClient("https://healthmate-api.mangobeach-087ac216.eastasia.azurecontainerapps.io", httpClient);
-			//})
-			.AddSingleton(_ =>
-			{
-				var requestAdapter = new HttpClientRequestAdapter(new AnonymousAuthenticationProvider())
-				{
-					BaseUrl = "https://healthmate-api.mangobeach-087ac216.eastasia.azurecontainerapps.io"
-				};
-
-				return new ApiClient(requestAdapter);
-			})
 			.AddSingleton<IBiometricService, BiometricService>()
-			.AddSingleton<QuestionService>();
+			.AddSingleton(_ => MediaPicker.Default);
 
 		return builder;
 	}
 
-	private static MauiAppBuilder RegisterHttpClients(this MauiAppBuilder builder)
+	private static MauiAppBuilder RegisterHttpClient<TClient>(this MauiAppBuilder builder, string baseUrl) where TClient : class
 	{
-		builder.Services
-			.AddHttpClient<UserService>(client =>
+		builder.Services.AddHttpClient<TClient>(client =>
+		{
+			client.BaseAddress = new Uri(baseUrl);
+			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+			client.DefaultRequestVersion = HttpVersion.Version20;
+		})
+		.AddPolicyHandler(HttpPolicyExtensions
+		.HandleTransientHttpError()
+		.OrResult(msg => msg.StatusCode == HttpStatusCode.NotFound)
+		.WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))))
+		.ConfigurePrimaryHttpMessageHandler(() =>
+		{
+			return new SocketsHttpHandler
 			{
-				client.BaseAddress = new Uri("https://healthmate-api.mangobeach-087ac216.eastasia.azurecontainerapps.io");
-				client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-				client.DefaultRequestVersion = HttpVersion.Version20;
-			})
-			.AddPolicyHandler(HttpPolicyExtensions
-			.HandleTransientHttpError()
-			.OrResult(msg => msg.StatusCode == HttpStatusCode.NotFound)
-			.WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))))
-			.ConfigurePrimaryHttpMessageHandler(() =>
+				PooledConnectionLifetime = TimeSpan.FromMinutes(15)
+			};
+		})
+		.SetHandlerLifetime(Timeout.InfiniteTimeSpan);
+
+		return builder;
+	}
+
+	private static MauiAppBuilder RegisterHttpClient(this MauiAppBuilder builder, string name, string baseUrl, bool hasAuth = false)
+	{
+		builder.Services.AddHttpClient(name, client =>
+		{
+			client.BaseAddress = new Uri(baseUrl);
+			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+			client.DefaultRequestVersion = HttpVersion.Version20;
+
+			if (hasAuth)
 			{
-				return new SocketsHttpHandler
-				{
-					PooledConnectionLifetime = TimeSpan.FromMinutes(15)
-				};
-			})
-			.SetHandlerLifetime(Timeout.InfiniteTimeSpan);
+				// Sandbox
+				var uri = "https://sandbox-authservice.priaid.ch/login";
+				var username = "jjnlumaque@iskolarngbayan.pup.edu.ph";
+				var password = "j4B5Cwq2N8Kbk3M6D";
+
+				// Production
+				//var uri = "https://authservice.priaid.ch/login";
+				//var username = "Ak89K_ISKOLARNGBAYAN_PUP_EDU_PH_AUT";
+				//var password = "e5MJm83QtTc97KnFf";
+				var secretBytes = Encoding.UTF8.GetBytes(password);
+
+				using var hmac = new HMACMD5(secretBytes);
+				var dataBytes = Encoding.UTF8.GetBytes(uri);
+				var computedHash = hmac.ComputeHash(dataBytes);
+				var computedHashString = Convert.ToBase64String(computedHash);
+
+				client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", $"{username}:{computedHashString}");
+			}
+		})
+		.AddPolicyHandler(HttpPolicyExtensions
+		.HandleTransientHttpError()
+		.OrResult(msg => msg.StatusCode == HttpStatusCode.NotFound)
+		.WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))))
+		.ConfigurePrimaryHttpMessageHandler(() =>
+		{
+			return new SocketsHttpHandler
+			{
+				PooledConnectionLifetime = TimeSpan.FromMinutes(15)
+			};
+		})
+		.SetHandlerLifetime(Timeout.InfiniteTimeSpan);
 
 		return builder;
 	}
@@ -165,8 +191,7 @@ public static class MauiProgram
 			.AddTransientWithShellRoute<IllnessCheckerPage, IllnessCheckerPageViewModel>(nameof(IllnessCheckerPage))
 			.AddTransient<IllnessInfoPopupViewModel>()
 			.AddTransientWithShellRoute<SettingsPage, SettingsPageViewModel>(nameof(SettingsPage))
-			.AddTransientWithShellRoute<AccountPage, AccountPageViewModel>(nameof(AccountPage))
-			.AddTransientWithShellRoute<QuestionPage, QuestionsPageViewModel>(nameof(QuestionPage));
+			.AddTransientWithShellRoute<AccountPage, AccountPageViewModel>(nameof(AccountPage));
 
 		return builder;
 	}

@@ -1,10 +1,10 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Bogus;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HealthMate.Constants;
 using HealthMate.Models.Tables;
 using HealthMate.Services;
 using HealthMate.Services.HttpServices;
-using HealthMate.Views.Questions;
 using MongoDB.Bson;
 using System.ComponentModel.DataAnnotations;
 using ValidationResult = System.ComponentModel.DataAnnotations.ValidationResult;
@@ -27,11 +27,11 @@ public partial class AccountPageViewModel(NavigationService navigationService, H
 
 	#region Login
 	[ObservableProperty]
-	[CustomValidation(typeof(AccountPageViewModel), nameof(ValidateLoginCredentials))]
+	//[CustomValidation(typeof(AccountPageViewModel), nameof(ValidateLoginCredentials))]
 	private string loginUsername;
 
 	[ObservableProperty]
-	[CustomValidation(typeof(AccountPageViewModel), nameof(ValidateLoginCredentials))]
+	//[CustomValidation(typeof(AccountPageViewModel), nameof(ValidateLoginCredentials))]
 	private string loginPassword;
 
 	[ObservableProperty]
@@ -117,26 +117,26 @@ public partial class AccountPageViewModel(NavigationService navigationService, H
 	private async Task Signup()
 	{
 		IsLoading = true;
-		//var faker = new Faker<User>()
-		//	.RuleFor(p => p.Birthdate, v => v.Date.Past())
-		//	.RuleFor(p => p.Email, v => v.Internet.Email())
-		//	.RuleFor(p => p.Gender, v => v.PickRandom("Male", "Female"))
-		//	.RuleFor(p => p.Password, v => v.Internet.Password())
-		//	.RuleFor(p => p.Username, v => v.Internet.UserName())
-		//	.RuleFor(p => p.LocalUserId, v => ObjectId.GenerateNewId())
-		//	.Generate(1)[0];
-		//var signupStatus = await userService.Signup(faker);
+		var faker = new Faker<User>()
+			.RuleFor(p => p.Birthdate, v => v.Date.Past())
+			.RuleFor(p => p.Email, v => v.Internet.Email())
+			.RuleFor(p => p.Gender, v => v.PickRandom("Male", "Female"))
+			.RuleFor(p => p.Password, v => v.Internet.Password())
+			.RuleFor(p => p.Username, v => v.Internet.UserName())
+			.RuleFor(p => p.LocalUserId, v => ObjectId.GenerateNewId())
+			.Generate(1)[0];
+		var signupStatus = await userService.Signup(faker);
 
 		// TODO: Uncomment this on production code
-		var signupStatus = await userService.Signup(new User
-		{
-			Birthdate = SignUpBirthdate,
-			Email = SignUpEmail,
-			Gender = SignUpSelectedGender,
-			Password = SignUpPassword,
-			Username = SignUpUsername,
-			LocalUserId = ObjectId.GenerateNewId()
-		});
+		//var signupStatus = await userService.Signup(new User
+		//{
+		//	Birthdate = SignUpBirthdate,
+		//	Email = SignUpEmail,
+		//	Gender = SignUpSelectedGender,
+		//	Password = SignUpPassword,
+		//	Username = SignUpUsername,
+		//	LocalUserId = ObjectId.GenerateNewId()
+		//});
 		IsLoading = false;
 
 		if (signupStatus != "Success")
@@ -145,24 +145,21 @@ public partial class AccountPageViewModel(NavigationService navigationService, H
 			return;
 		}
 
-		var successAlertAccepted = await Application.Current.MainPage.DisplayAlert("Success", "You have successfuly created an account! You may answer the following questions now or later.", "OK", "Later");
-		if (successAlertAccepted)
-			await NavigationService.PushAsync(nameof(QuestionPage), new Dictionary<string, object>
+		await Application.Current.MainPage.DisplayAlert("Success", "You have successfuly created an account! You may now login to HealthMate.", "OK")
+			.ContinueWith(_ =>
 			{
-				{ "isGeneralQuestionnaires", true }
+				NavigationService.ChangeShellItem(3);
 			});
-		else
-			NavigationService.ChangeShellItem(3);
 	}
 
 	[RelayCommand]
-	private Task Login()
+	private async Task Login()
 	{
 		var isValidLogin = !string.IsNullOrWhiteSpace(LoginUsername) && !string.IsNullOrWhiteSpace(LoginPassword);
 
-		return isValidLogin
-			? httpService.Login(LoginUsername, LoginPassword)
-			: Application.Current.MainPage.DisplayAlert("Couldn't log in", "Please fill all the necessary fields in order to proceed.", "OK");
+		//return isValidLogin
+		//	? httpService.Login(LoginUsername, LoginPassword)
+		//	: Application.Current.MainPage.DisplayAlert("Couldn't log in", "Please fill all the necessary fields in order to proceed.", "OK");
 	}
 
 	private static ValidationResult ValidateLoginCredentials(string entity, ValidationContext context)

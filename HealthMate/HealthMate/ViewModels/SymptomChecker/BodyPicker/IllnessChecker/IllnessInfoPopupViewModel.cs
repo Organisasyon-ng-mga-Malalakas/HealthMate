@@ -4,7 +4,6 @@ using HealthMate.Models;
 using HealthMate.Services;
 using HealthMate.Services.HttpServices;
 using System.Collections.ObjectModel;
-using BodyPart = HealthMate.Services.HttpServices.Symptoms.BodyPart;
 
 namespace HealthMate.ViewModels.SymptomChecker.BodyPicker.IllnessChecker;
 public partial class IllnessInfoPopupViewModel(NavigationService navigationService,
@@ -21,10 +20,7 @@ public partial class IllnessInfoPopupViewModel(NavigationService navigationServi
 	private bool isLoading;
 
 	[ObservableProperty]
-	private Services.HttpServices.Symptoms.BodyPart passedBodyPart;
-
-	[ObservableProperty]
-	private Diagnosis passedDiagnosis;
+	private int issueId;
 
 	[ObservableProperty]
 	private Color textColors;
@@ -38,7 +34,7 @@ public partial class IllnessInfoPopupViewModel(NavigationService navigationServi
 	public override async void OnNavigatedTo()
 	{
 		IsLoading = true;
-		var illnessInfo = await httpService.GetDiseaseInfo(PassedDiagnosis.Id, 2001, PassedBodyPart, Services.HttpServices.Symptoms.Gender.Male);
+		var illnessInfo = await httpService.GetIssueInfo(IssueId);
 		var isCritical = Random.Shared.Next(0, 2) == 1;
 		TextColors = (Color)Application.Current.Resources[isCritical ? "Red" : "Blue"];
 		var nonCriticalSecondTtlte = new string[10]
@@ -81,18 +77,22 @@ public partial class IllnessInfoPopupViewModel(NavigationService navigationServi
 			"Friendly Guide 🐾"
 		};
 		var randomNumberForTitle = Random.Shared.Next(10);
+		var possibleSymptoms = string.Join(", ", illnessInfo.PossibleSymptoms.Split(',')
+			.Select((s, index) => index == 0
+				? $"{char.ToUpper(s.Trim()[0])}{s.Trim()[1..].ToLower()}"
+				: s.Trim().ToLower()));
 
 		DiagnosisInfo =
 		[
 			new DiagnosisInfo
 			{
-				Description = illnessInfo.Description,
+				Description = $"Possible symptoms: {possibleSymptoms}\n\n{illnessInfo.Description}",
 				Name = illnessInfo.Name,
 				Image = isCritical ? "critical0" : "noncritical0"
 			},
 			new DiagnosisInfo
 			{
-				Description = illnessInfo.Treatment,
+				Description = illnessInfo.TreatmentDescription,
 				Name = (isCritical ? criticalSecondTitles : nonCriticalSecondTtlte)[randomNumberForTitle],
 				Image = isCritical ? "critical1" : "noncritical1"
 			},
@@ -106,11 +106,5 @@ public partial class IllnessInfoPopupViewModel(NavigationService navigationServi
 			}
 		];
 		IsLoading = false;
-	}
-
-	protected override void ReceiveParameters(IDictionary<string, object> query)
-	{
-		PassedBodyPart = (BodyPart)query["bodyPart"];
-		PassedDiagnosis = query["diagnosis"] as Diagnosis;
 	}
 }

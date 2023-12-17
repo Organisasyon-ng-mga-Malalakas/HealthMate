@@ -9,8 +9,6 @@
                     xmlns:dataExt="clr-namespace:Syncfusion.Maui.DataSource.Extensions;assembly=Syncfusion.Maui.DataSource"
                     xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                     xmlns:models="clr-namespace:HealthMate.Models"
-                    xmlns:sfCalendar="clr-namespace:Syncfusion.Maui.Calendar;assembly=Syncfusion.Maui.Calendar"
-                    xmlns:sfListView="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
                     xmlns:sharpnado="http://sharpnado.com"
                     xmlns:tables="clr-namespace:HealthMate.Models.Tables"
                     xmlns:templates="clr-namespace:HealthMate.Templates"

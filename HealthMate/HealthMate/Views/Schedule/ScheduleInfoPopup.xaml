@@ -45,10 +45,19 @@
                 <ScrollView Grid.Row="1"
                             Grid.ColumnSpan="2"
                             Margin="0,10">
-                    <Label FontFamily="{StaticResource Regular}"
-                           Text="{Binding PassedSchedule.Inventory.Description}"
-                           TextColor="{StaticResource RegBlack}" />
+                    <VerticalStackLayout>
+                        <Label FontFamily="{StaticResource Regular}"
+                               Text="{Binding PassedSchedule.Inventory.Description}"
+                               TextColor="{StaticResource RegBlack}" />
+
+                        <Image HeightRequest="120"
+                               HorizontalOptions="Start"
+                               Source="{Binding ImageSource}"
+                               WidthRequest="120" />
+                    </VerticalStackLayout>
                 </ScrollView>
+
+
 
                 <!--#region Meds pending-->
                 <Button Grid.Row="2"

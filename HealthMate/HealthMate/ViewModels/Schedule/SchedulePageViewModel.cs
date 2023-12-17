@@ -224,7 +224,7 @@ public partial class SchedulePageViewModel(BottomSheetService bottomSheetService
 	public async Task OpenScheduleInfo(ScheduleTable schedule)
 	{
 		if ((ScheduleState)schedule.ScheduleState is ScheduleState.Missed)
-			await popupService.ShowPopup<MedsMissedPopup>();
+			await popupService.ShowPopup<MedsMissedPopup>(schedule);
 		else
 			await popupService.ShowPopup<ScheduleInfoPopup>(schedule);
 	}

@@ -3,24 +3,19 @@ using CommunityToolkit.Mvvm.Input;
 using HealthMate.Models;
 using HealthMate.Services;
 using HealthMate.Services.HttpServices;
-using HealthMate.Services.HttpServices.Symptoms;
 using HealthMate.Templates;
 using HealthMate.Views.SymptomChecker.BodyPicker.IllnessChecker;
 using System.Collections.ObjectModel;
-using BodyPart = HealthMate.Services.HttpServices.Symptoms.BodyPart;
 
 namespace HealthMate.ViewModels.SymptomChecker.BodyPicker.IllnessChecker;
 public partial class IllnessCheckerPageViewModel(NavigationService navigationService,
 	HttpService httpService,
 	PopupService popupService) : BaseViewModel(navigationService)
 {
-	private IEnumerable<Symptoms> _symptoms;
+	private IEnumerable<SymptomInfo> _symptoms;
 
 	[ObservableProperty]
-	private BodyPart bodyPart;
-
-	[ObservableProperty]
-	private ObservableCollection<DiagnosisGroup> illnesses;
+	private ObservableCollection<Diagnosis> illnesses;
 
 	[ObservableProperty]
 	[NotifyCanExecuteChangedFor(nameof(FindIllnessCommand))]
@@ -30,27 +25,23 @@ public partial class IllnessCheckerPageViewModel(NavigationService navigationSer
 	private string searchTerm;
 
 	[ObservableProperty]
-	private SortableObservableCollection<Symptoms> symptoms;
+	private int subLocationId;
+
+	[ObservableProperty]
+	private SortableObservableCollection<SymptomInfo> symptoms;
 
 	[RelayCommand(CanExecute = nameof(CanFindIllness))]
 	private async Task FindIllness()
 	{
 		IsLoading = true;
-
 		if (Illnesses != null && Illnesses.Count > 0)
 			Illnesses.Clear();
 
-		var symptomIds = string.Join(",",
-			Symptoms.Where(_ => _.IsSelected)
-			.Select(symptom => symptom.Id.ToString()));
+		var symptomIds = Symptoms.Where(_ => _.IsSelected)
+			.Select(_ => _.Id);
 
-		var diagnosis = await httpService.GetDiseaseFromSymptoms(2001, BodyPart, Gender.Male, symptomIds);
-		Illnesses =
-		[
-			new DiagnosisGroup(diagnosis.Diagnosis.Count() > 1 ? "Possible illnesses" : "Possible illness", diagnosis.Diagnosis.ToList()),
-			new DiagnosisGroup(diagnosis.SimilarIllness.Count() > 1 ? "Similar illnesses" : "Similar illness", diagnosis.SimilarIllness.ToList()),
-		];
-
+		var diagnosis = await httpService.GetDiagnosis(symptomIds);
+		Illnesses = new ObservableCollection<Diagnosis>(diagnosis);
 		IsLoading = false;
 	}
 
@@ -99,17 +90,19 @@ public partial class IllnessCheckerPageViewModel(NavigationService navigationSer
 	[RelayCommand]
 	private async Task GetIllnessInfo(Diagnosis diagnosis)
 	{
-		await popupService.ShowPopup<IllnessInfoPopup>(diagnosis, BodyPart);
+		await popupService.ShowPopup<IllnessInfoPopup>(diagnosis.Issue.Id);
 	}
 
-	public override void OnNavigatedTo()
+	public override async void OnNavigatedTo()
 	{
-		_symptoms = httpService.GetSymptoms(BodyPart).OrderBy(_ => _.Name);
-		Symptoms = new SortableObservableCollection<Symptoms>(_symptoms);
+		IsLoading = true;
+		_symptoms = await httpService.GetSymptoms(SubLocationId);
+		Symptoms = new SortableObservableCollection<SymptomInfo>(_symptoms);
+		IsLoading = false;
 	}
 
 	protected override void ReceiveParameters(IDictionary<string, object> query)
 	{
-		BodyPart = (BodyPart)query["bodyPart"];
+		SubLocationId = (int)query["subLocation"];
 	}
 }

@@ -6,7 +6,6 @@ public partial class AppShell : Shell
 	{
 		InitializeComponent();
 		CurrentItem = versionTracking.IsFirstLaunchEver ? GetStartedPage : Tabs;
-		//CurrentItem = GetStartedPage;
 		//CurrentItem = AccountPage;
 	}
 }

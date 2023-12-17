@@ -2,6 +2,7 @@
 <templates:BasePopup x:Class="HealthMate.Views.SymptomChecker.BodyPicker.IllnessChecker.IllnessInfoPopup"
                      xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                     xmlns:ffimage="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Compat.Maui"
                      xmlns:models="clr-namespace:HealthMate.Models"
                      xmlns:templates="clr-namespace:HealthMate.Templates"
                      xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
@@ -67,9 +68,8 @@
                                      HorizontalOptions="Center"
                                      IsVisible="{Binding IsLoading}"
                                      VerticalOptions="Center">
-                    <Image IsAnimationPlaying="True"
-                           Scale="0.5"
-                           Source="loading" />
+                    <ffimage:CachedImage Scale="0.5"
+                                         Source="loading" />
 
                     <Label Margin="0,-30,0,0"
                            FontFamily="{StaticResource Regular}"

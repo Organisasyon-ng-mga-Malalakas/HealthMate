@@ -12,7 +12,6 @@ using InventoryTable = HealthMate.Models.Tables.Inventory;
 namespace HealthMate.ViewModels.Inventory;
 
 public partial class AddInventoryBottomSheetViewModel(BottomSheetService bottomSheetService,
-	DatabaseService databaseService,
 	KeyboardService keyboardService,
 	NavigationService navigationService,
 	RealmService realmService) : BaseViewModel(navigationService)
