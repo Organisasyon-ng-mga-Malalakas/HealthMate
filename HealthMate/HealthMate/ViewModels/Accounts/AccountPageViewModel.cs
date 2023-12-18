@@ -1,5 +1,4 @@
-﻿using Bogus;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HealthMate.Constants;
 using HealthMate.Models.Tables;
@@ -14,10 +13,10 @@ namespace HealthMate.ViewModels.Accounts;
 public partial class AccountPageViewModel(NavigationService navigationService, HttpService httpService, UserService userService) : BaseViewModel(navigationService)
 {
 	[ObservableProperty]
-	private bool isLoading = false;
+	private bool isLoading;
 
 	[ObservableProperty]
-	private bool isSignup = false;
+	private bool isSignup = true;
 
 	[ObservableProperty]
 	private DateTime maxDate = DateTime.Now;
@@ -117,34 +116,25 @@ public partial class AccountPageViewModel(NavigationService navigationService, H
 	private async Task Signup()
 	{
 		IsLoading = true;
-
-		var localId = ObjectId.GenerateNewId();
-		var existingUser = await userService.GetLoggedUser();
-		if (existingUser != null)
-		{
-			// prevent creating multiple entry of User in Realm
-			localId = existingUser.LocalUserId;
-		}
-
 		// TODO: Uncomment this on production code
-		//var signupstatus = await userservice.signup(new user
-		//{
-		//	birthdate = signupbirthdate,
-		//	email = signupemail,
-		//	gender = signupselectedgender,
-		//	password = signuppassword,
-		//	username = signupusername,
-		//	localuserid = localid
-		//});
-		var faker = new Faker<User>()
-			.RuleFor(p => p.Birthdate, v => v.Date.Past())
-			.RuleFor(p => p.Email, v => v.Internet.Email())
-			.RuleFor(p => p.Gender, v => v.PickRandom("Male", "Female"))
-			.RuleFor(p => p.Password, v => v.Internet.Password())
-			.RuleFor(p => p.Username, v => v.Internet.UserName())
-			.RuleFor(p => p.LocalUserId, v => localId)
-			.Generate(1)[0];
-		var signupStatus = await userService.Signup(faker);
+		var signupStatus = await userService.Signup(new User
+		{
+			Birthdate = SignUpBirthdate,
+			Email = SignUpEmail,
+			Gender = SignUpSelectedGender,
+			Password = SignUpPassword,
+			Username = SignUpUsername,
+			LocalUserId = ObjectId.GenerateNewId()
+		});
+		//var faker = new Faker<User>()
+		//	.RuleFor(p => p.Birthdate, v => v.Date.Past())
+		//	.RuleFor(p => p.Email, v => v.Internet.Email())
+		//	.RuleFor(p => p.Gender, v => v.PickRandom("Male", "Female"))
+		//	.RuleFor(p => p.Password, v => v.Internet.Password())
+		//	.RuleFor(p => p.Username, v => v.Internet.UserName())
+		//	.RuleFor(p => p.LocalUserId, v => ObjectId.GenerateNewId())
+		//	.Generate(1)[0];
+		//var signupStatus = await userService.Signup(faker);
 		IsLoading = false;
 
 		if (signupStatus != "Success")
@@ -168,7 +158,10 @@ public partial class AccountPageViewModel(NavigationService navigationService, H
 		if (isValidLogin)
 		{
 			await userService.Login(LoginUsername, LoginPassword);
-			NavigationService.ChangeShellItem(3);
+			await userService.GetScheduleForUser();
+			//NavigationService.ChangeShellItem(3);
+			await NavigationService.PushAsync("///Tabs");
+			//TODO: https://stackoverflow.com/questions/72375482/shell-navigation-in-net-maui-to-a-page-with-bottom-tabs
 		}
 		else
 			await Application.Current.MainPage.DisplayAlert("Couldn't log in", "Please fill all the necessary fields in order to proceed.", "OK");

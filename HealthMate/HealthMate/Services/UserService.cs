@@ -110,7 +110,7 @@ public class UserService(HttpClient httpClient, RealmService realmService)
 		}
 	}
 
-	public async Task UpsertSchedule(IEnumerable<ScheduleRemote> schedule)
+	public async Task<bool> UpsertSchedule(IEnumerable<Schedule> schedule)
 	{
 		var loggedUser = await GetLoggedUser();
 		var content = new
@@ -126,14 +126,43 @@ public class UserService(HttpClient httpClient, RealmService realmService)
 			RequestUri = new Uri("/schedule/", UriKind.Relative)
 		}, HttpCompletionOption.ResponseHeadersRead);
 
-		if (response.IsSuccessStatusCode)
+		//if (response.IsSuccessStatusCode)
+		//{
+		//	var stream = await response.Content.ReadAsStreamAsync();
+		//	var dictionary = stream.NewtonsoftDeserializeStream<Dictionary<string, object>>();
+		//}
+		//else
+		//	return;
+		return response.IsSuccessStatusCode;
+	}
+
+	public async Task GetScheduleForUser()
+	{//aaaaaaaa
+		var loggedUser = await GetLoggedUser();
+		var schedulesForUser = await realmService.FindAll<Schedule>();
+		if (loggedUser is User user && !schedulesForUser.Any())
 		{
-			var stream = await response.Content.ReadAsStreamAsync();
-			var dictionary = stream.NewtonsoftDeserializeStream<Dictionary<string, object>>();
+			var response = await httpClient.SendAsync(new HttpRequestMessage
+			{
+				Method = HttpMethod.Get,
+				RequestUri = new Uri($"/schedule/?user_id={user.RemoteUserId}", UriKind.Relative)
+			}, HttpCompletionOption.ResponseHeadersRead);
+
+			if (response.IsSuccessStatusCode)
+			{
+				var stream = await response.Content.ReadAsStreamAsync();
+				var schedules = stream.DeserializeStream<IEnumerable<Schedule>>();
+				foreach (var schedule in schedules)
+					await realmService.Upsert(schedule);
+			}
+			else
+				return;
 		}
-		else
-			return;
 	}
 }
 
 // Best practices for HttpClient: https://bytedev.medium.com/net-core-httpclient-best-practices-4c1b20e32c6
+/*
+ System.InvalidOperationException: 'Each parameter in the deserialization constructor on type 'HealthMate.Models.Tables.ScheduleRemote' must bind to an object property or field on deserialization.
+Each parameter name must match with a property or field on the object. Fields are only considered when 'JsonSerializerOptions.IncludeFields' is enabled. The match can be case-insensitive.'
+ */

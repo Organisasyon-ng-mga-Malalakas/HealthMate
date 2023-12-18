@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HealthMate.Enums;
-using HealthMate.Models.Tables;
 using HealthMate.Platforms.Android.Services;
 using HealthMate.Services;
 using MongoDB.Bson;
@@ -99,7 +98,7 @@ public partial class AddScheduleBottomSheetViewModel(BottomSheetService bottomSh
 				TimeToTake = new DateTimeOffset(date)
 			};
 			await realmService.Upsert(schedule);
-			await userService.UpsertSchedule(new List<ScheduleRemote> { new(schedule) });
+			await userService.UpsertSchedule(new List<ScheduleTable> { schedule });
 		}
 
 		var isNotificationEnabled = await notificationService.AskNotificationPermissionAsync();
