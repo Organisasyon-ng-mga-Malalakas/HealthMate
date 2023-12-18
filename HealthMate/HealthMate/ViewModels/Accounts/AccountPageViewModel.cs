@@ -17,7 +17,7 @@ public partial class AccountPageViewModel(NavigationService navigationService, H
 	private bool isLoading = false;
 
 	[ObservableProperty]
-	private bool isSignup = true;
+	private bool isSignup = false;
 
 	[ObservableProperty]
 	private DateTime maxDate = DateTime.Now;
@@ -165,9 +165,13 @@ public partial class AccountPageViewModel(NavigationService navigationService, H
 	{
 		var isValidLogin = !string.IsNullOrWhiteSpace(LoginUsername) && !string.IsNullOrWhiteSpace(LoginPassword);
 
-		return isValidLogin
-			? userService.Login(LoginUsername, LoginPassword)
-			: Application.Current.MainPage.DisplayAlert("Couldn't log in", "Please fill all the necessary fields in order to proceed.", "OK");
+		if (isValidLogin)
+		{
+			await userService.Login(LoginUsername, LoginPassword);
+			NavigationService.ChangeShellItem(3);
+		}
+		else
+			await Application.Current.MainPage.DisplayAlert("Couldn't log in", "Please fill all the necessary fields in order to proceed.", "OK");
 	}
 
 	public static ValidationResult ValidateLoginCredentials(string entity, ValidationContext context)
