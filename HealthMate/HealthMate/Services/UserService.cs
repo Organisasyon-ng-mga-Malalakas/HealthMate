@@ -9,7 +9,7 @@ namespace HealthMate.Services;
 
 public class UserService(HttpClient httpClient, RealmService realmService)
 {
-	private User? _loggedUser;
+	public User? LoggedUser { get; set; }
 
 	public async Task<User> GetLoggedUser()
 	{
@@ -148,6 +148,34 @@ public class UserService(HttpClient httpClient, RealmService realmService)
 		{
 			return $"Exception occured. {ex}";
 		}
+	}
+
+	public async Task UpsertSchedule(Schedule schedule)
+	{
+		var content = new
+		{
+			schedule_id = schedule.ScheduleId.ToString(),
+			schedule_state = schedule.ScheduleState,
+			time_to_take = schedule.TimeToTake.Date,
+			notes = schedule.Notes,
+			quantity = schedule.Inventory.Stock,
+			image = schedule.PhotoBase64
+		};
+
+		var response = await httpClient.SendAsync(new HttpRequestMessage
+		{
+			Content = content.AsJSONSerializedObject(),
+			Method = HttpMethod.Post,
+			RequestUri = new Uri("/login/", UriKind.Relative)
+		}, HttpCompletionOption.ResponseHeadersRead);
+
+		if (response.IsSuccessStatusCode)
+		{
+			var stream = await response.Content.ReadAsStreamAsync();
+			var dictionary = stream.NewtonsoftDeserializeStream<Dictionary<string, object>>();
+		}
+		else
+			return;
 	}
 }
 

@@ -5,6 +5,7 @@
                     xmlns:constants="clr-namespace:HealthMate.Constants"
                     xmlns:controls="clr-namespace:HealthMate.Controls"
                     xmlns:converters="clr-namespace:HealthMate.Converters"
+                    xmlns:ffimage="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Compat.Maui"
                     xmlns:models="clr-namespace:HealthMate.Models"
                     xmlns:sf="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
                     xmlns:templates="clr-namespace:HealthMate.Templates"
@@ -14,10 +15,11 @@
                     x:TypeArguments="vm:IllnessCheckerPageViewModel"
                     Shell.NavBarIsVisible="False">
     <ScrollView>
-        <VerticalStackLayout>
+        <Grid RowDefinitions="Auto, *">
             <templates:BackButton Margin="0,0" />
 
-            <Grid Margin="16,0"
+            <Grid Grid.Row="1"
+                  Margin="16,0"
                   RowDefinitions="Auto,Auto,80,*"
                   VerticalOptions="Start">
                 <Label FontSize="20">
@@ -62,13 +64,11 @@
                             </controls:BorderlessEntry>
                         </HorizontalStackLayout>
 
-                        <CollectionView x:Name="symptomsCollView"
-                                        Margin="5,0"
-                                        HeightRequest="400"
+                        <CollectionView Margin="5,0,5,10"
                                         ItemsSource="{Binding Symptoms}"
                                         SelectionMode="None">
-                            <CollectionView.ItemTemplate>   
-                                <DataTemplate x:DataType="models:Symptoms">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:SymptomInfo">
                                     <HorizontalStackLayout>
                                         <CheckBox IsChecked="{Binding IsSelected}"
                                                   Color="{StaticResource Pink}" />
@@ -97,16 +97,7 @@
                 <CollectionView x:Name="illnessCollView"
                                 Grid.Row="3"
                                 Margin="0,10,0,0"
-                                IsGrouped="True"
                                 ItemsSource="{Binding Illnesses}">
-                    <CollectionView.GroupHeaderTemplate>
-                        <DataTemplate x:DataType="models:DiagnosisGroup">
-                            <Label FontFamily="{StaticResource Medium}"
-                                   FontSize="20"
-                                   Text="{Binding Name}"
-                                   TextColor="{StaticResource RegBlack}" />
-                        </DataTemplate>
-                    </CollectionView.GroupHeaderTemplate>
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:Diagnosis">
                             <Border Margin="0,8"
@@ -120,41 +111,34 @@
                                     <Label Padding="8"
                                            FontFamily="{StaticResource Regular}"
                                            FontSize="14"
-                                           Text="{Binding Name}"
+                                           Text="{Binding Issue.Name}"
                                            TextColor="{StaticResource RegBlack}"
                                            VerticalOptions="Center" />
 
-
-                                    <HorizontalStackLayout Grid.Column="1"
-                                                           HorizontalOptions="End">
-                                        <Label FontFamily="{StaticResource Regular}"
-                                               FontSize="14"
-                                               IsVisible="{Binding Accuracy, Converter={converters:DoubleToBoolConverter}}"
-                                               Text="{Binding Accuracy, StringFormat='Accuracy: {0}%'}"
-                                               TextColor="{StaticResource Pink}"
-                                               VerticalOptions="Center" />
-
-                                        <Label Grid.Column="1"
-                                               Margin="8,0,16,0"
-                                               FontFamily="{StaticResource FARegular}"
-                                               FontSize="10"
-                                               Text="{Static constants:FontAwesomeIcons.ChevronRight}"
-                                               TextColor="{StaticResource RegBlack}"
-                                               VerticalOptions="Center" />
-                                    </HorizontalStackLayout>
+                                    <Label Grid.Column="1"
+                                           Margin="0,0,10,0"
+                                           FontFamily="{StaticResource FARegular}"
+                                           FontSize="10"
+                                           HorizontalOptions="End"
+                                           Text="{Static constants:FontAwesomeIcons.ChevronRight}"
+                                           TextColor="{StaticResource RegBlack}"
+                                           VerticalOptions="Center" />
                                 </Grid>
                             </Border>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
+            </Grid>
 
-                <VerticalStackLayout Grid.Row="4"
-                                     HorizontalOptions="Center"
-                                     IsVisible="{Binding IsLoading}"
+            <Grid Grid.RowSpan="2"
+                  BackgroundColor="#30000000"
+                  HorizontalOptions="Fill"
+                  IsVisible="{Binding IsLoading}"
+                  VerticalOptions="Fill">
+                <VerticalStackLayout HorizontalOptions="Center"
                                      VerticalOptions="Center">
-                    <Image IsAnimationPlaying="True"
-                           Scale="0.5"
-                           Source="loading" />
+                    <ffimage:CachedImage Scale="0.5"
+                                         Source="loading" />
 
                     <Label Margin="0,-30,0,0"
                            FontFamily="{StaticResource Regular}"
@@ -163,6 +147,6 @@
                            TextColor="{StaticResource Pink}" />
                 </VerticalStackLayout>
             </Grid>
-        </VerticalStackLayout>
+        </Grid>
     </ScrollView>
 </templates:BasePage>

@@ -18,6 +18,9 @@ public partial class ScheduleInfoPopupViewModel(NavigationService navigationServ
 	[ObservableProperty]
 	private ScheduleTable passedSchedule;
 
+	[ObservableProperty]
+	private ImageSource imageSource;
+
 	[RelayCommand]
 	public async Task ClosePopup()
 	{
@@ -39,5 +42,11 @@ public partial class ScheduleInfoPopupViewModel(NavigationService navigationServ
 	{
 		CloseBtnColSpan = (ScheduleState)PassedSchedule.ScheduleState == ScheduleState.Taken ? 2 : 1;
 		IsMedsTakenBtnVisible = (ScheduleState)PassedSchedule.ScheduleState == ScheduleState.Taken;
+
+		if (string.IsNullOrWhiteSpace(PassedSchedule.PhotoBase64))
+			return;
+
+		var stream = new MemoryStream(Convert.FromBase64String(PassedSchedule.PhotoBase64));
+		ImageSource = ImageSource.FromStream(() => stream);
 	}
 }

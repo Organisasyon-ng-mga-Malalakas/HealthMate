@@ -32,25 +32,49 @@
                 </Label.FormattedText>
             </Label>
 
-            <Border Padding="10,5"
-                    HorizontalOptions="Center"
-                    StrokeShape="RoundRectangle 20"
-                    StrokeThickness="0.25">
-                <HorizontalStackLayout>
-                    <controls:BorderlessPicker Title="Select body part"
-                                               FontFamily="{StaticResource Regular}"
-                                               ItemsSource="{Binding BodyParts}"
-                                               SelectedItem="{Binding SelectedBodyPart}"
-                                               TextColor="{StaticResource RegBlack}"
-                                               TitleColor="Black" />
+            <Grid ColumnDefinitions="*,*">
+                <Border Padding="10,5"
+                        HorizontalOptions="Center"
+                        StrokeShape="RoundRectangle 20"
+                        StrokeThickness="0.25">
+                    <HorizontalStackLayout>
+                        <controls:BorderlessPicker Title="Select body part"
+                                                   FontFamily="{StaticResource Regular}"
+                                                   ItemsSource="{Binding BodyParts}"
+                                                   SelectedItem="{Binding SelectedBodyPart}"
+                                                   TextColor="{StaticResource RegBlack}"
+                                                   TitleColor="Black" />
 
-                    <Label Margin="10,0,5,0"
-                           FontFamily="{StaticResource FARegular}"
-                           FontSize="10"
-                           Text="{Static constants:FontAwesomeIcons.ChevronDown}"
-                           VerticalOptions="Center" />
-                </HorizontalStackLayout>
-            </Border>
+                        <Label Margin="10,0,5,0"
+                               FontFamily="{StaticResource FARegular}"
+                               FontSize="10"
+                               Text="{Static constants:FontAwesomeIcons.ChevronDown}"
+                               VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </Border>
+
+                <Border Grid.Column="1"
+                        Padding="10,5"
+                        HorizontalOptions="Center"
+                        StrokeShape="RoundRectangle 20"
+                        StrokeThickness="0.25">
+                    <HorizontalStackLayout>
+                        <controls:BorderlessPicker Title="Select sublocation"
+                                                   FontFamily="{StaticResource Regular}"
+                                                   ItemDisplayBinding="{Binding Name}"
+                                                   ItemsSource="{Binding BodySublocations}"
+                                                   SelectedItem="{Binding SelectedSubLocation}"
+                                                   TextColor="{StaticResource RegBlack}"
+                                                   TitleColor="Black" />
+
+                        <Label Margin="10,0,5,0"
+                               FontFamily="{StaticResource FARegular}"
+                               FontSize="10"
+                               Text="{Static constants:FontAwesomeIcons.ChevronDown}"
+                               VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </Border>
+            </Grid>
         </VerticalStackLayout>
 
         <Image Grid.Row="2"

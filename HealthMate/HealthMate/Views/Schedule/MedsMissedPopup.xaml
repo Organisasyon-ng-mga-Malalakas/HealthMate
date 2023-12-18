@@ -10,7 +10,7 @@
     <Border Padding="16"
             BackgroundColor="#80000000">
         <Border BackgroundColor="White"
-                HeightRequest="320"
+                HeightRequest="400"
                 StrokeShape="RoundRectangle 10">
             <FlexLayout AlignItems="Center"
                         Direction="Column"
@@ -30,15 +30,56 @@
                        FontFamily="{StaticResource Regular}"
                        FontSize="16"
                        HorizontalTextAlignment="Center"
-                       Text="Oops! You missed a dosage. Just a heads up, missed dosages get logged and can't be edited. Let's keep on track for your well-being. If you have questions, your healthcare provider is there to help."
+                       Text="Oops! You missed a dosage. Let's keep on track for your well-being. If you have questions, your healthcare provider is there to help."
                        TextColor="{StaticResource RegBlack}" />
 
-                <Button BackgroundColor="Red"
-                        Command="{Binding ClosePopupCommand}"
-                        FontFamily="{StaticResource Bold}"
-                        Text="Agree"
-                        TextColor="White"
-                        WidthRequest="120" />
+                <HorizontalStackLayout Margin="10,0"
+                                       FlexLayout.AlignSelf="Start">
+                    <Border BackgroundColor="#20000000"
+                            HeightRequest="60"
+                            Stroke="White"
+                            StrokeShape="RoundRectangle 10"
+                            WidthRequest="60">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding TakePhotoCommand}" />
+                        </Border.GestureRecognizers>
+                        <Label FontFamily="{StaticResource FASolid}"
+                               FontSize="15"
+                               HorizontalOptions="Center"
+                               Text="{Static constants:FontAwesomeIcons.Camera}"
+                               TextColor="Gray"
+                               VerticalOptions="Center" />
+                    </Border>
+
+                    <Border HeightRequest="60"
+                            HorizontalOptions="Center"
+                            Stroke="White"
+                            StrokeShape="RoundRectangle 10"
+                            VerticalOptions="Center"
+                            WidthRequest="60">
+                        <Image Source="{Binding ImageSource}" />
+                    </Border>
+                </HorizontalStackLayout>
+
+                <Grid ColumnDefinitions="*,*"
+                      FlexLayout.AlignSelf="Stretch">
+                    <Button BackgroundColor="Red"
+                            Command="{Binding ClosePopupCommand}"
+                            FontFamily="{StaticResource Bold}"
+                            HorizontalOptions="Center"
+                            Text="Agree"
+                            TextColor="White" />
+
+                    <Button Grid.Column="1"
+                            BackgroundColor="White"
+                            BorderColor="Green"
+                            BorderWidth="0.5"
+                            Command="{Binding MedsTakenCommand}"
+                            FontFamily="{StaticResource Bold}"
+                            HorizontalOptions="Center"
+                            Text="Meds taken"
+                            TextColor="Green" />
+                </Grid>
             </FlexLayout>
         </Border>
     </Border>

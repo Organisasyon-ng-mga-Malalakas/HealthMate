@@ -5,7 +5,6 @@ using HealthMate.Constants;
 using HealthMate.Models.Tables;
 using HealthMate.Services;
 using HealthMate.Services.HttpServices;
-using HealthMate.Views.Questions;
 using MongoDB.Bson;
 using System.ComponentModel.DataAnnotations;
 using ValidationResult = System.ComponentModel.DataAnnotations.ValidationResult;
@@ -28,11 +27,11 @@ public partial class AccountPageViewModel(NavigationService navigationService, H
 
 	#region Login
 	[ObservableProperty]
-	[CustomValidation(typeof(AccountPageViewModel), nameof(ValidateLoginCredentials))]
+	//[CustomValidation(typeof(AccountPageViewModel), nameof(ValidateLoginCredentials))]
 	private string loginUsername;
 
 	[ObservableProperty]
-	[CustomValidation(typeof(AccountPageViewModel), nameof(ValidateLoginCredentials))]
+	//[CustomValidation(typeof(AccountPageViewModel), nameof(ValidateLoginCredentials))]
 	private string loginPassword;
 
 	[ObservableProperty]
@@ -154,18 +153,15 @@ public partial class AccountPageViewModel(NavigationService navigationService, H
 			return;
 		}
 
-		var successAlertAccepted = await Application.Current.MainPage.DisplayAlert("Success", "You have successfuly created an account! You may answer the following questions now or later.", "OK", "Later");
-		if (successAlertAccepted)
-			await NavigationService.PushAsync(nameof(QuestionPage), new Dictionary<string, object>
+		await Application.Current.MainPage.DisplayAlert("Success", "You have successfuly created an account! You may now login to HealthMate.", "OK")
+			.ContinueWith(_ =>
 			{
-				{ "isGeneralQuestionnaires", true }
+				NavigationService.ChangeShellItem(3);
 			});
-		else
-			NavigationService.ChangeShellItem(3);
 	}
 
 	[RelayCommand]
-	private Task Login()
+	private async Task Login()
 	{
 		var isValidLogin = !string.IsNullOrWhiteSpace(LoginUsername) && !string.IsNullOrWhiteSpace(LoginPassword);
 

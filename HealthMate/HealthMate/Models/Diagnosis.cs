@@ -1,29 +1,44 @@
-﻿using Newtonsoft.Json;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.Text.Json.Serialization;
 
 namespace HealthMate.Models;
 
-public class RootDiagnosis
+public partial class Diagnosis : ObservableObject
 {
-	[JsonProperty("diagnosis")]
-	public IEnumerable<Diagnosis> Diagnosis { get; set; }
+	[JsonIgnore]
+	public bool IsSelected { get; set; }
 
-	[JsonProperty("similar_symptoms")]
-	public IEnumerable<Diagnosis> SimilarIllness { get; set; }
+	[JsonPropertyName("Issue")]
+	public SymptomInfo Issue { get; set; }
 }
 
-public class Diagnosis
+public partial class SymptomInfo : ObservableObject
 {
-	[JsonProperty("id")]
+	[JsonIgnore]
+	public bool IsSelected { get; set; }
+	[JsonPropertyName("ID")]
 	public int Id { get; set; }
 
-	[JsonProperty("name")]
+	[JsonPropertyName("Name")]
 	public string Name { get; set; }
 
-	[JsonProperty("accuracy")]
+	[JsonPropertyName("Accuracy")]
 	public double Accuracy { get; set; }
+
+	[JsonPropertyName("Icd")]
+	public string Icd { get; set; }
+
+	[JsonPropertyName("IcdName")]
+	public string IcdName { get; set; }
+
+	[JsonPropertyName("ProfName")]
+	public string ProfName { get; set; }
+
+	[JsonPropertyName("Ranking")]
+	public long Ranking { get; set; }
 }
 
-public class DiagnosisGroup(string name, List<Diagnosis> diagnoses) : List<Diagnosis>(diagnoses)
-{
-	public string Name { get; private set; } = name;
-}
+//public class DiagnosisGroup(string name, List<Diagnosis> diagnoses) : List<Diagnosis>(diagnoses)
+//{
+//	public string Name { get; private set; } = name;
+//}

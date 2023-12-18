@@ -30,23 +30,21 @@ public class LoadingView : ContentView
 				.Margins(top: -30)
 			}
 		}
-		.Center();
-		//.Bind(IsVisibleProperty, nameof(IsLoading), source: this);
-
-		//this.Bind(IsVisibleProperty, nameof(IsLoading), source: this);
+		.Center()
+		.Bind(IsVisibleProperty, nameof(IsLoading), source: this);
 	}
 
-	//public static readonly BindableProperty IsLoadingProperty =
-	//	BindableProperty.Create(
-	//	nameof(IsLoading),
-	//	typeof(bool),
-	//	typeof(LoadingView),
-	//	false);
-	//public bool IsLoading
-	//{
-	//	get => (bool)GetValue(IsLoadingProperty);
-	//	set => SetValue(IsLoadingProperty, value);
-	//}
+	public static readonly BindableProperty IsLoadingProperty =
+		BindableProperty.Create(
+		nameof(IsLoading),
+		typeof(bool),
+		typeof(LoadingView),
+		default(bool));
+	public bool IsLoading
+	{
+		get => (bool)GetValue(IsLoadingProperty);
+		set => SetValue(IsLoadingProperty, value);
+	}
 
 	public static readonly BindableProperty LoadingTextProperty =
 		BindableProperty.Create(

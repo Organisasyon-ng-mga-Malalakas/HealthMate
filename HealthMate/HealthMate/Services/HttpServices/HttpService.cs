@@ -1,103 +1,117 @@
 ﻿using Fody;
+using HealthMate.Enums;
 using HealthMate.Extensions;
 using HealthMate.Models;
-using HealthMate.Services.HttpServices.Symptoms;
 using System.Reflection;
-using HealthMateSymptoms = HealthMate.Models.Symptoms;
-using LocalBodyPartJSON = HealthMate.Models.BodyPart;
 
 namespace HealthMate.Services.HttpServices;
-[ConfigureAwait(false)]
+
 public class HttpService
 {
-	//private readonly HealtmateAPIClient _client;
+	private readonly HttpClient _authClient;
+	private readonly HttpClient _healthClient;
+	private string _token = "";
+	private readonly UserService _userService;
 
-	//public HttpService(HealtmateAPIClient client)
-	//{
-	//    _client = client;
-	//}
+	public Dictionary<BodyPart, IEnumerable<Issues>> SublocationsDictionary { get; set; }
 
-	private readonly ApiClient _client;
-	private readonly Dictionary<Symptoms.BodyPart, IEnumerable<HealthMateSymptoms>[]> _bodyPartSymptoms;
-	private readonly RealmService _realmService;
-	//private User _userInfo;
-
-	public HttpService(ApiClient client, RealmService realmService)
+	public HttpService(IHttpClientFactory httpClientFactory, UserService userService)
 	{
-		_client = client;
-		_realmService = realmService;
-		//Task.Run(async () =>
-		//{
-		//	var userData = await realmService.FindAll<UserTable>();
-		//	_userInfo = userData.Any() && userData.First() is UserTable firstUserData
-		//		? firstUserData
-		//		: new UserTable
-		//		{
-		//			Gender = "Male",
-		//			Birthdate = new DateTime(2001, 1, 1)
-		//		};
-		//});
+		_authClient = httpClientFactory.CreateClient("auth");
+		_healthClient = httpClientFactory.CreateClient("health");
+		_userService = userService;
 
-		using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("HealthMate.Services.HttpServices.symptoms.json") ?? throw new FileNotFoundException("Embedded resource not found");
-		var bodyParts = stream.DeserializeStream<LocalBodyPartJSON>();
-		_bodyPartSymptoms = new Dictionary<Symptoms.BodyPart, IEnumerable<HealthMateSymptoms>[]>
-		{
-			{ Symptoms.BodyPart.Head, [bodyParts.Head.HeadThroatNeck, bodyParts.Head.FaceEyes, bodyParts.Head.ForeheadHeadInGeneral, bodyParts.Head.HairScalp, bodyParts.Head.MouthJaw, bodyParts.Head.NoseEarsThroatNeck] },
-			{ Symptoms.BodyPart.Upperbody, [bodyParts.Upperbody.ChestBack, bodyParts.Upperbody.Back, bodyParts.Upperbody.Chest, bodyParts.Upperbody.LateralChest] },
-			{ Symptoms.BodyPart.Lowerbody, [bodyParts.Lowerbody.AbdomenPelvisButtocks, bodyParts.Lowerbody.Abdomen, bodyParts.Lowerbody.ButtocksRectum, bodyParts.Lowerbody.GenitalsGroin, bodyParts.Lowerbody.HipsHipJoint, bodyParts.Lowerbody.Pelvis] },
-			{ Symptoms.BodyPart.Legs, [bodyParts.Legs.Leg, bodyParts.Legs.Foot, bodyParts.Legs.LegsGeneral, bodyParts.Legs.LowerLegAnkle, bodyParts.Legs.ThighKnee, bodyParts.Legs.Toes] },
-			{ Symptoms.BodyPart.Arms, [bodyParts.Arms.ArmsShoulder, bodyParts.Arms.ArmsGeneral, bodyParts.Arms.Finger, bodyParts.Arms.ForearmElbow, bodyParts.Arms.HandWrist, bodyParts.Arms.UpperArmShoulder] },
-			{ Symptoms.BodyPart.General, [bodyParts.General.SkinJointsGeneral, bodyParts.General.GeneralJointsOther, bodyParts.General.Skin] }
-		};
+		using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("HealthMate.Resources.Sublocations.json") ?? throw new FileNotFoundException("Embedded resource not found");
+		var dummyDictionary = stream.DeserializeStream<Dictionary<string, IEnumerable<Issues>>>();
+		SublocationsDictionary = dummyDictionary.ToDictionary(_ => _.Key.GetBodyPartEnum(), _ => _.Value);
 	}
 
-	public IEnumerable<HealthMateSymptoms> GetSymptoms(Symptoms.BodyPart bodyPart)
+	private async Task GenerateToken()
 	{
-		var bodyPartSymptoms = _bodyPartSymptoms[bodyPart];
-		return bodyPartSymptoms.Length != 0
-			? bodyPartSymptoms.SelectMany(_ => _)
-			: Enumerable.Empty<HealthMateSymptoms>();
+		if (!string.IsNullOrWhiteSpace(_token))
+			return;
+
+		var response = await _authClient.SendAsync(new HttpRequestMessage
+		{
+			Method = HttpMethod.Post,
+			RequestUri = new Uri("login", UriKind.Relative)
+		}, HttpCompletionOption.ResponseHeadersRead);
+
+		if (response.IsSuccessStatusCode)
+		{
+			var stream = await response.Content.ReadAsStreamAsync();
+			var dictionary = stream.NewtonsoftDeserializeStream<Dictionary<string, object>>();
+			_token = (string)dictionary["Token"];
+		}
+		else
+			return;
 	}
 
-	public async Task<RootDiagnosis> GetDiseaseFromSymptoms(int birthYear, Symptoms.BodyPart bodyPart, Gender gender, string symptomIds)
+	public async Task<IEnumerable<SymptomInfo>> GetSymptoms(int locationId)
 	{
-		using var response = await _client.Symptoms.Result.GetAsync(parameter =>
-		{
-			parameter.QueryParameters = new Symptoms.Result.ResultRequestBuilder.ResultRequestBuilderGetQueryParameters
-			{
-				BirthYear = 2001,
-				BodyPartAsBodyPart = bodyPart,
-				GenderAsGender = Gender.Male,
-				SymptomIds = symptomIds
-			};
-		});
+		var loggedUser = await _userService.GetLoggedUser();
+		await GenerateToken();
+		var selector = DateTime.Now.Year - loggedUser.Birthdate.Year < 12
+			? loggedUser.Gender == "male" ? "boy" : "girl"
+			: loggedUser.Gender == "male" ? "man" : "woman";
 
-		return response.DeserializeStream<RootDiagnosis>();
+		var response = await _healthClient.SendAsync(new HttpRequestMessage
+		{
+			Method = HttpMethod.Get,
+			RequestUri = new Uri($"symptoms/{locationId}/{selector}?language=en-gb&token={_token}", UriKind.Relative)
+		}, HttpCompletionOption.ResponseHeadersRead);
+
+		if (response.IsSuccessStatusCode)
+		{
+			var responseStream = await response.Content.ReadAsStreamAsync();
+			var diagnosis = responseStream.DeserializeStream<IEnumerable<SymptomInfo>>();
+
+			return diagnosis;
+		}
+		else
+			return Enumerable.Empty<SymptomInfo>();
 	}
 
-	public async Task<DiagnosisInfo> GetDiseaseInfo(int symptomId, int birthYear, Symptoms.BodyPart bodyPart, Gender gender)
+	public async Task<IEnumerable<Diagnosis>> GetDiagnosis(IEnumerable<int> symptomIds)
 	{
-		using var response = await _client.Symptoms.Details[symptomId].GetAsync(parameter =>
+		var loggedUser = await _userService.GetLoggedUser();
+		await GenerateToken();
+		var symptoms = string.Join(",", symptomIds);
+		var response = await _healthClient.SendAsync(new HttpRequestMessage
 		{
-			parameter.QueryParameters = new Symptoms.Details.Item.WithDiagnosis_ItemRequestBuilder.WithDiagnosis_ItemRequestBuilderGetQueryParameters
-			{
-				BirthYear = 2001,
-				BodyPartAsBodyPart = bodyPart,
-				GenderAsGender = Gender.Male
-			};
-		});
+			Method = HttpMethod.Get,
+			RequestUri = new Uri($"diagnosis?symptoms=[{symptoms}]&gender={loggedUser.Gender}&year_of_birth={loggedUser.Birthdate.Year}&language=en-gb&token={_token}", UriKind.Relative)
+		}, HttpCompletionOption.ResponseHeadersRead);
 
-		return response.DeserializeStream<DiagnosisInfo>();
+		if (response.IsSuccessStatusCode)
+		{
+			var responseStream = await response.Content.ReadAsStreamAsync();
+			var diagnosis = responseStream.DeserializeStream<IEnumerable<Diagnosis>>();
+
+			return diagnosis;
+		}
+		else
+			return Enumerable.Empty<Diagnosis>();
 	}
 
-	public async Task<Models.Token> Login(string username, string password)
+	[ConfigureAwait(false)]
+	public async Task<IssueInfo> GetIssueInfo(int issueId)
 	{
-		var response = await _client.User.Login.PostAsync(new Models.Body_login_access_token_route_user_login_post
+		await GenerateToken();
+		var response = await _healthClient.SendAsync(new HttpRequestMessage
 		{
-			Username = username,
-			Password = password
-		});
+			Method = HttpMethod.Get,
+			RequestUri = new Uri($"issues/{issueId}/info?language=en-gb&token={_token}", UriKind.Relative)
+		}, HttpCompletionOption.ResponseHeadersRead);
 
-		return response;
+		if (response.IsSuccessStatusCode)
+		{
+			var responseStream = await response.Content.ReadAsStreamAsync();
+			var issueInfo = responseStream.DeserializeStream<IssueInfo>();
+
+			return issueInfo;
+		}
+		else
+			return new IssueInfo();
 	}
 }
