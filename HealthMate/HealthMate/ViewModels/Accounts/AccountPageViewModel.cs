@@ -3,14 +3,17 @@ using CommunityToolkit.Mvvm.Input;
 using HealthMate.Constants;
 using HealthMate.Models.Tables;
 using HealthMate.Services;
-using HealthMate.Services.HttpServices;
 using MongoDB.Bson;
 using System.ComponentModel.DataAnnotations;
 using ValidationResult = System.ComponentModel.DataAnnotations.ValidationResult;
 
 namespace HealthMate.ViewModels.Accounts;
 
-public partial class AccountPageViewModel(NavigationService navigationService, HttpService httpService, UserService userService) : BaseViewModel(navigationService)
+public partial class AccountPageViewModel(InventoryService inventoryService,
+	NavigationService navigationService,
+	IPreferences preferences,
+	ScheduleService scheduleService,
+	UserService userService) : BaseViewModel(navigationService)
 {
 	[ObservableProperty]
 	private bool isLoading;
@@ -146,6 +149,7 @@ public partial class AccountPageViewModel(NavigationService navigationService, H
 		await Application.Current.MainPage.DisplayAlert("Success", "You have successfuly created an account! You may now login to HealthMate.", "OK")
 			.ContinueWith(_ =>
 			{
+				preferences.Set("HasUser", true);
 				NavigationService.ChangeShellItem(3);
 			});
 	}
@@ -158,8 +162,8 @@ public partial class AccountPageViewModel(NavigationService navigationService, H
 		if (isValidLogin)
 		{
 			await userService.Login(LoginUsername, LoginPassword);
-			await userService.GetScheduleForUser();
-			//NavigationService.ChangeShellItem(3);
+			await Task.WhenAll(scheduleService.PopulateUserScheduleFromRemote(), inventoryService.PopulateUserInventoryFromRemote());
+			preferences.Set("HasUser", true);
 			await NavigationService.PushAsync("///Tabs");
 			//TODO: https://stackoverflow.com/questions/72375482/shell-navigation-in-net-maui-to-a-page-with-bottom-tabs
 		}

@@ -7,12 +7,15 @@ using System.Text.Json;
 
 namespace HealthMate.Services;
 
-public class UserService(HttpClient httpClient, RealmService realmService)
+public class UserService(IPreferences preferences, HttpClient httpClient, RealmService realmService)
 {
 	public async Task<User> GetLoggedUser()
 	{
 		var allUsers = await realmService.FindAll<User>();
-		return allUsers.FirstOrDefault() is User user ? user : null;
+		var foundUser = allUsers.FirstOrDefault() is User user ? user : null;
+		preferences.Set("HasUser", foundUser != null);
+		preferences.Set("RemoteUserId", foundUser.RemoteUserId ?? "");
+		return foundUser;
 	}
 
 	[ConfigureAwait(false)]
@@ -41,6 +44,7 @@ public class UserService(HttpClient httpClient, RealmService realmService)
 				var responseStream = await response.Content.ReadAsStreamAsync();
 				var returnedUser = responseStream.DeserializeStream<User>();
 				user.RemoteUserId = returnedUser.RemoteUserId;
+				preferences.Set("RemoteUserId", returnedUser.RemoteUserId);
 				await realmService.Upsert(user);
 
 				return "Success";
@@ -91,6 +95,7 @@ public class UserService(HttpClient httpClient, RealmService realmService)
 						RemoteUserId = fetchedUserId,
 						Username = fetchedUsername
 					};
+					preferences.Set("RemoteUserId", fetchedUserId);
 					await realmService.Upsert(newUser);
 
 					return "Success.";
@@ -107,56 +112,6 @@ public class UserService(HttpClient httpClient, RealmService realmService)
 		catch (Exception ex)
 		{
 			return $"Exception occured. {ex}";
-		}
-	}
-
-	public async Task<bool> UpsertSchedule(IEnumerable<Schedule> schedule)
-	{
-		var loggedUser = await GetLoggedUser();
-		var content = new
-		{
-			user_id = loggedUser.RemoteUserId,
-			schedules = schedule
-		};
-
-		var response = await httpClient.SendAsync(new HttpRequestMessage
-		{
-			Content = content.AsJSONSerializedObject(),
-			Method = HttpMethod.Post,
-			RequestUri = new Uri("/schedule/", UriKind.Relative)
-		}, HttpCompletionOption.ResponseHeadersRead);
-
-		//if (response.IsSuccessStatusCode)
-		//{
-		//	var stream = await response.Content.ReadAsStreamAsync();
-		//	var dictionary = stream.NewtonsoftDeserializeStream<Dictionary<string, object>>();
-		//}
-		//else
-		//	return;
-		return response.IsSuccessStatusCode;
-	}
-
-	public async Task GetScheduleForUser()
-	{//aaaaaaaa
-		var loggedUser = await GetLoggedUser();
-		var schedulesForUser = await realmService.FindAll<Schedule>();
-		if (loggedUser is User user && !schedulesForUser.Any())
-		{
-			var response = await httpClient.SendAsync(new HttpRequestMessage
-			{
-				Method = HttpMethod.Get,
-				RequestUri = new Uri($"/schedule/?user_id={user.RemoteUserId}", UriKind.Relative)
-			}, HttpCompletionOption.ResponseHeadersRead);
-
-			if (response.IsSuccessStatusCode)
-			{
-				var stream = await response.Content.ReadAsStreamAsync();
-				var schedules = stream.DeserializeStream<IEnumerable<Schedule>>();
-				foreach (var schedule in schedules)
-					await realmService.Upsert(schedule);
-			}
-			else
-				return;
 		}
 	}
 }

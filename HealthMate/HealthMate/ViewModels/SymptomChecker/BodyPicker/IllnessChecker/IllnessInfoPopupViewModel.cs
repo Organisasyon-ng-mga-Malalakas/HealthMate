@@ -2,12 +2,11 @@
 using CommunityToolkit.Mvvm.Input;
 using HealthMate.Models;
 using HealthMate.Services;
-using HealthMate.Services.HttpServices;
 using System.Collections.ObjectModel;
 
 namespace HealthMate.ViewModels.SymptomChecker.BodyPicker.IllnessChecker;
 public partial class IllnessInfoPopupViewModel(NavigationService navigationService,
-	HttpService httpService,
+	SymptomCheckerService httpService,
 	PopupService popupService) : BaseViewModel(navigationService)
 {
 	[ObservableProperty]

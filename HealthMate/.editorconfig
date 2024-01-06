@@ -252,3 +252,5 @@ dotnet_style_prefer_compound_assignment = true:suggestion
 dotnet_style_prefer_simplified_interpolation = true:suggestion
 dotnet_style_namespace_match_folder = true:suggestion
 indent_style = tab
+
+realm.custom_ignore_attribute = [System.Text.Json.Serialization.JsonIgnore]

@@ -4,9 +4,9 @@ using HealthMate.Extensions;
 using HealthMate.Models;
 using System.Reflection;
 
-namespace HealthMate.Services.HttpServices;
+namespace HealthMate.Services;
 
-public class HttpService
+public class SymptomCheckerService
 {
 	private readonly HttpClient _authClient;
 	private readonly HttpClient _healthClient;
@@ -15,7 +15,7 @@ public class HttpService
 
 	public Dictionary<BodyPart, IEnumerable<Issues>> SublocationsDictionary { get; set; }
 
-	public HttpService(IHttpClientFactory httpClientFactory, UserService userService)
+	public SymptomCheckerService(IHttpClientFactory httpClientFactory, UserService userService)
 	{
 		_authClient = httpClientFactory.CreateClient("auth");
 		_healthClient = httpClientFactory.CreateClient("health");

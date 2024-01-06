@@ -7,7 +7,6 @@ using HealthMate.Platforms.Android.Renderers;
 using HealthMate.Platforms.Android.Services;
 using HealthMate.Platforms.Android.Services.AlarmServices;
 using HealthMate.Services;
-using HealthMate.Services.HttpServices;
 using HealthMate.ViewModels.Accounts;
 using HealthMate.ViewModels.Inventory;
 using HealthMate.ViewModels.Onboarding;
@@ -73,7 +72,9 @@ public static class MauiProgram
 			.ConfigureMopups()
 			.UseLocalNotification()
 			.RegisterServices()
-			.RegisterHttpClient<UserService>("https://healthmate-api.mangobeach-087ac216.eastasia.azurecontainerapps.io")
+			.RegisterHttpClient<UserService>()
+			.RegisterHttpClient<ScheduleService>()
+			.RegisterHttpClient<InventoryService>()
 			.RegisterHttpClient("health", "https://sandbox-healthservice.priaid.ch")
 			.RegisterHttpClient("auth", "https://sandbox-authservice.priaid.ch", true)
 			.UseFFImageLoading()
@@ -94,20 +95,22 @@ public static class MauiProgram
 			.AddSingleton<KeyboardService>()
 			.AddSingleton<NotificationService>()
 			.AddSingleton<IAlarmScheduler, AlarmScheduler>()
-			.AddSingleton<HttpService>()
+			.AddSingleton<SymptomCheckerService>()
 			.AddSingleton<UserService>()
 			.AddSingleton<NavigationService>()
 			.AddSingleton<IBiometricService, BiometricService>()
-			.AddSingleton(_ => MediaPicker.Default);
+			.AddSingleton(_ => MediaPicker.Default)
+			.AddSingleton<InventoryService>()
+			.AddSingleton<ScheduleService>();
 
 		return builder;
 	}
 
-	private static MauiAppBuilder RegisterHttpClient<TClient>(this MauiAppBuilder builder, string baseUrl) where TClient : class
+	private static MauiAppBuilder RegisterHttpClient<TClient>(this MauiAppBuilder builder) where TClient : class
 	{
 		builder.Services.AddHttpClient<TClient>(client =>
 		{
-			client.BaseAddress = new Uri(baseUrl);
+			client.BaseAddress = new Uri("https://healthmate-api.mangobeach-087ac216.eastasia.azurecontainerapps.io");
 			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 			client.DefaultRequestVersion = HttpVersion.Version20;
 		})

@@ -3,13 +3,12 @@ using CommunityToolkit.Mvvm.Input;
 using HealthMate.Enums;
 using HealthMate.Models;
 using HealthMate.Services;
-using HealthMate.Services.HttpServices;
 using HealthMate.Views.SymptomChecker.BodyPicker.IllnessChecker;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace HealthMate.ViewModels.SymptomChecker.BodyPicker;
-public partial class BodyPickerPageViewModel(HttpService httpService, NavigationService navigationService) : BaseViewModel(navigationService)
+public partial class BodyPickerPageViewModel(SymptomCheckerService httpService, NavigationService navigationService) : BaseViewModel(navigationService)
 {
 	[ObservableProperty]
 	private string bodyPartImage = "empty_body_part";

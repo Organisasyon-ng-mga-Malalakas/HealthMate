@@ -12,9 +12,10 @@ using InventoryTable = HealthMate.Models.Tables.Inventory;
 namespace HealthMate.ViewModels.Inventory;
 
 public partial class AddInventoryBottomSheetViewModel(BottomSheetService bottomSheetService,
+	InventoryService inventoryService,
 	KeyboardService keyboardService,
 	NavigationService navigationService,
-	RealmService realmService) : BaseViewModel(navigationService)
+	IPreferences preferences) : BaseViewModel(navigationService)
 {
 	[ObservableProperty]
 	[Required]
@@ -59,17 +60,19 @@ public partial class AddInventoryBottomSheetViewModel(BottomSheetService bottomS
 		if (HasErrors)
 			return;
 
-		await realmService.Upsert(new InventoryTable
+		await inventoryService.UpsertInventory(new List<InventoryTable>
 		{
-			InventoryId = ObjectId.GenerateNewId(),
-			BrandName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(BrandName).Trim(),
-			Description = Description,
-			Dosage = Dosage,
-			DosageUnit = (int)SelectedDosage,
-			IsDeleted = false,
-			MedicationType = (int)SelectedmedicationType,
-			MedicineName = MedicineName,
-			Stock = Stock
+			new() {
+				InventoryId = ObjectId.GenerateNewId(),
+				BrandName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(BrandName).Trim(),
+				Description = Description,
+				Dosage = Dosage,
+				DosageUnit = (int)SelectedDosage,
+				IsDeleted = false,
+				MedicationType = (int)SelectedmedicationType,
+				MedicineName = MedicineName,
+				Stock = Stock
+			}
 		});
 
 		await CloseBottomSheet();

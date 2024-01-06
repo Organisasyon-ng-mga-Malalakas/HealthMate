@@ -11,11 +11,12 @@ using ScheduleTable = HealthMate.Models.Tables.Schedule;
 
 namespace HealthMate.ViewModels.Schedule;
 public partial class AddScheduleBottomSheetViewModel(BottomSheetService bottomSheetService,
+	InventoryService inventoryService,
 	KeyboardService keyboardService,
 	NavigationService navigationService,
 	NotificationService notificationService,
-	RealmService realmService,
-	UserService userService) : BaseViewModel(navigationService)
+	IPreferences preferences,
+	ScheduleService scheduleService) : BaseViewModel(navigationService)
 {
 	[ObservableProperty]
 	private DateTime endDate = DateTime.Now.AddDays(1);
@@ -87,19 +88,16 @@ public partial class AddScheduleBottomSheetViewModel(BottomSheetService bottomSh
 			currentDateandTime = currentDateandTime.Add(interval);
 		}
 
-		foreach (var date in dates)
+		var schedules = dates.Select(date => new ScheduleTable
 		{
-			var schedule = new ScheduleTable
-			{
-				ScheduleId = ObjectId.GenerateNewId(),
-				ScheduleState = (int)ScheduleState.Pending,
-				Inventory = SelectedMedicine,
-				Quantity = Quantity,
-				TimeToTake = new DateTimeOffset(date)
-			};
-			await realmService.Upsert(schedule);
-			await userService.UpsertSchedule(new List<ScheduleTable> { schedule });
-		}
+			Notes = Notes,
+			ScheduleId = ObjectId.GenerateNewId(),
+			ScheduleState = (int)ScheduleState.Pending,
+			Inventory = SelectedMedicine,
+			Quantity = Quantity,
+			TimeToTake = new DateTimeOffset(date)
+		});
+		await scheduleService.UpsertSchedule(schedules);
 
 		var isNotificationEnabled = await notificationService.AskNotificationPermissionAsync();
 		if (isNotificationEnabled)
@@ -143,7 +141,6 @@ public partial class AddScheduleBottomSheetViewModel(BottomSheetService bottomSh
 
 	public override async void OnNavigatedTo()
 	{
-		var medicines = await realmService.Find<InventoryTable>(_ => !_.IsDeleted);
-		Medicines = new ObservableCollection<InventoryTable>(medicines);
+		Medicines = new ObservableCollection<InventoryTable>(await inventoryService.GetInventoryForUser(_ => !_.IsDeleted));
 	}
 }

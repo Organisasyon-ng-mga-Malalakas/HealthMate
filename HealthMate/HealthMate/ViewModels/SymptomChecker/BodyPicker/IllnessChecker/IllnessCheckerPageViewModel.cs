@@ -2,15 +2,14 @@
 using CommunityToolkit.Mvvm.Input;
 using HealthMate.Models;
 using HealthMate.Services;
-using HealthMate.Services.HttpServices;
 using HealthMate.Templates;
 using HealthMate.Views.SymptomChecker.BodyPicker.IllnessChecker;
 using System.Collections.ObjectModel;
 
 namespace HealthMate.ViewModels.SymptomChecker.BodyPicker.IllnessChecker;
 public partial class IllnessCheckerPageViewModel(NavigationService navigationService,
-	HttpService httpService,
-	PopupService popupService) : BaseViewModel(navigationService)
+	PopupService popupService,
+	SymptomCheckerService symptomCheckerService) : BaseViewModel(navigationService)
 {
 	private IEnumerable<SymptomInfo> _symptoms;
 
@@ -40,7 +39,7 @@ public partial class IllnessCheckerPageViewModel(NavigationService navigationSer
 		var symptomIds = Symptoms.Where(_ => _.IsSelected)
 			.Select(_ => _.Id);
 
-		var diagnosis = await httpService.GetDiagnosis(symptomIds);
+		var diagnosis = await symptomCheckerService.GetDiagnosis(symptomIds);
 		Illnesses = new ObservableCollection<Diagnosis>(diagnosis);
 		IsLoading = false;
 	}
@@ -96,7 +95,7 @@ public partial class IllnessCheckerPageViewModel(NavigationService navigationSer
 	public override async void OnNavigatedTo()
 	{
 		IsLoading = true;
-		_symptoms = await httpService.GetSymptoms(SubLocationId);
+		_symptoms = await symptomCheckerService.GetSymptoms(SubLocationId);
 		Symptoms = new SortableObservableCollection<SymptomInfo>(_symptoms);
 		IsLoading = false;
 	}

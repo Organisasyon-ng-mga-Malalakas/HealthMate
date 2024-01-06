@@ -15,9 +15,10 @@ using ScheduleTable = HealthMate.Models.Tables.Schedule;
 
 namespace HealthMate.ViewModels.Schedule;
 public partial class SchedulePageViewModel(BottomSheetService bottomSheetService,
+	IPreferences preferences,
 	NavigationService navigationService,
 	PopupService popupService,
-	RealmService realmService) : BaseViewModel(navigationService)
+	ScheduleService scheduleService) : BaseViewModel(navigationService)
 {
 	private Dictionary<string, IEnumerable<CalendarDays>> _daysIn2023;
 
@@ -44,7 +45,7 @@ public partial class SchedulePageViewModel(BottomSheetService bottomSheetService
 
 	private async Task ChangeSelectedDate(int calendrical, bool isMonth)
 	{
-		var allSchedules = await realmService.FindAll<ScheduleTable>();
+		var allSchedules = await scheduleService.GetSchedules();
 		var monthIndex = Months.IndexOf(SelectedMonth) + 1;
 		var dayIndex = Days.IndexOf(SelectedDay) + 1;
 
@@ -160,7 +161,7 @@ public partial class SchedulePageViewModel(BottomSheetService bottomSheetService
 		   Days.IndexOf(SelectedDay) + 1);
 
 		Schedules ??= [];
-		var schedules = await realmService.FindAll<ScheduleTable>();
+		var schedules = await scheduleService.GetSchedules();
 		RealmChangesNotification = schedules.SubscribeForNotifications(ListenForRealmChanges);
 
 		var realmSchedulesList = schedules
@@ -186,9 +187,10 @@ public partial class SchedulePageViewModel(BottomSheetService bottomSheetService
 		var missedMeds = Schedules.Where(x => x.ActualSchedule.ToLocalTime().DateTime < DateTime.Now)
 			.SelectMany(_ => _.Schedule);
 
-		foreach (var meds in missedMeds)
-			if ((ScheduleState)meds.ScheduleState == ScheduleState.Pending)
-				await realmService.Write(() => meds.ScheduleState = (int)ScheduleState.Missed);
+		// TODO: Fix the missed here
+		//foreach (var meds in missedMeds)
+		//	if ((ScheduleState)meds.ScheduleState == ScheduleState.Pending)
+		//		await realmService.Write(() => meds.ScheduleState = (int)ScheduleState.Missed);
 
 		#region Faker
 		//var fakeInventory = new Faker<InventoryTable>()
