@@ -69,16 +69,16 @@ public static class MauiProgram
 				.AddHandler<BorderlessEditor, BorderlessEditorHandler>()
 				.AddHandler<CustomSearchBar, CustomSearchBarHandler>();
 			})
-			.ConfigureMopups()
-			.UseLocalNotification()
-			.RegisterServices()
-			.RegisterHttpClient<UserService>()
-			.RegisterHttpClient<ScheduleService>()
-			.RegisterHttpClient<InventoryService>()
-			.RegisterHttpClient("health", "https://sandbox-healthservice.priaid.ch")
-			.RegisterHttpClient("auth", "https://sandbox-authservice.priaid.ch", true)
-			.UseFFImageLoading()
-			.RegisterViewsAndViewModel();
+		.ConfigureMopups()
+		.UseLocalNotification()
+		.RegisterServices()
+		.RegisterHttpClient<UserService>()
+		.RegisterHttpClient<ScheduleService>()
+		.RegisterHttpClient<InventoryService>()
+		.RegisterHttpClient("health", "https://sandbox-healthservice.priaid.ch")
+		.RegisterHttpClient("auth", "https://sandbox-authservice.priaid.ch", true)
+		.UseFFImageLoading()
+		.RegisterViewsAndViewModel();
 
 		return builder.Build();
 	}

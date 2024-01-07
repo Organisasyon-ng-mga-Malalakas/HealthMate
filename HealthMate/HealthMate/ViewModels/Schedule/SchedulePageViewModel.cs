@@ -18,6 +18,7 @@ public partial class SchedulePageViewModel(BottomSheetService bottomSheetService
 	IPreferences preferences,
 	NavigationService navigationService,
 	PopupService popupService,
+	RealmService realmService,
 	ScheduleService scheduleService) : BaseViewModel(navigationService)
 {
 	private Dictionary<string, IEnumerable<CalendarDays>> _daysIn2023;
@@ -166,7 +167,8 @@ public partial class SchedulePageViewModel(BottomSheetService bottomSheetService
 
 		var realmSchedulesList = schedules
 			.ToList()
-			.Where(_ => TimeZoneInfo.ConvertTimeFromUtc(_.TimeToTake.DateTime, TimeZoneInfo.Local).Date == selectedDate.Date);
+			.Where(_ => TimeZoneInfo.ConvertTimeFromUtc(_.TimeToTake.DateTime, TimeZoneInfo.Local).Date == selectedDate.Date)
+			.OrderBy(_ => _.TimeToTake);
 		foreach (var newSchedule in realmSchedulesList)
 		{
 			var groupName = newSchedule.TimeToTake.GetCorrectTimeStringFromUtc();
@@ -188,9 +190,16 @@ public partial class SchedulePageViewModel(BottomSheetService bottomSheetService
 			.SelectMany(_ => _.Schedule);
 
 		// TODO: Fix the missed here
-		//foreach (var meds in missedMeds)
-		//	if ((ScheduleState)meds.ScheduleState == ScheduleState.Pending)
-		//		await realmService.Write(() => meds.ScheduleState = (int)ScheduleState.Missed);
+		foreach (var meds in missedMeds)
+			if ((ScheduleState)meds.ScheduleState == ScheduleState.Pending)
+			{
+				await realmService.Write(() =>
+				{
+					meds.ScheduleState = (int)ScheduleState.Missed;
+					meds.UpdatedAt = DateTimeOffset.Now;
+				});
+				await scheduleService.UpsertSchedule(null, meds);
+			}
 
 		#region Faker
 		//var fakeInventory = new Faker<InventoryTable>()

@@ -256,7 +256,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <MauiImage Update="Resources\Images\loading.gif" Resize="False" />
+    <MauiImage Update="Resources\Images\*.gif" Resize="False" />
   </ItemGroup>
 
   <ItemGroup>

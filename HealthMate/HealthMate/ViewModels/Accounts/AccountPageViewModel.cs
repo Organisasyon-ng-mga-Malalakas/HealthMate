@@ -147,10 +147,10 @@ public partial class AccountPageViewModel(InventoryService inventoryService,
 		}
 
 		await Application.Current.MainPage.DisplayAlert("Success", "You have successfuly created an account! You may now login to HealthMate.", "OK")
-			.ContinueWith(_ =>
+			.ContinueWith(async _ =>
 			{
 				preferences.Set("HasUser", true);
-				NavigationService.ChangeShellItem(3);
+				await NavigationService.PushAsync("///Tabs");
 			});
 	}
 
@@ -161,9 +161,12 @@ public partial class AccountPageViewModel(InventoryService inventoryService,
 
 		if (isValidLogin)
 		{
+			IsLoading = true;
 			await userService.Login(LoginUsername, LoginPassword);
-			await Task.WhenAll(scheduleService.PopulateUserScheduleFromRemote(), inventoryService.PopulateUserInventoryFromRemote());
+			await inventoryService.PopulateUserInventoryFromRemote();
+			await scheduleService.PopulateUserScheduleFromRemote();
 			preferences.Set("HasUser", true);
+			IsLoading = false;
 			await NavigationService.PushAsync("///Tabs");
 			//TODO: https://stackoverflow.com/questions/72375482/shell-navigation-in-net-maui-to-a-page-with-bottom-tabs
 		}

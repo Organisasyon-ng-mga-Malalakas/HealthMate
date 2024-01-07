@@ -1,5 +1,7 @@
 ﻿using HealthMate.Extensions;
+using HealthMate.Models;
 using HealthMate.Models.Tables;
+using MongoDB.Bson;
 
 namespace HealthMate.Services;
 public class ScheduleService(HttpClient httpClient, RealmService realmService, UserService userService)
@@ -24,44 +26,42 @@ public class ScheduleService(HttpClient httpClient, RealmService realmService, U
 
 			if (response.IsSuccessStatusCode)
 			{
+				//var test = await response.Content.ReadAsStringAsync();
+
 				var stream = await response.Content.ReadAsStreamAsync();
-				var schedules = stream.DeserializeStream<IEnumerable<Schedule>>();
+				var schedules = stream.DeserializeStream<IEnumerable<ScheduleDTO>>();
 				foreach (var schedule in schedules)
-					await realmService.Upsert(schedule);
+				{
+					var actualSchedule = schedule.ToSchedule();
+					actualSchedule.Inventory = await realmService.Find<Inventory>(ObjectId.Parse(schedule.InventoryId));
+					await realmService.Upsert(actualSchedule);
+				}
 			}
 			else
 				return;
 		}
 	}
 
-	public async Task<bool> UpsertSchedule(IEnumerable<Schedule> schedules)
+	public async Task UpsertSchedule(IEnumerable<Schedule> schedules = null, Schedule schedToUpdate = null)
 	{
-		try
+		var loggedUser = await userService.GetLoggedUser();
+		var content = new
 		{
-			var loggedUser = await userService.GetLoggedUser();
-			var content = new
-			{
-				user_id = loggedUser.RemoteUserId,
-				schedules
-			};
+			user_id = loggedUser.RemoteUserId,
+			schedules = schedules == null
+				? [schedToUpdate.ToDataTransferObject()]
+				: schedules.Select(_ => _.ToDataTransferObject())
+		};
 
-			var response = await httpClient.SendAsync(new HttpRequestMessage
-			{
-				Content = content.AsJSONSerializedObject(),
-				Method = HttpMethod.Post,
-				RequestUri = new Uri("/schedule/", UriKind.Relative)
-			}, HttpCompletionOption.ResponseHeadersRead);
-
-			foreach (var item in schedules)
-				await realmService.Upsert(item);
-
-			//return response.IsSuccessStatusCode;
-			return true;
-		}
-		catch (Exception ex)
+		await httpClient.SendAsync(new HttpRequestMessage
 		{
+			Content = content.AsJSONSerializedObject(),
+			Method = HttpMethod.Post,
+			RequestUri = new Uri("/schedule/", UriKind.Relative)
+		}, HttpCompletionOption.ResponseHeadersRead);
 
-			throw;
-		}
+		if (schedules != null)
+			foreach (var schedule in schedules)
+				await realmService.Upsert(schedule);
 	}
 }

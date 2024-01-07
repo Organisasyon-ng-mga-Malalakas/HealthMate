@@ -95,7 +95,8 @@ public partial class AddScheduleBottomSheetViewModel(BottomSheetService bottomSh
 			ScheduleState = (int)ScheduleState.Pending,
 			Inventory = SelectedMedicine,
 			Quantity = Quantity,
-			TimeToTake = new DateTimeOffset(date)
+			TimeToTake = new DateTimeOffset(date),
+			UpdatedAt = DateTimeOffset.Now
 		});
 		await scheduleService.UpsertSchedule(schedules);
 

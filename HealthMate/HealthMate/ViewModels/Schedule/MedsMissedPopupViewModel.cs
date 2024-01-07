@@ -8,7 +8,8 @@ namespace HealthMate.ViewModels.Schedule;
 public partial class MedsMissedPopupViewModel(IMediaPicker mediaPicker,
 	NavigationService navigationService,
 	PopupService popupService,
-	RealmService realmService) : BaseViewModel(navigationService)
+	RealmService realmService,
+	ScheduleService scheduleService) : BaseViewModel(navigationService)
 {
 	private string _base64;
 
@@ -31,7 +32,11 @@ public partial class MedsMissedPopupViewModel(IMediaPicker mediaPicker,
 		{
 			PassedSchedule.ScheduleState = 0;
 			PassedSchedule.PhotoBase64 = _base64;
+			PassedSchedule.UpdatedAt = DateTimeOffset.Now;
 		});
+
+		await scheduleService.UpsertSchedule(null, PassedSchedule);
+
 		await ClosePopup();
 	}
 

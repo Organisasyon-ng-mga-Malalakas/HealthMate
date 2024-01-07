@@ -1,4 +1,5 @@
 ﻿using HealthMate.Extensions;
+using HealthMate.Models;
 using HealthMate.Models.Tables;
 using System.Linq.Expressions;
 
@@ -26,44 +27,44 @@ public class InventoryService(HttpClient httpClient, RealmService realmService, 
 			if (response.IsSuccessStatusCode)
 			{
 				var stream = await response.Content.ReadAsStreamAsync();
-				var inventories = stream.DeserializeStream<IEnumerable<Inventory>>();
+				var inventories = stream.DeserializeStream<IEnumerable<InventoryDTO>>();
 				foreach (var inventory in inventories)
-					await realmService.Upsert(inventory);
+					await realmService.Upsert(inventory.ToInventory());
 			}
 			else
 				return;
 		}
 	}
 
-	public async Task<bool> UpsertInventory(IEnumerable<Inventory> inventories)
+	public async Task UpsertInventory(IEnumerable<Inventory> inventories = null, Inventory inventoryToUpdate = null)
 	{
-		try
+		var loggedUser = await userService.GetLoggedUser();
+		var content = new
 		{
+			user_id = loggedUser.RemoteUserId,
+			inventory = inventories == null
+				? [inventoryToUpdate.ToDataTransferObject()]
+				: inventories.Select(_ => _.ToDataTransferObject())
+		};
+
+		await httpClient.SendAsync(new HttpRequestMessage
+		{
+			Content = content.AsJSONSerializedObject(),
+			Method = HttpMethod.Post,
+			RequestUri = new Uri("/inventory/", UriKind.Relative)
+		}, HttpCompletionOption.ResponseHeadersRead);
+
+		if (inventories != null)
 			foreach (var inventory in inventories)
 				await realmService.Upsert(inventory);
+	}
 
-			var loggedUser = await userService.GetLoggedUser();
-			var test = await realmService.FindAll<Inventory>();
-			var content = new
-			{
-				user_id = loggedUser.RemoteUserId,
-				inventory = test
-			};
-
-			var response = await httpClient.SendAsync(new HttpRequestMessage
-			{
-				Content = content.AsJSONSerializedObject(),
-				Method = HttpMethod.Post,
-				RequestUri = new Uri("/inventory/", UriKind.Relative)
-			}, HttpCompletionOption.ResponseHeadersRead);
-
-			return response.IsSuccessStatusCode;
-			//return true;
-		}
-		catch (Exception ex)
+	public async Task DeleteInventory(Inventory inventory)
+	{
+		var response = await httpClient.SendAsync(new HttpRequestMessage
 		{
-
-			throw;
-		}
+			Method = HttpMethod.Delete,
+			RequestUri = new Uri($"/inventory/?id={inventory.InventoryId}", UriKind.Relative)
+		}, HttpCompletionOption.ResponseHeadersRead);
 	}
 }

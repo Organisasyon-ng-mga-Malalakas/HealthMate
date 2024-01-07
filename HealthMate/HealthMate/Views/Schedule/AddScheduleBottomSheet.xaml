@@ -17,228 +17,229 @@
     <Border Padding="16,5"
             BackgroundColor="White"
             StrokeShape="RoundRectangle 20,20,0,0">
-        <FlexLayout Direction="Column"
+        <Grid>
+            <FlexLayout Direction="Column"
                     JustifyContent="Start">
-            <Label Margin="0,5,0,0"
+                <Label Margin="0,5,0,0"
                    FontFamily="{StaticResource Bold}"
                    FontSize="18"
                    HorizontalOptions="Center"
                    Text="Create Medicine Schedule"
                    TextColor="{StaticResource Pink}" />
 
-            <Grid Margin="0,10"
+                <Grid Margin="0,10"
                   ColumnDefinitions="3*,7*"
                   ColumnSpacing="10"
                   RowDefinitions="*,30,*,*,*,*,60"
                   RowSpacing="10"
                   VerticalOptions="StartAndExpand">
-                <Grid.Resources>
-                    <Style x:Key="Header"
+                    <Grid.Resources>
+                        <Style x:Key="Header"
                            TargetType="Label">
-                        <Setter Property="FontFamily" Value="{StaticResource Regular}" />
-                        <Setter Property="TextColor" Value="{StaticResource RegBlack}" />
-                        <Setter Property="HorizontalOptions" Value="End" />
-                        <Setter Property="HorizontalTextAlignment" Value="End" />
-                        <Setter Property="VerticalOptions" Value="Center" />
-                    </Style>
+                            <Setter Property="FontFamily" Value="{StaticResource Regular}" />
+                            <Setter Property="TextColor" Value="{StaticResource RegBlack}" />
+                            <Setter Property="HorizontalOptions" Value="End" />
+                            <Setter Property="HorizontalTextAlignment" Value="End" />
+                            <Setter Property="VerticalOptions" Value="Center" />
+                        </Style>
 
-                    <Style TargetType="controls:BorderlessEntry">
-                        <Setter Property="FontFamily" Value="{StaticResource Regular}" />
-                        <Setter Property="FontSize" Value="12" />
-                        <Setter Property="HeightRequest" Value="30" />
-                        <Setter Property="VerticalOptions" Value="CenterAndExpand" />
-                    </Style>
+                        <Style TargetType="controls:BorderlessEntry">
+                            <Setter Property="FontFamily" Value="{StaticResource Regular}" />
+                            <Setter Property="FontSize" Value="12" />
+                            <Setter Property="HeightRequest" Value="30" />
+                            <Setter Property="VerticalOptions" Value="CenterAndExpand" />
+                        </Style>
 
-                    <Style TargetType="controls:BorderlessPicker">
-                        <Setter Property="FontFamily" Value="{StaticResource Regular}" />
-                        <Setter Property="FontSize" Value="12" />
-                        <Setter Property="HeightRequest" Value="30" />
-                        <Setter Property="VerticalOptions" Value="CenterAndExpand" />
-                    </Style>
+                        <Style TargetType="controls:BorderlessPicker">
+                            <Setter Property="FontFamily" Value="{StaticResource Regular}" />
+                            <Setter Property="FontSize" Value="12" />
+                            <Setter Property="HeightRequest" Value="30" />
+                            <Setter Property="VerticalOptions" Value="CenterAndExpand" />
+                        </Style>
 
-                    <Style TargetType="Border">
-                        <Setter Property="BackgroundColor" Value="White" />
-                        <Setter Property="Stroke" Value="{StaticResource BorderStroke}" />
-                        <Setter Property="Padding" Value="5,0" />
-                    </Style>
+                        <Style TargetType="Border">
+                            <Setter Property="BackgroundColor" Value="White" />
+                            <Setter Property="Stroke" Value="{StaticResource BorderStroke}" />
+                            <Setter Property="Padding" Value="5,0" />
+                        </Style>
 
-                    <Style x:Key="Labels"
+                        <Style x:Key="Labels"
                            TargetType="Label">
-                        <Setter Property="Grid.Column" Value="1" />
-                        <Setter Property="FontSize" Value="12" />
-                        <Setter Property="HorizontalOptions" Value="End" />
-                        <Setter Property="VerticalOptions" Value="Center" />
-                    </Style>
-                </Grid.Resources>
+                            <Setter Property="Grid.Column" Value="1" />
+                            <Setter Property="FontSize" Value="12" />
+                            <Setter Property="HorizontalOptions" Value="End" />
+                            <Setter Property="VerticalOptions" Value="Center" />
+                        </Style>
+                    </Grid.Resources>
 
-                <Label Style="{StaticResource Header}"
+                    <Label Style="{StaticResource Header}"
                        Text="Medicine Name" />
-                <Border Grid.Column="1">
-                    <Grid ColumnDefinitions="*, 30">
-                        <controls:BorderlessPicker Title="Medicine name"
+                    <Border Grid.Column="1">
+                        <Grid ColumnDefinitions="*, 30">
+                            <controls:BorderlessPicker Title="Medicine name"
                                                    ItemDisplayBinding="{Binding MedicineDisplayName}"
                                                    ItemsSource="{Binding Medicines}"
                                                    SelectedItem="{Binding SelectedMedicine}" />
 
-                        <Label FontFamily="{StaticResource FASolid}"
+                            <Label FontFamily="{StaticResource FASolid}"
                                Style="{StaticResource Labels}"
                                Text="{Static constants:FontAwesomeIcons.ChevronDown}" />
-                    </Grid>
-                </Border>
+                        </Grid>
+                    </Border>
 
-                <Label Grid.Row="1"
+                    <Label Grid.Row="1"
                        Style="{StaticResource Header}"
                        Text="Dosage" />
-                <Grid Grid.Row="1"
+                    <Grid Grid.Row="1"
                       Grid.Column="1"
                       ColumnDefinitions="3*,7*"
                       ColumnSpacing="5">
-                    <Border>
-                        <Label FontFamily="{StaticResource Regular}"
+                        <Border>
+                            <Label FontFamily="{StaticResource Regular}"
                                FontSize="12"
                                Text="{Binding SelectedMedicine.Dosage}"
                                VerticalOptions="Center" />
-                    </Border>
+                        </Border>
 
-                    <Border Grid.Column="1">
-                        <Label FontFamily="{StaticResource Regular}"
+                        <Border Grid.Column="1">
+                            <Label FontFamily="{StaticResource Regular}"
                                FontSize="12"
                                Text="{Binding SelectedMedicine.DosageUnit, Converter={converters:DosageUnitToStringConverter}}"
                                VerticalOptions="Center" />
-                    </Border>
-                </Grid>
+                        </Border>
+                    </Grid>
 
-                <Label Grid.Row="2"
+                    <Label Grid.Row="2"
                        Style="{StaticResource Header}"
                        Text="Quantity" />
-                <Border Grid.Row="2"
+                    <Border Grid.Row="2"
                         Grid.Column="1">
-                    <controls:BorderlessEntry Keyboard="Numeric"
+                        <controls:BorderlessEntry Keyboard="Numeric"
                                               Text="{Binding Quantity}" />
-                </Border>
+                    </Border>
 
-                <Label Grid.Row="3"
+                    <Label Grid.Row="3"
                        Style="{StaticResource Header}"
                        Text="When to start" />
-                <Grid Grid.Row="3"
+                    <Grid Grid.Row="3"
                       Grid.Column="1"
                       ColumnDefinitions="*,*"
                       ColumnSpacing="5">
-                    <Border>
-                        <Grid ColumnDefinitions="*, 25">
-                            <DatePicker Date="{Binding StartDate}"
+                        <Border>
+                            <Grid ColumnDefinitions="*, 25">
+                                <DatePicker Date="{Binding StartDate}"
                                         FontFamily="{StaticResource Regular}"
                                         FontSize="12"
                                         Format="MMM d, yyyy"
                                         MinimumDate="{Binding MinimumDate}" />
 
-                            <Label FontFamily="{StaticResource FARegular}"
+                                <Label FontFamily="{StaticResource FARegular}"
                                    Style="{StaticResource Labels}"
                                    Text="{Static constants:FontAwesomeIcons.Calendar}" />
-                        </Grid>
-                    </Border>
+                            </Grid>
+                        </Border>
 
-                    <Border Grid.Column="1">
-                        <Grid ColumnDefinitions="*, 25">
-                            <TimePicker FontFamily="{StaticResource Regular}"
+                        <Border Grid.Column="1">
+                            <Grid ColumnDefinitions="*, 25">
+                                <TimePicker FontFamily="{StaticResource Regular}"
                                         FontSize="12"
                                         Format="hh:mm tt"
                                         Time="{Binding StartTime}" />
 
-                            <Label FontFamily="{StaticResource FARegular}"
+                                <Label FontFamily="{StaticResource FARegular}"
                                    Style="{StaticResource Labels}"
                                    Text="{Static constants:FontAwesomeIcons.Clock}" />
-                        </Grid>
-                    </Border>
-                </Grid>
+                            </Grid>
+                        </Border>
+                    </Grid>
 
-                <Label Grid.Row="4"
+                    <Label Grid.Row="4"
                        Style="{StaticResource Header}"
                        Text="Taken every" />
-                <Grid Grid.Row="4"
+                    <Grid Grid.Row="4"
                       Grid.Column="1"
                       ColumnDefinitions="*,*"
                       ColumnSpacing="5">
-                    <Border>
-                        <Grid ColumnDefinitions="*, 25">
-                            <controls:BorderlessEntry FontFamily="{StaticResource Regular}"
+                        <Border>
+                            <Grid ColumnDefinitions="*, 25">
+                                <controls:BorderlessEntry FontFamily="{StaticResource Regular}"
                                                       FontSize="12"
                                                       Keyboard="Numeric"
                                                       Text="{Binding TakeEveryHr}" />
 
-                            <Label FontFamily="{StaticResource Regular}"
+                                <Label FontFamily="{StaticResource Regular}"
                                    Style="{StaticResource Labels}"
                                    Text="hr" />
-                        </Grid>
-                    </Border>
+                            </Grid>
+                        </Border>
 
-                    <Border Grid.Column="1">
-                        <Grid ColumnDefinitions="*, 25">
-                            <controls:BorderlessEntry FontFamily="{StaticResource Regular}"
+                        <Border Grid.Column="1">
+                            <Grid ColumnDefinitions="*, 25">
+                                <controls:BorderlessEntry FontFamily="{StaticResource Regular}"
                                                       FontSize="12"
                                                       Keyboard="Numeric"
                                                       Text="{Binding TakeEveryMin}" />
 
-                            <Label FontFamily="{StaticResource Regular}"
+                                <Label FontFamily="{StaticResource Regular}"
                                    Style="{StaticResource Labels}"
                                    Text="min" />
-                        </Grid>
-                    </Border>
-                </Grid>
+                            </Grid>
+                        </Border>
+                    </Grid>
 
-                <Label Grid.Row="5"
+                    <Label Grid.Row="5"
                        Style="{StaticResource Header}"
                        Text="When to end" />
-                <Grid Grid.Row="5"
+                    <Grid Grid.Row="5"
                       Grid.Column="1"
                       ColumnDefinitions="*,*"
                       ColumnSpacing="5">
-                    <Border>
-                        <Grid ColumnDefinitions="*, 25">
-                            <DatePicker Date="{Binding EndDate}"
+                        <Border>
+                            <Grid ColumnDefinitions="*, 25">
+                                <DatePicker Date="{Binding EndDate}"
                                         FontFamily="{StaticResource Regular}"
                                         FontSize="12"
                                         Format="MMM d, yyyy"
                                         MinimumDate="{Binding MinimumDate}" />
 
-                            <Label FontFamily="{StaticResource FARegular}"
+                                <Label FontFamily="{StaticResource FARegular}"
                                    Style="{StaticResource Labels}"
                                    Text="{Static constants:FontAwesomeIcons.Calendar}" />
-                        </Grid>
-                    </Border>
+                            </Grid>
+                        </Border>
 
-                    <Border Grid.Column="1">
-                        <Grid ColumnDefinitions="*, 25">
-                            <TimePicker FontFamily="{StaticResource Regular}"
+                        <Border Grid.Column="1">
+                            <Grid ColumnDefinitions="*, 25">
+                                <TimePicker FontFamily="{StaticResource Regular}"
                                         FontSize="12"
                                         Format="hh:mm tt"
                                         Time="{Binding EndTime}" />
 
-                            <Label FontFamily="{StaticResource FARegular}"
+                                <Label FontFamily="{StaticResource FARegular}"
                                    Style="{StaticResource Labels}"
                                    Text="{Static constants:FontAwesomeIcons.Clock}" />
-                        </Grid>
-                    </Border>
-                </Grid>
+                            </Grid>
+                        </Border>
+                    </Grid>
 
-                <Label Grid.Row="6"
+                    <Label Grid.Row="6"
                        Style="{StaticResource Header}"
                        Text="Notes"
                        VerticalOptions="StartAndExpand" />
-                <Border Grid.Row="6"
+                    <Border Grid.Row="6"
                         Grid.Column="1"
                         Padding="5,0">
-                    <controls:BorderlessEditor FontFamily="{StaticResource Regular}"
+                        <controls:BorderlessEditor FontFamily="{StaticResource Regular}"
                                                FontSize="12"
                                                Text="{Binding Notes}"
                                                TextColor="{StaticResource RegBlack}"
                                                VerticalTextAlignment="Start" />
-                </Border>
-            </Grid>
+                    </Border>
+                </Grid>
 
-            <Grid Margin="0,0,0,10"
+                <Grid Margin="0,0,0,10"
                   ColumnDefinitions="*,*">
-                <Button Margin="20,0"
+                    <Button Margin="20,0"
                         BackgroundColor="White"
                         BorderColor="{StaticResource Pink}"
                         BorderWidth="1"
@@ -247,7 +248,7 @@
                         Text="Cancel"
                         TextColor="{StaticResource Pink}" />
 
-                <Button Grid.Column="1"
+                    <Button Grid.Column="1"
                         Margin="20,0"
                         BackgroundColor="{StaticResource Pink}"
                         Command="{Binding CreateScheduleCommand}"
@@ -255,7 +256,8 @@
                         Opacity="{Binding HasErrors, Converter={converters:BoolToOpacityConverter}}"
                         Text="Create"
                         TextColor="White" />
-            </Grid>
-        </FlexLayout>
+                </Grid>
+            </FlexLayout>
+        </Grid>
     </Border>
 </the49:BottomSheet>

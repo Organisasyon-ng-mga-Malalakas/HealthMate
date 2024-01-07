@@ -60,6 +60,18 @@ public partial class AddInventoryBottomSheetViewModel(BottomSheetService bottomS
 		if (HasErrors)
 			return;
 
+		//var faker = new Faker<InventoryTable>()
+		//	.RuleFor(p => p.InventoryId, _ => ObjectId.GenerateNewId())
+		//	.RuleFor(p => p.BrandName, v => v.Internet.UserName())
+		//	.RuleFor(p => p.Description, v => v.Lorem.Word())
+		//	.RuleFor(p => p.DosageUnit, v => v.Random.Int())
+		//	.RuleFor(p => p.IsDeleted, _ => false)
+		//	.RuleFor(p => p.MedicationType, v => v.Random.Int())
+		//	.RuleFor(p => p.MedicineName, v => v.Internet.UserName())
+		//	.RuleFor(p => p.Stock, v => v.Random.Double())
+		//	.Generate(1)[0];
+		//await inventoryService.UpsertInventory(new List<InventoryTable> { faker });
+
 		await inventoryService.UpsertInventory(new List<InventoryTable>
 		{
 			new() {

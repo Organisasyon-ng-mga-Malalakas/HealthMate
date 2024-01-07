@@ -7,7 +7,8 @@ using ScheduleTable = HealthMate.Models.Tables.Schedule;
 namespace HealthMate.ViewModels.Schedule;
 public partial class ScheduleInfoPopupViewModel(NavigationService navigationService,
 	PopupService popupService,
-	RealmService realmService) : BaseViewModel(navigationService)
+	RealmService realmService,
+	ScheduleService scheduleService) : BaseViewModel(navigationService)
 {
 	[ObservableProperty]
 	public int closeBtnColSpan;
@@ -34,7 +35,11 @@ public partial class ScheduleInfoPopupViewModel(NavigationService navigationServ
 		{
 			PassedSchedule.ScheduleState = (int)ScheduleState.Taken;
 			PassedSchedule.Inventory.Stock -= PassedSchedule.Quantity;
+			PassedSchedule.UpdatedAt = DateTimeOffset.Now;
 		});
+
+		await scheduleService.UpsertSchedule(null, PassedSchedule);
+
 		await ClosePopup();
 	}
 

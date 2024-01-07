@@ -1,27 +1,19 @@
-﻿using HealthMate.Converters;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using Realms;
-using System.Text.Json.Serialization;
 
 namespace HealthMate.Models.Tables;
 
 public partial class Schedule : IRealmObject, IEquatable<Schedule>
 {
 	[PrimaryKey]
-	[JsonPropertyName("schedule_id")]
-	[JsonConverter(typeof(StringToObjectIdConverter))]
 	public ObjectId ScheduleId { get; set; }
 	public Inventory Inventory { get; set; }
-	[JsonPropertyName("schedule_state")]
 	public int ScheduleState { get; set; }
-	[JsonPropertyName("time_to_take")]
 	public DateTimeOffset TimeToTake { get; set; }
-	[JsonPropertyName("notes")]
 	public string? Notes { get; set; }
-	[JsonPropertyName("quantity")]
 	public double Quantity { get; set; }
-	[JsonPropertyName("image")]
 	public string PhotoBase64 { get; set; }
+	public DateTimeOffset? UpdatedAt { get; set; }
 
 	[Ignored]
 	public string MedicineIcon => Inventory == null ? "" : Inventory.ImagePath;

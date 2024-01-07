@@ -8,7 +8,8 @@ using InventoryTable = HealthMate.Models.Tables.Inventory;
 
 namespace HealthMate.ViewModels.Inventory;
 
-public partial class MedicineDetailPopupViewModel(NavigationService navigationService,
+public partial class MedicineDetailPopupViewModel(InventoryService inventoryService,
+	NavigationService navigationService,
 	PopupService popupService,
 	RealmService realmService) : BaseViewModel(navigationService)
 {
@@ -28,6 +29,7 @@ public partial class MedicineDetailPopupViewModel(NavigationService navigationSe
 			return;
 
 		await realmService.Write(() => PassedInventory.Stock--);
+		await inventoryService.UpsertInventory(null, PassedInventory);
 	}
 
 	[RelayCommand]
@@ -35,6 +37,7 @@ public partial class MedicineDetailPopupViewModel(NavigationService navigationSe
 	{
 		WeakReferenceMessenger.Default.Send(new InventoryDeletingEventArgs(PassedInventory.InventoryId, ((MedicationType)PassedInventory.MedicationType).ToString()));
 		await realmService.Write(() => PassedInventory.IsDeleted = true);
+		await inventoryService.DeleteInventory(PassedInventory);
 		await ClosePopup();
 	}
 
@@ -42,5 +45,6 @@ public partial class MedicineDetailPopupViewModel(NavigationService navigationSe
 	private async Task IncrementStock()
 	{
 		await realmService.Write(() => PassedInventory.Stock++);
+		await inventoryService.UpsertInventory(null, PassedInventory);
 	}
 }
