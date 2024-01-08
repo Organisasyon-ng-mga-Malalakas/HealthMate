@@ -45,6 +45,9 @@ public class ScheduleService(HttpClient httpClient, RealmService realmService, U
 	public async Task UpsertSchedule(IEnumerable<Schedule> schedules = null, Schedule schedToUpdate = null)
 	{
 		var loggedUser = await userService.GetLoggedUser();
+
+
+
 		var content = new
 		{
 			user_id = loggedUser.RemoteUserId,

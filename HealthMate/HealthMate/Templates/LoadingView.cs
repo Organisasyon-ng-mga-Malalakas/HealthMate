@@ -1,5 +1,4 @@
 using CommunityToolkit.Maui.Markup;
-using FFImageLoading.Maui;
 using Color = Microsoft.Maui.Graphics.Color;
 
 namespace HealthMate.Templates;
@@ -14,11 +13,7 @@ public class LoadingView : ContentView
 			Spacing = 0,
 			Children =
 			{
-				new CachedImage
-				{
-					Scale = 0.5,
-					Source = "loading.gif"
-				},
+				new ActivityIndicator { IsRunning = true },
 
 				new Label
 				{

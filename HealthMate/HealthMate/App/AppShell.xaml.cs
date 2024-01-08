@@ -10,9 +10,9 @@ public partial class AppShell : Shell
 		//CurrentItem = Tabs;
 
 		CurrentItem = versionTracking.IsFirstLaunchEver
-			? AccountPage
+			? GetStartedPage
 			: preferences.Get("HasUser", false)
 				? Tabs
-				: AccountPage;
+				: GetStartedPage;
 	}
 }

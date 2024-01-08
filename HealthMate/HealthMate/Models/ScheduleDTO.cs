@@ -55,7 +55,7 @@ public static class ScheduleExtension
 			Quantity = schedule.Quantity,
 			ScheduleId = schedule.ScheduleId,
 			ScheduleState = schedule.ScheduleState,
-			TimeToTake = schedule.TimeToTake,
+			TimeToTake = schedule.TimeToTake.AddHours(8),
 			UpdatedAt = (schedule.UpdatedAt ?? DateTime.Now).DateTime
 		};
 	}

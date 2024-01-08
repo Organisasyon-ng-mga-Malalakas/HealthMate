@@ -59,6 +59,7 @@
                     Text="GET STARTED" />
 
             <Button BackgroundColor="Transparent"
+                    Command="{Binding GotoAccountPageCommand}"
                     FontFamily="{StaticResource Regular}"
                     FontSize="Subtitle"
                     Text="I already have an account"

@@ -9,4 +9,10 @@ public partial class GetStartedPageViewModel(NavigationService navigationService
 	{
 		NavigationService.ChangeShellItem(1);
 	}
+
+	[RelayCommand]
+	private void GotoAccountPage()
+	{
+		NavigationService.ChangeShellItem(2);
+	}
 }

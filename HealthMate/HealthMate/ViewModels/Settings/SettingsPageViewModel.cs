@@ -6,8 +6,15 @@ using MongoDB.Bson;
 using System.Collections.ObjectModel;
 
 namespace HealthMate.ViewModels.Settings;
-public partial class SettingsPageViewModel(NavigationService navigationService, RealmService realmService) : BaseViewModel(navigationService)
+public partial class SettingsPageViewModel(IBrowser browser,
+	NavigationService navigationService,
+	IPreferences preferences,
+	RealmService realmService,
+	UserService userService) : BaseViewModel(navigationService)
 {
+	[ObservableProperty]
+	private string avatar;
+
 	[ObservableProperty]
 	private string emailAddress;
 
@@ -27,6 +34,7 @@ public partial class SettingsPageViewModel(NavigationService navigationService, 
 	private DateTime maxDate = DateTime.Now;
 	public override async void OnNavigatedTo()
 	{
+		Avatar = preferences.Get("Avatar", "male01");
 		Genders = ["Male", "Female"];
 
 		var userData = await realmService.FindAll<User>();
@@ -40,7 +48,37 @@ public partial class SettingsPageViewModel(NavigationService navigationService, 
 	}
 
 	[RelayCommand]
-	private async void UpdateUserInfo()
+	private async Task DeleteAccount()
+	{
+		var doesAcceptDelete = await Application.Current.MainPage.DisplayAlert("Delete account", "Are you really sure you want to delete your account? This action cannot be undone.", "OK", "Cancel");
+		if (doesAcceptDelete)
+		{
+			var isDeleted = await userService.DeleteAccount();
+			if (isDeleted)
+				NavigationService.PopToRoot();
+		}
+	}
+
+	[RelayCommand]
+	private async Task SignOut()
+	{
+		var isSignOut = await Application.Current.MainPage.DisplayAlert("Sign out", "Would you like to sign out of your account?", "OK", "Cancel");
+		if (isSignOut)
+		{
+			await userService.DeleteLocalDatabase();
+			NavigationService.PopToRoot();
+		}
+	}
+
+	[RelayCommand]
+	private Task<bool> OpenHealthMateWebsite()
+	{
+		var uri = new Uri("https://healthmate-pup.web.app/home");
+		return browser.OpenAsync(uri, BrowserLaunchMode.SystemPreferred);
+	}
+
+	[RelayCommand]
+	private async Task UpdateUserInfo()
 	{
 		var userInfo = new User
 		{

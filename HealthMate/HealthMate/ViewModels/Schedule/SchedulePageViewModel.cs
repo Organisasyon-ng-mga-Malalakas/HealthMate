@@ -15,7 +15,6 @@ using ScheduleTable = HealthMate.Models.Tables.Schedule;
 
 namespace HealthMate.ViewModels.Schedule;
 public partial class SchedulePageViewModel(BottomSheetService bottomSheetService,
-	IPreferences preferences,
 	NavigationService navigationService,
 	PopupService popupService,
 	RealmService realmService,
@@ -163,6 +162,7 @@ public partial class SchedulePageViewModel(BottomSheetService bottomSheetService
 
 		Schedules ??= [];
 		var schedules = await scheduleService.GetSchedules();
+
 		RealmChangesNotification = schedules.SubscribeForNotifications(ListenForRealmChanges);
 
 		var realmSchedulesList = schedules

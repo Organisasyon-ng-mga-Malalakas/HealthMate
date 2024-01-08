@@ -148,14 +148,8 @@
                     </Grid>
                 </Grid>
 
-                <Label Margin="0,5"
-                       FontFamily="{StaticResource Regular}"
-                       FontSize="14"
-                       HorizontalOptions="End"
-                       Text="Forgot passoword?"
-                       TextColor="{StaticResource Blue}" />
-
-                <Button BackgroundColor="{StaticResource Blue}"
+                <Button Margin="0,20"
+                        BackgroundColor="{StaticResource Blue}"
                         Command="{Binding SignupCommand}"
                         FontFamily="{StaticResource Bold}"
                         Opacity="{Binding HasErrors, Converter={converters:BoolToOpacityConverter}}"
@@ -230,50 +224,12 @@
                 </Label>
             </Grid>
 
-            <Label Margin="0,5"
-                   FontFamily="{StaticResource Regular}"
-                   FontSize="14"
-                   HorizontalOptions="End"
-                   Text="Forgot passoword?"
-                   TextColor="{StaticResource Blue}" />
-
-            <Grid ColumnDefinitions="*,*"
-                  ColumnSpacing="10">
-                <Button BackgroundColor="White"
-                        BorderColor="{StaticResource Blue}"
-                        BorderWidth="1"
-                        Command="{Binding LoginCommand}"
-                        FontFamily="{StaticResource Bold}"
-                        Text="Login"
-                        TextColor="{StaticResource Blue}" />
-
-
-                <Button Grid.Column="1"
-                        BackgroundColor="{StaticResource Blue}"
-                        Command="{Binding LoginCommand}"
-                        FontFamily="{StaticResource Bold}"
-                        Text="Login with biometrics"
-                        TextColor="White" />
-
-                <Border Grid.Column="1"
-                        BackgroundColor="{StaticResource Blue}"
-                        StrokeShape="RoundRectangle 5">
-                    <HorizontalStackLayout HorizontalOptions="Center"
-                                           Spacing="10"
-                                           VerticalOptions="Center">
-                        <Label FontFamily="{StaticResource Bold}"
-                               FontSize="14"
-                               Text="Login with biometrics"
-                               TextColor="White" />
-
-                        <Label FontFamily="{StaticResource FASolid}"
-                               FontSize="14"
-                               Text="{Static constants:FontAwesomeIcons.Fingerprint}"
-                               TextColor="White"
-                               VerticalOptions="Center" />
-                    </HorizontalStackLayout>
-                </Border>
-            </Grid>
+            <Button Margin="0,20"
+                    BackgroundColor="{StaticResource Blue}"
+                    Command="{Binding LoginCommand}"
+                    FontFamily="{StaticResource Bold}"
+                    Text="Login"
+                    TextColor="White" />
 
             <Label Margin="0,10"
                    HorizontalOptions="Center">

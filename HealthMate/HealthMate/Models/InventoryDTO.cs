@@ -27,8 +27,9 @@ public class InventoryDTO
 	public string Description { get; set; }
 	[JsonIgnore]
 	public IList<Schedule> Schedules { get; set; }
-	[JsonIgnore]
-	public bool IsDeleted { get; set; }
+	[JsonPropertyName("deleted_at")]
+	[JsonConverter(typeof(DateTimeOffsetToDateTimeConverter))]
+	public DateTime? DeletedAt { get; set; }
 
 	[JsonIgnore]
 	public string ImagePath => ((MedicationType)MedicationType).ImagePath();
@@ -49,7 +50,7 @@ public static class InventoryExtension
 			Dosage = inventory.Dosage,
 			DosageUnit = inventory.DosageUnit,
 			InventoryId = inventory.InventoryId,
-			IsDeleted = inventory.IsDeleted,
+			DeletedAt = inventory.DeletedAt,
 			MedicationType = inventory.MedicationType,
 			MedicineName = inventory.MedicineName,
 			Stock = inventory.Stock
@@ -65,7 +66,7 @@ public static class InventoryExtension
 			Dosage = inventory.Dosage,
 			DosageUnit = inventory.DosageUnit,
 			InventoryId = inventory.InventoryId,
-			IsDeleted = inventory.IsDeleted,
+			DeletedAt = (inventory.DeletedAt ?? DateTime.Now).DateTime,
 			MedicationType = inventory.MedicationType,
 			MedicineName = inventory.MedicineName,
 			Schedules = inventory.Schedules,

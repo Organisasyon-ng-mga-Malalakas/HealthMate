@@ -61,7 +61,7 @@ public partial class InventoryPageViewModel : BaseViewModel
 		if (changes.InsertedIndices.Length != 0)
 			foreach (var item in changes.InsertedIndices)
 			{
-				if (sender.ElementAt(item).IsDeleted)
+				if (sender.ElementAt(item).DeletedAt != null)
 					return;
 
 				var medicationType = ((MedicationType)sender[item].MedicationType).ToString();
@@ -105,7 +105,7 @@ public partial class InventoryPageViewModel : BaseViewModel
 		var inventories = await _realmService.FindAll<InventoryTable>();
 		RealmChangesNotification = inventories.SubscribeForNotifications(ListenForRealmChange);
 
-		var realmInventoriesList = inventories.ToList().Where(_ => !_.IsDeleted);
+		var realmInventoriesList = inventories.ToList().Where(_ => _.DeletedAt == null);
 		foreach (var newInventory in realmInventoriesList)
 		{
 			var groupName = ((MedicationType)newInventory.MedicationType).ToString();

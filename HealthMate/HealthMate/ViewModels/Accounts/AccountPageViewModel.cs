@@ -162,13 +162,18 @@ public partial class AccountPageViewModel(InventoryService inventoryService,
 		if (isValidLogin)
 		{
 			IsLoading = true;
-			await userService.Login(LoginUsername, LoginPassword);
-			await inventoryService.PopulateUserInventoryFromRemote();
-			await scheduleService.PopulateUserScheduleFromRemote();
-			preferences.Set("HasUser", true);
-			IsLoading = false;
-			await NavigationService.PushAsync("///Tabs");
-			//TODO: https://stackoverflow.com/questions/72375482/shell-navigation-in-net-maui-to-a-page-with-bottom-tabs
+			var loginSuccess = await userService.Login(LoginUsername, LoginPassword);
+			if (loginSuccess)
+			{
+				await inventoryService.PopulateUserInventoryFromRemote();
+				await scheduleService.PopulateUserScheduleFromRemote();
+				preferences.Set("HasUser", true);
+				IsLoading = false;
+				await NavigationService.PushAsync("///Tabs");
+				//TODO: https://stackoverflow.com/questions/72375482/shell-navigation-in-net-maui-to-a-page-with-bottom-tabs
+			}
+			else
+				await Application.Current.MainPage.DisplayAlert("Couldn't log in", "Please check your login credentials if it's all correct.", "OK");
 		}
 		else
 			await Application.Current.MainPage.DisplayAlert("Couldn't log in", "Please fill all the necessary fields in order to proceed.", "OK");

@@ -63,20 +63,8 @@
                         Text="Understood"
                         TextColor="White"
                         VerticalOptions="Start" />
-
-                <VerticalStackLayout Grid.RowSpan="3"
-                                     HorizontalOptions="Center"
-                                     IsVisible="{Binding IsLoading}"
-                                     VerticalOptions="Center">
-                    <ffimage:CachedImage Scale="0.5"
-                                         Source="loading" />
-
-                    <Label Margin="0,-30,0,0"
-                           FontFamily="{StaticResource Regular}"
-                           HorizontalOptions="Center"
-                           Text="Loading illness info..."
-                           TextColor="{StaticResource Pink}" />
-                </VerticalStackLayout>
+                
+                <templates:LoadingView IsLoading="{Binding IsLoading}"/>
             </Grid>
         </Border>
     </Border>

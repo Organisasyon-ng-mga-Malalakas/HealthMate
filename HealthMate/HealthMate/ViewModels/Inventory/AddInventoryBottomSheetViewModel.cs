@@ -14,8 +14,7 @@ namespace HealthMate.ViewModels.Inventory;
 public partial class AddInventoryBottomSheetViewModel(BottomSheetService bottomSheetService,
 	InventoryService inventoryService,
 	KeyboardService keyboardService,
-	NavigationService navigationService,
-	IPreferences preferences) : BaseViewModel(navigationService)
+	NavigationService navigationService) : BaseViewModel(navigationService)
 {
 	[ObservableProperty]
 	[Required]
@@ -80,7 +79,7 @@ public partial class AddInventoryBottomSheetViewModel(BottomSheetService bottomS
 				Description = Description,
 				Dosage = Dosage,
 				DosageUnit = (int)SelectedDosage,
-				IsDeleted = false,
+				DeletedAt = null,
 				MedicationType = (int)SelectedmedicationType,
 				MedicineName = MedicineName,
 				Stock = Stock

@@ -15,7 +15,6 @@ public partial class AddScheduleBottomSheetViewModel(BottomSheetService bottomSh
 	KeyboardService keyboardService,
 	NavigationService navigationService,
 	NotificationService notificationService,
-	IPreferences preferences,
 	ScheduleService scheduleService) : BaseViewModel(navigationService)
 {
 	[ObservableProperty]
@@ -142,6 +141,6 @@ public partial class AddScheduleBottomSheetViewModel(BottomSheetService bottomSh
 
 	public override async void OnNavigatedTo()
 	{
-		Medicines = new ObservableCollection<InventoryTable>(await inventoryService.GetInventoryForUser(_ => !_.IsDeleted));
+		Medicines = new ObservableCollection<InventoryTable>(await inventoryService.GetInventoryForUser(_ => _.DeletedAt == null));
 	}
 }

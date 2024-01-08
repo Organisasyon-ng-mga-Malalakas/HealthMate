@@ -11,10 +11,9 @@ public class UserService(IPreferences preferences, HttpClient httpClient, RealmS
 {
 	public async Task<User> GetLoggedUser()
 	{
-		var allUsers = await realmService.FindAll<User>();
-		var foundUser = allUsers.FirstOrDefault() is User user ? user : null;
+		var foundUser = (await realmService.FindAll<User>()).FirstOrDefault();
 		preferences.Set("HasUser", foundUser != null);
-		preferences.Set("RemoteUserId", foundUser.RemoteUserId ?? "");
+		preferences.Set("Avatar", foundUser != null ? $"{foundUser.Gender.ToLowerInvariant()}0{Random.Shared.Next(7)}" : "male01");
 		return foundUser;
 	}
 
@@ -44,7 +43,6 @@ public class UserService(IPreferences preferences, HttpClient httpClient, RealmS
 				var responseStream = await response.Content.ReadAsStreamAsync();
 				var returnedUser = responseStream.DeserializeStream<User>();
 				user.RemoteUserId = returnedUser.RemoteUserId;
-				preferences.Set("RemoteUserId", returnedUser.RemoteUserId);
 				await realmService.Upsert(user);
 
 				return "Success";
@@ -61,8 +59,32 @@ public class UserService(IPreferences preferences, HttpClient httpClient, RealmS
 		}
 	}
 
+	public async Task DeleteLocalDatabase()
+	{
+		preferences.Set("HasUser", false);
+		await realmService.DeleteAll<Inventory>();
+		await realmService.DeleteAll<User>();
+		await realmService.DeleteAll<Schedule>();
+	}
+
+	public async Task<bool> DeleteAccount()
+	{
+		var user = await GetLoggedUser();
+		var response = await httpClient.SendAsync(new HttpRequestMessage
+		{
+			Method = HttpMethod.Delete,
+			RequestUri = new Uri($"/user/{user.Username}", UriKind.Relative)
+		}, HttpCompletionOption.ResponseHeadersRead);
+
+		var isDeleted = response.IsSuccessStatusCode;
+		if (isDeleted)
+			await DeleteLocalDatabase();
+
+		return isDeleted;
+	}
+
 	[ConfigureAwait(false)]
-	public async Task<string> Login(string username, string password)
+	public async Task<bool> Login(string username, string password)
 	{
 		try
 		{
@@ -95,29 +117,23 @@ public class UserService(IPreferences preferences, HttpClient httpClient, RealmS
 						RemoteUserId = fetchedUserId,
 						Username = fetchedUsername
 					};
-					preferences.Set("RemoteUserId", fetchedUserId);
 					await realmService.Upsert(newUser);
 
-					return "Success.";
+					return true;
 				}
 				else
-					return "Unable to login.";
+					return false;
 			}
 			else
-			{
-				var errorDetails = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
-				return errorDetails["detail"];
-			}
+				//var errorDetails = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+				//return errorDetails["detail"];
+				return false;
 		}
 		catch (Exception ex)
 		{
-			return $"Exception occured. {ex}";
+			return false;
 		}
 	}
 }
 
 // Best practices for HttpClient: https://bytedev.medium.com/net-core-httpclient-best-practices-4c1b20e32c6
-/*
- System.InvalidOperationException: 'Each parameter in the deserialization constructor on type 'HealthMate.Models.Tables.ScheduleRemote' must bind to an object property or field on deserialization.
-Each parameter name must match with a property or field on the object. Fields are only considered when 'JsonSerializerOptions.IncludeFields' is enabled. The match can be case-insensitive.'
- */

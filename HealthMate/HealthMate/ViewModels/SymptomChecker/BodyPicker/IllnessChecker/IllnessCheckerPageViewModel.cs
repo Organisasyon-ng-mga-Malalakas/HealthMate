@@ -96,7 +96,7 @@ public partial class IllnessCheckerPageViewModel(NavigationService navigationSer
 	{
 		IsLoading = true;
 		_symptoms = await symptomCheckerService.GetSymptoms(SubLocationId);
-		Symptoms = new SortableObservableCollection<SymptomInfo>(_symptoms);
+		Symptoms = new SortableObservableCollection<SymptomInfo>(_symptoms.OrderBy(_ => _.Name));
 		IsLoading = false;
 	}
 

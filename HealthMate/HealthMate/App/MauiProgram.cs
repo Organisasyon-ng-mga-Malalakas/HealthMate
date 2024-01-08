@@ -101,7 +101,8 @@ public static class MauiProgram
 			.AddSingleton<IBiometricService, BiometricService>()
 			.AddSingleton(_ => MediaPicker.Default)
 			.AddSingleton<InventoryService>()
-			.AddSingleton<ScheduleService>();
+			.AddSingleton<ScheduleService>()
+			.AddSingleton(_ => Browser.Default);
 
 		return builder;
 	}

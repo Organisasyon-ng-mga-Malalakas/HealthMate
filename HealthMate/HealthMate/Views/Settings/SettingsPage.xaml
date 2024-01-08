@@ -11,45 +11,31 @@
                     Shell.NavBarIsVisible="False">
     <ScrollView>
         <VerticalStackLayout Padding="0,0,0,20">
-            <Image HeightRequest="150"
-                   Source="memoji"
-                   WidthRequest="150" />
+            <VerticalStackLayout.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="BackgroundColor" Value="White" />
+                    <Setter Property="StrokeShape" Value="RoundRectangle 10" />
+                    <Setter Property="Margin" Value="16,40,16,0" />
+                </Style>
+            </VerticalStackLayout.Resources>
+            <Image HeightRequest="200"
+                   Source="{Binding Avatar}"
+                   WidthRequest="200" />
 
-            <Label Margin="0,10,0,0"
+            <Label Margin="0,-20,0,0"
                    FontFamily="{StaticResource Medium}"
                    FontSize="25"
                    HorizontalOptions="Center"
                    Text="{Binding Username}"
                    TextColor="{StaticResource RegBlack}" />
 
-            <Label Margin="0,0,0,10"
-                   FontFamily="{StaticResource Regular}"
-                   HorizontalOptions="Center"
-                   Text="Change photo"
-                   TextColor="#007AFF" />
-
-            <Border BackgroundColor="White">
+            <Border Margin="16,0">
                 <VerticalStackLayout>
-                    <!--<Grid ColumnDefinitions="30,*">
-                        <Label Margin="10,0,0,0"
-                               FontFamily="{StaticResource FASolid}"
-                               Text="{Static constants:FontAwesomeIcons.Envelope}"
-                               TextColor="{StaticResource RegBlack}"
-                               VerticalOptions="Center" />
-
-                        <controls:BorderlessEntry Grid.Column="1"
-                                                  Margin="10"
-                                                  FontFamily="{StaticResource Regular}"
-                                                  FontSize="16"
-                                                  Placeholder="Email address"
-                                                  PlaceholderColor="Gray"
-                                                  TextColor="Gray"
-                                                  VerticalOptions="Center" />
-                    </Grid>
-
-                    <BoxView Margin="40,0,0,0"
-                             BackgroundColor="LightGray"
-                             HeightRequest="0.5" />-->
+                    <Label Margin="10,5,0,0"
+                           FontFamily="{StaticResource Medium}"
+                           FontSize="18"
+                           Text="User Info"
+                           TextColor="{StaticResource Pink}" />
 
                     <Grid ColumnDefinitions="30,*">
                         <Label Margin="10,0,0,0"
@@ -58,15 +44,11 @@
                                TextColor="{StaticResource RegBlack}"
                                VerticalOptions="Center" />
 
-                        <controls:BorderlessEntry Grid.Column="1"
-                                                  Margin="10"
-                                                  FontFamily="{StaticResource Regular}"
-                                                  FontSize="16"
-                                                  Placeholder="Username"
-                                                  PlaceholderColor="Gray"
-                                                  Text="{Binding Username}"
-                                                  TextColor="Gray"
-                                                  VerticalOptions="Center" />
+                        <Label Grid.Column="1"
+                               Margin="10"
+                               FontFamily="{StaticResource Regular}"
+                               FontSize="16"
+                               Text="{Binding Username}" />
                     </Grid>
 
                     <BoxView Margin="40,0,0,0"
@@ -81,16 +63,11 @@
                                TextColor="{StaticResource RegBlack}"
                                VerticalOptions="Center" />
 
-                        <controls:BorderlessPicker Title="Select gender"
-                                                   Grid.Column="1"
-                                                   Margin="10"
-                                                   FontFamily="{StaticResource Regular}"
-                                                   FontSize="16"
-                                                   ItemsSource="{Binding Genders}"
-                                                   SelectedItem="{Binding SelectedGender}"
-                                                   TextColor="{StaticResource RegBlack}"
-                                                   TitleColor="Gray"
-                                                   VerticalOptions="Center" />
+                        <Label Grid.Column="1"
+                               Margin="10"
+                               FontFamily="{StaticResource Regular}"
+                               FontSize="16"
+                               Text="{Binding SelectedGender}" />
                     </Grid>
 
 
@@ -101,72 +78,27 @@
                     <Grid ColumnDefinitions="30,*">
                         <Label Margin="10,0,0,0"
                                FontFamily="{StaticResource FASolid}"
-                               Text="{Static constants:FontAwesomeIcons.Calendar}"
+                               Text="{Static constants:FontAwesomeIcons.CakeCandles}"
                                TextColor="{StaticResource RegBlack}"
                                VerticalOptions="Center" />
 
-                        <DatePicker Grid.Column="1"
-                                    Margin="5,5,0,0"
-                                    Date="{Binding BirthDate}"
-                                    FontFamily="{StaticResource Regular}"
-                                    Format="MMMM dd, yyyy"
-                                    MaximumDate="{Binding MaxDate}"
-                                    MinimumDate="01-01-1900"
-                                    TextColor="{StaticResource RegBlack}"
-                                    VerticalOptions="Center" />
-                    </Grid>
-
-                    <Grid Padding="10,5"
-                          RowSpacing="-5">
-                        <Label FontFamily="{StaticResource Medium}"
-                               FontSize="18"
-                               Text="Update info"
-                               TextColor="{StaticResource Pink}" />
-
-                        <Label FontFamily="{StaticResource FASolid}"
-                               FontSize="14"
-                               HorizontalOptions="End"
-                               Text="{Static constants:FontAwesomeIcons.ChevronRight}"
-                               TextColor="{StaticResource RegBlack}"
-                               VerticalOptions="Center" />
-
+                        <Label Grid.Column="1"
+                               Margin="10"
+                               FontFamily="{StaticResource Regular}"
+                               FontSize="16"
+                               Text="{Binding BirthDate, StringFormat='{0:MMMM d, yyyy}'}" />
                     </Grid>
                 </VerticalStackLayout>
             </Border>
 
-            <Border Margin="0,40,0,0"
-                    BackgroundColor="White">
-                <VerticalStackLayout>
-                    <Grid Padding="10,0"
-                          RowDefinitions="*,*"
-                          RowSpacing="-5">
-                        <Label FontFamily="{StaticResource Medium}"
-                               FontSize="18"
-                               Text="Biometrics login"
-                               TextColor="{StaticResource Pink}" />
-
-                        <Label Grid.Row="1"
-                               FontFamily="{StaticResource Medium}"
-                               FontSize="12"
-                               Text="Enable authentication using biometrics for more security"
-                               TextColor="{StaticResource RegBlack}" />
-
-                        <Switch Grid.RowSpan="2"
-                                HorizontalOptions="End"
-                                OnColor="LightGray"
-                                ThumbColor="{StaticResource Pink}"
-                                VerticalOptions="Center" />
-
-                    </Grid>
-                </VerticalStackLayout>
-            </Border>
-
-            <Border Margin="0,40,0,0"
-                    BackgroundColor="White">
+            <Border>
                 <VerticalStackLayout>
                     <Grid Padding="10,5"
                           RowDefinitions="*,*"
                           RowSpacing="-5">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenHealthMateWebsiteCommand}" />
+                        </Grid.GestureRecognizers>
                         <Label FontFamily="{StaticResource Medium}"
                                FontSize="18"
                                Text="Help"
@@ -185,7 +117,6 @@
                                Text="{Static constants:FontAwesomeIcons.ChevronRight}"
                                TextColor="{StaticResource RegBlack}"
                                VerticalOptions="Center" />
-
                     </Grid>
 
                     <BoxView BackgroundColor="LightGray"
@@ -194,6 +125,9 @@
                     <Grid Padding="10,5"
                           RowDefinitions="*,*"
                           RowSpacing="-5">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenHealthMateWebsiteCommand}" />
+                        </Grid.GestureRecognizers>
                         <Label FontFamily="{StaticResource Medium}"
                                FontSize="18"
                                Text="About us"
@@ -217,12 +151,14 @@
                 </VerticalStackLayout>
             </Border>
 
-            <Border Margin="0,40,0,0"
-                    BackgroundColor="White">
+            <Border>
                 <VerticalStackLayout>
                     <Grid Padding="10,5"
                           RowDefinitions="*,*"
                           RowSpacing="-5">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding DeleteAccountCommand}" />
+                        </Grid.GestureRecognizers>
                         <Label FontFamily="{StaticResource Medium}"
                                FontSize="18"
                                Text="Delete account"
@@ -231,7 +167,7 @@
                         <Label Grid.Row="1"
                                FontFamily="{StaticResource Medium}"
                                FontSize="12"
-                               Text="Please proceed with caution. This action cannot be undone."
+                               Text="This action cannot be undone."
                                TextColor="{StaticResource RegBlack}" />
 
                         <Label Grid.RowSpan="2"
@@ -249,6 +185,9 @@
 
                     <Grid Padding="10,5"
                           RowSpacing="-5">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SignOutCommand}" />
+                        </Grid.GestureRecognizers>
                         <Label FontFamily="{StaticResource Medium}"
                                FontSize="18"
                                Text="Sign out"

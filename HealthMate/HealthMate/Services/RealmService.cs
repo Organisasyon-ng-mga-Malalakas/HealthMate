@@ -63,7 +63,7 @@ public class RealmService
 	public async Task DeleteAll<T>() where T : IRealmObject
 	{
 		var realm = await InternalAsyncRealm();
-		await realm.WriteAsync(() => realm.RemoveAll<T>());
+		await realm.WriteAsync(realm.RemoveAll<T>);
 	}
 	#endregion
 
@@ -73,7 +73,6 @@ public class RealmService
 		if (_realm != null)
 			return _realm;
 
-		//var dbPath = Path.Combine(FileSystem.AppDataDirectory, "HealthMate.realm");
 		var realm = await Realm.GetInstanceAsync();
 		return realm;
 	}

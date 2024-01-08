@@ -28,7 +28,7 @@ public partial class Schedule : IRealmObject, IEquatable<Schedule>
 		return TimeToTake.GetHashCode();
 	}
 }
-
+//todo: change selected tab to 1. also, check the delte.
 //public class ScheduleRemote(Schedule schedule) : ObservableObject
 //{
 //	[JsonPropertyName("schedule_id")]
