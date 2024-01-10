@@ -75,8 +75,8 @@ public static class MauiProgram
 		.RegisterHttpClient<UserService>()
 		.RegisterHttpClient<ScheduleService>()
 		.RegisterHttpClient<InventoryService>()
-		.RegisterHttpClient("health", "https://sandbox-healthservice.priaid.ch")
-		.RegisterHttpClient("auth", "https://sandbox-authservice.priaid.ch", true)
+		.RegisterHttpClient("health", "https://healthservice.priaid.ch")
+		.RegisterHttpClient("auth", "https://authservice.priaid.ch", true)
 		.UseFFImageLoading()
 		.RegisterViewsAndViewModel();
 
@@ -142,14 +142,14 @@ public static class MauiProgram
 			if (hasAuth)
 			{
 				// Sandbox
-				var uri = "https://sandbox-authservice.priaid.ch/login";
-				var username = "jjnlumaque@iskolarngbayan.pup.edu.ph";
-				var password = "j4B5Cwq2N8Kbk3M6D";
+				//var uri = "https://sandbox-authservice.priaid.ch/login";
+				//var username = "jjnlumaque@iskolarngbayan.pup.edu.ph";
+				//var password = "j4B5Cwq2N8Kbk3M6D";
 
 				// Production
-				//var uri = "https://authservice.priaid.ch/login";
-				//var username = "Ak89K_ISKOLARNGBAYAN_PUP_EDU_PH_AUT";
-				//var password = "e5MJm83QtTc97KnFf";
+				var uri = "https://authservice.priaid.ch/login";
+				var username = "Ak89K_ISKOLARNGBAYAN_PUP_EDU_PH_AUT";
+				var password = "e5MJm83QtTc97KnFf";
 				var secretBytes = Encoding.UTF8.GetBytes(password);
 
 				using var hmac = new HMACMD5(secretBytes);

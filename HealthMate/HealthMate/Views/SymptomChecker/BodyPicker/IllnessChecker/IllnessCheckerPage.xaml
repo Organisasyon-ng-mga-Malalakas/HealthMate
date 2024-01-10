@@ -115,7 +115,7 @@
                                     <TapGestureRecognizer Command="{Binding Path=BindingContext.GetIllnessInfoCommand, Source={x:Reference Name=illnessCollView}}"
                                                           CommandParameter="{Binding .}" />
                                 </Border.GestureRecognizers>
-                                <Grid ColumnDefinitions="*, *">
+                                <Grid ColumnDefinitions="*, 30">
                                     <Label Padding="8"
                                            FontFamily="{StaticResource Regular}"
                                            FontSize="14"

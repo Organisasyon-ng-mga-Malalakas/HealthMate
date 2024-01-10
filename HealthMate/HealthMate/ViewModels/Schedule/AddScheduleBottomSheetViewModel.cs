@@ -45,8 +45,8 @@ public partial class AddScheduleBottomSheetViewModel(BottomSheetService bottomSh
 
 	[ObservableProperty]
 	[Required]
-	[Range(1, int.MaxValue)]
-	private int takeEveryMin;
+	[Range(0, int.MaxValue)]
+	private int takeEveryMin = 0;
 
 	[ObservableProperty]
 	[Required]
