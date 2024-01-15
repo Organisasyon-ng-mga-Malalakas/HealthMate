@@ -59,13 +59,13 @@
                                               Text="{Binding SignUpUsername}" />
                 </Border>
 
-                <Label Style="{StaticResource Headers}"
+                <!--<Label Style="{StaticResource Headers}"
                        Text="Email address" />
 
                 <Border Style="{StaticResource Borders}">
                     <controls:BorderlessEntry Style="{StaticResource Entries}"
                                               Text="{Binding SignUpEmail}" />
-                </Border>
+                </Border>-->
 
                 <Label Style="{StaticResource Headers}"
                        Text="Birthdate" />
@@ -253,18 +253,26 @@
             </Label>
         </VerticalStackLayout>
 
-        <Grid BackgroundColor="#30000000"
-              IsVisible="{Binding IsLoading}">
-            <VerticalStackLayout VerticalOptions="Center">
-                <ActivityIndicator IsRunning="True" />
+        <Border BackgroundColor="#30000000"
+                HorizontalOptions="Fill"
+                IsVisible="{Binding IsLoading}"
+                VerticalOptions="Fill">
+            <Border Padding="20"
+                    BackgroundColor="White"
+                    HorizontalOptions="Center"
+                    StrokeShape="RoundRectangle 10"
+                    VerticalOptions="Center">
+                <VerticalStackLayout>
+                    <ActivityIndicator IsRunning="True" />
 
-                <Label Grid.Row="1"
-                       FontFamily="{StaticResource Regular}"
-                       HorizontalOptions="Center"
-                       Text="Loading..."
-                       TextColor="{StaticResource Pink}" />
-            </VerticalStackLayout>
-        </Grid>
+                    <Label Margin="0,15,0,0"
+                           FontFamily="{StaticResource Regular}"
+                           HorizontalOptions="Center"
+                           Text="Loading..."
+                           TextColor="{StaticResource Pink}" />
+                </VerticalStackLayout>
+            </Border>
+        </Border>
     </Grid>
 </templates:BasePage>
 

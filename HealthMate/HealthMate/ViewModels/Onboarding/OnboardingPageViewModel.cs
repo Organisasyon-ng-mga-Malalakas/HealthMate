@@ -37,13 +37,13 @@ public partial class OnboardingPageViewModel(NavigationService navigationService
 	public override void OnNavigatedTo()
 	{
 		var title1 = new string[4] { "YOUR PERSONAL", "TRACK AND MANAGE", "DISCOVER AND EXPLORE", "HEALTHMATE" };
-		var title2 = new string[4] { "MEDICATION COMPANION", "YOUR MEDICATION INVENTORY", "MEDICATIONS", "SYMPTOM CHECKER" };
+		var title2 = new string[4] { "MEDICATION COMPANION", "YOUR MEDICATION INVENTORY", "MEDICATIONS", "ILLNESS CHECKER" };
 		var subtitle = new string[4]
 		{
 			"Stay organized and never miss a medication dose with HealthMate. Our user-friendly app provides personalized reminders, ensuring you stay on top of your meidcation schedule effortlessly.",
 			"Effortlessly monitor and manage your medication inventory with HealthMate's Medication Inventory feature. Stay informed about your available medication, and ensire you never run out of essential medications.",
 			"Explore an extensive collection of medications with HealthMate's Browse Medicine feature. Discover vital information, including medicine names, categories, descriptions, side effects and popular brands. Easily find the medications you need and gain valuable insights for informed decision-making about your healthcare.",
-			"Take control of your health with HealthMate Symptom Checker. Our comprehensive tool helps you understand and manage your symptoms effectively. From common ailments to potential underlying conditions, HealthMAte provides reliable information and guidance to empower you in your health journey. Stay informed and make informed decisions with HealthMate Symptom Checker."
+			"Take control of your health with HealthMate Illness Checker. Our comprehensive tool helps you understand and manage your symptoms effectively. From common ailments to potential underlying conditions, HealthMate provides reliable information and guidance to empower you in your health journey. Stay informed and make informed decisions with HealthMate Illness Checker."
 		};
 
 		Onboarding = [];

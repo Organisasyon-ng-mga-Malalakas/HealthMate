@@ -58,12 +58,12 @@
                     FontFamily="{StaticResource Bold}"
                     Text="GET STARTED" />
 
-            <Button BackgroundColor="Transparent"
+            <!--<Button BackgroundColor="Transparent"
                     Command="{Binding GotoAccountPageCommand}"
                     FontFamily="{StaticResource Regular}"
                     FontSize="Subtitle"
                     Text="I already have an account"
-                    TextColor="{StaticResource RegBlack}" />
+                    TextColor="{StaticResource RegBlack}" />-->
         </VerticalStackLayout>
     </FlexLayout>
 </templates:BasePage>

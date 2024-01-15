@@ -30,7 +30,7 @@
                     BackgroundColor="{StaticResource Pink}"
                     Command="{Binding OpenDisclaimerPopupCommand}"
                     FontFamily="{StaticResource Bold}"
-                    Text="Fill illness" />
+                    Text="Find illness" />
         </VerticalStackLayout>
 
         <Button Margin="16"

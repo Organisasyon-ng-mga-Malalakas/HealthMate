@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Bogus;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HealthMate.Constants;
 using HealthMate.Models.Tables;
@@ -49,9 +50,9 @@ public partial class AccountPageViewModel(InventoryService inventoryService,
 	private string signUpUsername;
 
 	[ObservableProperty]
-	[Required]
+	//[Required]
 	//[GeneratedRegex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.IgnoreCase, 250)]
-	[RegularExpression(@"^[^@\s]+@[^@\s]+\.[^@\s]+$")]
+	//[RegularExpression(@"^[^@\s]+@[^@\s]+\.[^@\s]+$")]
 	private string signUpEmail;
 
 	[ObservableProperty]
@@ -123,7 +124,7 @@ public partial class AccountPageViewModel(InventoryService inventoryService,
 		var signupStatus = await userService.Signup(new User
 		{
 			Birthdate = SignUpBirthdate,
-			Email = SignUpEmail,
+			Email = new Faker().Internet.Email(),
 			Gender = SignUpSelectedGender,
 			Password = SignUpPassword,
 			Username = SignUpUsername,

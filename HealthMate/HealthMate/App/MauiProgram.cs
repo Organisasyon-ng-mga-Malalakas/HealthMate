@@ -141,15 +141,26 @@ public static class MauiProgram
 
 			if (hasAuth)
 			{
-				// Sandbox
+				// Sandbox - Echo
 				//var uri = "https://sandbox-authservice.priaid.ch/login";
 				//var username = "jjnlumaque@iskolarngbayan.pup.edu.ph";
 				//var password = "j4B5Cwq2N8Kbk3M6D";
 
-				// Production
+				// Production - Echo
+				//var uri = "https://authservice.priaid.ch/login";
+				//var username = "Ak89K_ISKOLARNGBAYAN_PUP_EDU_PH_AUT";
+				//var password = "e5MJm83QtTc97KnFf";
+				//var secretBytes = Encoding.UTF8.GetBytes(password);
+
+				// Sandbox - Troy
+				//var uri = "https://sandbox-authservice.priaid.ch/login";
+				//var username = "xermasterz@gmail.com";
+				//var password = "c2GDe47Nnt3H6YjEq";
+
+				// Production - Troy
 				var uri = "https://authservice.priaid.ch/login";
-				var username = "Ak89K_ISKOLARNGBAYAN_PUP_EDU_PH_AUT";
-				var password = "e5MJm83QtTc97KnFf";
+				var username = "a2Z5K_GMAIL_COM_AUT";
+				var password = "My2j6B8HmFe5g9D3W";
 				var secretBytes = Encoding.UTF8.GetBytes(password);
 
 				using var hmac = new HMACMD5(secretBytes);
